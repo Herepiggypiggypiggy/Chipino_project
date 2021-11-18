@@ -1,6 +1,6 @@
 Checklist for player FSM:
 1)	Make sure that the player only moves on initial button press
-2)	Make sure that the player FSM doesnt update valued while we a drawing a frame.
+2)	Make sure that the player FSM doesnt update values while we a drawing a frame.
 3)	Optionally add a feature where if the player is holding down a directional button,
 	to read the input every x number of frames.
 4)	Have comments for each state describing the function of the state.
