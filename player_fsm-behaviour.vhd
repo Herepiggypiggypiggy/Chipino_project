@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
+use IEEE.numeric_std.ALL;
 
 architecture behaviour of player_fsm is
 
@@ -103,15 +104,61 @@ begin
 		when left_state =>
 			if(button_x_left = '1' and button_mining = '0') then
 				if(map_data_l = "000") then
-					
+					x_pos_next <= std_logic_vector(unsigned(x_pos)-'1');
+					new_state <= central_state;
 				elsif(map_data_l = "101") then
-					level_up <= '1';
+					--level_up <= '1';
 					new_state <= reset_state;
+
+				else
+					new_state <= central_state;
 				end if;
 			end if;
 			
+		when right_state =>
+			if(button_x_right = '1' and button_mining = '0') then
+				if(map_data_r = "000") then
+					x_pos_next <= std_logic_vector(unsigned(x_pos)+'1');
+					new_state <= central_state;
+				elsif(map_data_r = "101") then
+					--level_up <= '1';
+					new_state <= reset_state;
 
+				else
+					new_state <= central_state;
+				end if;
+			end if;
 
+		when up_state =>
+			if(button_y_up = '1' and button_mining = '0') then
+				if(map_data_u = "000") then
+					y_pos_next <= std_logic_vector(unsigned(y_pos)-'1');
+					new_state <= central_state;
+				elsif(map_data_u = "101") then
+					--level_up <= '1';
+					new_state <= reset_state;
+
+				else
+					new_state <= central_state;
+				end if;
+			end if;		
+
+		when down_state =>
+			if(button_y_down = '1' and button_mining = '0') then
+				if(map_data_d = "000") then
+					y_pos_next <= std_logic_vector(unsigned(y_pos)+'1');
+					new_state <= central_state;
+				elsif(map_data_d = "101") then
+					--level_up <= '1';
+					new_state <= reset_state;
+
+				else
+					new_state <= central_state;
+				end if;
+			end if;	
+
+		when others =>
+			new_state <= central_state;
 
 
 
