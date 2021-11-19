@@ -8,3 +8,6 @@ Checklist for player FSM:
 	instead of one button taking priority with the exception of the mining button and one directional button.
 6)	Make sure to check energy level in the mine central state.
 7)	Use defined values for energy cost, so that it is easy to change into a signal if we add a shop.
+
+Completed:
+1, 4, 6, 7.
