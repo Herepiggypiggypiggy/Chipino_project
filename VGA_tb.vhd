@@ -11,8 +11,6 @@ use std.textio.all;
 entity VGA_tb is
 end VGA_tb;
 
-
-
 architecture behaviour of VGA_tb is
     component VGA
         port(
