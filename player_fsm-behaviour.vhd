@@ -23,8 +23,10 @@ begin
 	rise_right <= not edge_detec1(1) and edge_detec0(1);
 	rise_up <= not edge_detec1(2) and edge_detec0(2);
 	rise_down <= not edge_detec1(3) and edge_detec0(3);
-
-
+	y_pos_out <= y_pos;
+	x_pos_out <= x_pos;
+	energy_lvl_out <= energy;
+	score_out <= score;
 
 	process(clk, reset)
 	begin
@@ -114,11 +116,11 @@ begin
 			elsif(map_data_l = "010") then
 				dir_mined <= "100"; --left mined (00)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+'1');
+				score_next <= std_logic_vector(unsigned(score)+1);
 			elsif(map_data_l = "100") then
 				dir_mined <= "100"; --left mined (00)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+"010");
+				score_next <= std_logic_vector(unsigned(score)+2);
 			elsif(map_data_l = "111") then
 				dir_mined <= "100"; --left mined (00)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
@@ -143,11 +145,11 @@ begin
 			elsif(map_data_r = "010") then
 				dir_mined <= "101"; --right mined (01)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+'1');
+				score_next <= std_logic_vector(unsigned(score)+1);
 			elsif(map_data_r = "100") then
 				dir_mined <= "101"; --right mined (01)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+"010");
+				score_next <= std_logic_vector(unsigned(score)+2);
 			elsif(map_data_r = "111") then
 				dir_mined <= "101"; --right mined (01)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
@@ -171,11 +173,11 @@ begin
 			elsif(map_data_u = "010") then
 				dir_mined <= "110"; --up mined (10)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+'1');
+				score_next <= std_logic_vector(unsigned(score)+1);
 			elsif(map_data_u = "100") then
 				dir_mined <= "110"; --up mined (10)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+"010");
+				score_next <= std_logic_vector(unsigned(score)+2);
 			elsif(map_data_u = "111") then
 				dir_mined <= "110"; --up mined (10)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
@@ -199,11 +201,11 @@ begin
 			elsif(map_data_d = "010") then
 				dir_mined <= "111"; --down mined (11)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+'1');
+				score_next <= std_logic_vector(unsigned(score)+1);
 			elsif(map_data_d = "100") then
 				dir_mined <= "111"; --down mined (11)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
-				score_next <= std_logic_vector(unsigned(score)+"010");
+				score_next <= std_logic_vector(unsigned(score)+2);
 			elsif(map_data_d = "111") then
 				dir_mined <= "111"; --down mined (11)
 				energy_next <= std_logic_vector(unsigned(energy)-unsigned(mine_cost));
@@ -221,10 +223,10 @@ begin
 			y_pos_next <= y_pos;
 			score_next <= score;
 			
-			if(button_x_left = '1' and button_mining = '0') then
+			
 				if(map_data_l = "000") then
-					x_pos_next <= std_logic_vector(unsigned(x_pos)-'1');
-					energy_next <= std_logic_vector(unsigned(energy)-'1');
+					x_pos_next <= std_logic_vector(unsigned(x_pos)-1);
+					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
 					
 				elsif(map_data_l = "101") then
@@ -237,16 +239,14 @@ begin
 					energy_next <= energy;
 					x_pos_next <= x_pos;
 				end if;
-			end if;
 			
 		when right_state => --move to the right
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			score_next <= score;
-			if(button_x_right = '1' and button_mining = '0') then
 				if(map_data_r = "000") then
-					x_pos_next <= std_logic_vector(unsigned(x_pos)+'1');
-					energy_next <= std_logic_vector(unsigned(energy)-'1');
+					x_pos_next <= std_logic_vector(unsigned(x_pos)+1);
+					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
 				elsif(map_data_r = "101") then
 					energy_next <= energy;
@@ -258,16 +258,14 @@ begin
 					energy_next <= energy;
 					x_pos_next <= x_pos;
 				end if;
-			end if;
 
 		when up_state => --move up
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
-			if(button_y_up = '1' and button_mining = '0') then
 				if(map_data_u = "000") then
-					y_pos_next <= std_logic_vector(unsigned(y_pos)-'1');
-					energy_next <= std_logic_vector(unsigned(energy)-'1');
+					y_pos_next <= std_logic_vector(unsigned(y_pos)-1);
+					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
 				elsif(map_data_u = "101") then
 					energy_next <= energy;
@@ -278,17 +276,15 @@ begin
 					new_state <= central_state;
 					energy_next <= energy;
 					y_pos_next <= y_pos;
-				end if;
-			end if;		
+				end if;	
 
 		when down_state => --move down
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
-			if(button_y_down = '1' and button_mining = '0') then
 				if(map_data_d = "000") then
-					y_pos_next <= std_logic_vector(unsigned(y_pos)+'1');
-					energy_next <= std_logic_vector(unsigned(energy)-'1');
+					y_pos_next <= std_logic_vector(unsigned(y_pos)+1);
+					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
 				elsif(map_data_d = "101") then
 					energy_next <= energy;
@@ -300,7 +296,6 @@ begin
 					energy_next <= energy;
 					y_pos_next <= y_pos;
 				end if;
-			end if;	
 
 		when lvl_up_state => --level up by ladder, energy restored, score stays the same
 			dir_mined <= "000";
