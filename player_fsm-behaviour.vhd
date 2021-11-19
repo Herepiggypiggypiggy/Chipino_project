@@ -72,7 +72,9 @@ begin
 			dir_mined <= "000";
 			score_next <= score;
 			energy_next <= energy;
-			if(button_mining = '1' and unsigned(energy) >= unsigned(mine_cost)) then
+			if(energy = "00000000") then
+				new_state <= reset_state;
+			elsif(button_mining = '1' and unsigned(energy) >= unsigned(mine_cost)) then
 				new_state <= mine_state;
 			elsif(rise_left = '1') then
 				new_state <= left_state;
@@ -83,6 +85,7 @@ begin
 			elsif(rise_down = '1') then
 				new_state <= down_state;
 			end if;
+
 		
 		when mine_state => --the mine button is pressed, now we read the input direction
 			x_pos_next <= x_pos; 
