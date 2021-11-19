@@ -72,7 +72,7 @@ begin
 			dir_mined <= "000";
 			score_next <= score;
 			energy_next <= energy;
-			if(button_mining = '1') then
+			if(button_mining = '1' and unsigned(energy) >= unsigned(mine_cost)) then
 				new_state <= mine_state;
 			elsif(rise_left = '1') then
 				new_state <= left_state;
