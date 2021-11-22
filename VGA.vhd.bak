@@ -77,7 +77,7 @@ architecture behaviour of VGA is
 			GREEN	<=	(others => '0');
 			BLUE 	<=	(others => '0');
 		else
-			-- Assigns Outputs color when the Hcount and Vcount are in the square.   (TEMP)
+			-- Assigns Outputs color when the Hcount and Vcount are in the square.
 			if (Hcount >= BlockPosX and Hcount <= BlockPosX + BlockWith and Vcount >= BlockPosY and Vcount <= BlockPosY + BlockWith) then
 				RED 	<= 	"111";
 				GREEN	<=	"111";
