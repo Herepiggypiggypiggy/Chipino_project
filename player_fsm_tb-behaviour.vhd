@@ -39,24 +39,34 @@ architecture behaviour of player_fsm_tb is
 begin
    test: player_fsm port map (button_x_left, button_x_right, button_y_up, button_y_down, button_mining, map_data_l, map_data_r, map_data_u, map_data_d, CLK, reset, dir_mined, energy_lvl_out, y_pos_out, x_pos_out);
    	button_x_left <= '0' after 0 ns,
-			'1' after 150 ns,
-			'0' after 200 ns;
-   button_x_right <= '0' after 0 ns;
-   button_y_up <= '0' after 0 ns;
-   button_y_down <= '0' after 0 ns;
-   button_mining <= '0' after 0 ns;
+			'1' after 200 ns,
+			'0' after 400 ns;
+   button_x_right <= '0' after 0 ns,
+		'1' after 1000 ns,
+		'0' after 1200 ns;
+   button_y_up <= '0' after 0 ns,
+		'1' after 600 ns,
+		'0' after 800 ns;
+   button_y_down <= '0' after 0 ns,
+		'1' after 1400 ns,
+		'0' after 1600 ns;
+   button_mining <= '0' after 0 ns,
+		'1' after 150 ns,
+		'0' after 400 ns,
+		'1' after 650 ns,
+		'0' after 800 ns;
    map_data_l(0) <= '0' after 0 ns;
    map_data_l(1) <= '0' after 0 ns;
-   map_data_l(2) <= '0' after 0 ns;
+   map_data_l(2) <= '1' after 0 ns;
    map_data_r(0) <= '0' after 0 ns;
    map_data_r(1) <= '0' after 0 ns;
    map_data_r(2) <= '0' after 0 ns;
    map_data_u(0) <= '0' after 0 ns;
-   map_data_u(1) <= '0' after 0 ns;
+   map_data_u(1) <= '1' after 0 ns;
    map_data_u(2) <= '0' after 0 ns;
-   map_data_d(0) <= '0' after 0 ns;
+   map_data_d(0) <= '1' after 0 ns;
    map_data_d(1) <= '0' after 0 ns;
-   map_data_d(2) <= '0' after 0 ns;
+   map_data_d(2) <= '1' after 0 ns;
    CLK <= '1' after 0 ns, '0' after 20 ns when CLK /= '0' else '1' after 20 ns;
    reset <= '1' after 0 ns,
             '0' after 80 ns;
