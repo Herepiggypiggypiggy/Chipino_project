@@ -6,15 +6,15 @@ use IEEE.numeric_std.all;
 entity VGA is
 	port(
 	clk,reset 	: in std_logic;
-	IN_RED		: in std_logic_vector(2 downto 0);
-	IN_GREEN	: in std_logic_vector(2 downto 0);
-	IN_BLUE		: in std_logic_vector(2 downto 0);
+	IN_RED		: in std_logic_vector(3 downto 0);
+	IN_GREEN	: in std_logic_vector(3 downto 0);
+	IN_BLUE		: in std_logic_vector(3 downto 0);
 
 	HS		: out std_logic;
 	VS		: out std_logic;
-	RED		: out std_logic_vector(2 downto 0);
-	GREEN		: out std_logic_vector(2 downto 0);
-	BLUE		: out std_logic_vector(2 downto 0));
+	RED		: out std_logic_vector(3 downto 0);
+	GREEN		: out std_logic_vector(3 downto 0);
+	BLUE		: out std_logic_vector(3 downto 0));
 end VGA;
 
 -- Architecture of VGA
@@ -79,9 +79,9 @@ architecture behaviour of VGA is
 		else
 			-- Assigns Outputs color when the Hcount and Vcount are in the square.   (TEMP)
 			if (Hcount >= BlockPosX and Hcount <= BlockPosX + BlockWith and Vcount >= BlockPosY and Vcount <= BlockPosY + BlockWith) then
-				RED 	<= 	"111";
-				GREEN	<=	"111";
-				BLUE 	<=	"000";
+				RED 	<= 	"1111";
+				GREEN	<=	"1111";
+				BLUE 	<=	"0000";
 			else
 				RED 	<= 	(others => '0');
 				GREEN	<=	(others => '0');

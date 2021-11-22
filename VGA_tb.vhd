@@ -15,29 +15,29 @@ architecture behaviour of VGA_tb is
     component VGA
         port(
 	clk,reset 	: in std_logic;
-	IN_RED		: in std_logic_vector(2 downto 0);
-	IN_GREEN	: in std_logic_vector(2 downto 0);
-	IN_BLUE		: in std_logic_vector(2 downto 0);
+	IN_RED		: in std_logic_vector(3 downto 0);
+	IN_GREEN	: in std_logic_vector(3 downto 0);
+	IN_BLUE		: in std_logic_vector(3 downto 0);
 
 	HS		: out std_logic;
 	VS		: out std_logic;
-	RED		: out std_logic_vector(2 downto 0);
-	GREEN		: out std_logic_vector(2 downto 0);
-	BLUE		: out std_logic_vector(2 downto 0));
+	RED		: out std_logic_vector(3 downto 0);
+	GREEN		: out std_logic_vector(3 downto 0);
+	BLUE		: out std_logic_vector(3 downto 0));
     end component;
 
 signal clk	: std_logic := '0';
 signal reset	: std_logic;
 
-signal IN_RED	: std_logic_vector(2 downto 0);
-signal IN_GREEN	: std_logic_vector(2 downto 0);
-signal IN_BLUE	: std_logic_vector(2 downto 0);
+signal IN_RED	: std_logic_vector(3 downto 0);
+signal IN_GREEN	: std_logic_vector(3 downto 0);
+signal IN_BLUE	: std_logic_vector(3 downto 0);
 
 signal HS	: std_logic;
 signal VS	: std_logic;
-signal RED	: std_logic_vector(2 downto 0);
-signal GREEN	: std_logic_vector(2 downto 0);
-signal BLUE	: std_logic_vector(2 downto 0);
+signal RED	: std_logic_vector(3 downto 0);
+signal GREEN	: std_logic_vector(3 downto 0);
+signal BLUE	: std_logic_vector(3 downto 0);
 	
 signal counter : std_logic_vector(9 downto 0);
 begin
@@ -84,9 +84,9 @@ begin
 			
 		end if;
 	counter <= std_logic_vector(to_unsigned(count2, counter'length));
-	IN_RED <= counter(8 downto 6);
-	IN_GREEN <= counter(5 downto 3);
-	IN_BLUE <= counter(2 downto 0);
+	IN_RED <= counter(8)& "000";
+	IN_GREEN <= counter(7 downto 4);
+	IN_BLUE <= counter(3 downto 0);
 	
 	end if;
     end if;
