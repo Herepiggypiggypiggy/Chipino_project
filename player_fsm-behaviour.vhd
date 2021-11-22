@@ -62,7 +62,7 @@ begin
 	-- combinatiorial process with all the states
 	process (state, reset, button_x_left, button_x_right, button_y_up,
 	button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
-		map_data_u)
+		map_data_u, rise_left, rise_right,rise_up,rise_down)
     	begin
         	case state is 
             		when reset_state => 	-- we go to the reset state when we start the chip and when there is a game over
@@ -117,6 +117,8 @@ begin
 				new_state <= mine_up_state;
 			elsif(button_mining = '1' and button_y_down = '1') then
 				new_state <= mine_down_state;
+			else
+				new_state <= central_state;
 			end if;
 		
 		when mine_left_state => --player mining to the left
