@@ -18,7 +18,7 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 
-architecture behaviour of player_fsm is
+architecture behaviour of player_to_SPI is
 begin
 
     process (x_pos_out, y_pos_out, level, dir_mined, moved)
@@ -27,8 +27,8 @@ begin
             send_spi <= '1';
             to_spi(3 downto 0) <= x_pos_out;
             to_spi(7 downto 4) <= y_pos_out;
-            to_spi(12 downto 8) <= level:
-            to_spi(13) <= '0'
+            to_spi(12 downto 8) <= level;
+            to_spi(13) <= '0';
         elsif (moved = '0' and dir_mined(2) = '1') then
             send_spi <= '1';
             if (dir_mined(1 downto 0) = "00") then -- left
@@ -48,8 +48,8 @@ begin
             
         else
             send_spi <= '0';
-            to_spi <= (others => 0);
+            to_spi <= (others => '0');
         end if;
     end process;
 
-end behaviour
+end behaviour;
