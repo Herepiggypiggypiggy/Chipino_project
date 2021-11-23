@@ -19,7 +19,8 @@ architecture behaviour of player_fsm_tb is
            y_pos_out    : OUT std_logic_vector(3 downto 0);
            x_pos_out    : OUT std_logic_vector(3 downto 0);
 	score_out : OUT std_logic_vector(9 downto 0);
-	level_out : OUT std_logic_vector(4 downto 0));
+	level_out : OUT std_logic_vector(4 downto 0);
+	moved	: OUT std_logic);
    end component;
    signal button_x_left  : std_logic;
    signal button_x_right : std_logic;
@@ -38,6 +39,7 @@ architecture behaviour of player_fsm_tb is
    signal x_pos_out    : std_logic_vector(3 downto 0);
 	signal score_out : std_logic_vector(9 downto 0);
 	signal level_out : std_logic_vector(4 downto 0);
+	signal moved		: std_logic;
 begin
    test: player_fsm port map (button_x_left, button_x_right, button_y_up, button_y_down, button_mining, map_data_l, map_data_r, map_data_u, map_data_d, CLK, reset, dir_mined, energy_lvl_out, y_pos_out, x_pos_out);
    	button_x_left <= '0' after 0 ns,
