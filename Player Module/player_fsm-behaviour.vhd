@@ -76,6 +76,7 @@ begin
 			score_next <= "0000000000";		-- reset score to 0
 			energy_next <= "11001000";		-- reset energy to 200
  			level_next <= "00000"; --game over back to level 0
+			moved <= '0';
 		when central_state => --central state where we read the inputs of the player
 
 			-- define all outputs
@@ -85,7 +86,7 @@ begin
 			score_next <= score;
 			energy_next <= energy;
 			level_next <= level;
-
+			moved <= '0';
 			-- check energy for game over and go to different states depending on input, 
 			-- also don't enter mine state if energy is less than the energy it costs to mine
 			if(energy = "00000000") then
@@ -112,7 +113,7 @@ begin
 			score_next <= score;
 			energy_next <= energy;
 			level_next <= level;
-
+			moved <= '0';
 			-- check in which direction the player is mining
 			if(button_mining = '1' and button_x_left = '1') then
 				new_state <= mine_left_state;
@@ -133,7 +134,7 @@ begin
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
 			level_next <= level;
-
+			moved <= '0';
 			-- depending on what tile is to the left of the player do the following:
 			-- send the left mined command (dir_mined <= "100") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -169,7 +170,7 @@ begin
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
 			level_next <= level;
-
+			moved <= '0';
 			-- depending on what tile is to the right of the player do the following:
 			-- send the right mined command (dir_mined <= "101") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -205,7 +206,7 @@ begin
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
 			level_next <= level;
-
+			moved <= '0';
 			-- depending on what tile is above the player do the following:
 			-- send the up mined command (dir_mined <= "110") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -241,7 +242,7 @@ begin
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
 			level_next <= level;
-
+			moved <= '0';
 			-- depending on what tile is below the player do the following:
 			-- send the down mined command (dir_mined <= "111") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -285,16 +286,19 @@ begin
 					x_pos_next <= std_logic_vector(unsigned(x_pos)-1);
 					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
+					moved <= '1';
 					
 				elsif(map_data_l = "101") then
 					energy_next <= energy;
 					new_state <= lvl_up_state;
 					x_pos_next <= x_pos;
+					moved <= '1';
 					
 				else
 					new_state <= central_state;
 					energy_next <= energy;
 					x_pos_next <= x_pos;
+					moved <= '0';
 				end if;
 			
 		when right_state => --move to the right
@@ -312,15 +316,18 @@ begin
 					x_pos_next <= std_logic_vector(unsigned(x_pos)+1);
 					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
+					moved <= '1';
 				elsif(map_data_r = "101") then
 					energy_next <= energy;
 					new_state <= lvl_up_state;
 					x_pos_next <= x_pos;
+					moved <= '1';
 
 				else
 					new_state <= central_state;
 					energy_next <= energy;
 					x_pos_next <= x_pos;
+					moved <= '0';
 				end if;
 
 		when up_state => --move up
@@ -338,15 +345,18 @@ begin
 					y_pos_next <= std_logic_vector(unsigned(y_pos)-1);
 					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
+					moved <= '1';
 				elsif(map_data_u = "101") then
 					energy_next <= energy;
 					new_state <= lvl_up_state;
 					y_pos_next <= y_pos;
+					moved <= '1';
 
 				else
 					new_state <= central_state;
 					energy_next <= energy;
 					y_pos_next <= y_pos;
+					moved <= '0';
 				end if;	
 
 		when down_state => --move down
@@ -364,15 +374,18 @@ begin
 					y_pos_next <= std_logic_vector(unsigned(y_pos)+1);
 					energy_next <= std_logic_vector(unsigned(energy)-1);
 					new_state <= central_state;
+					moved <= '1';
 				elsif(map_data_d = "101") then
 					energy_next <= energy;
 					new_state <= lvl_up_state;
 					y_pos_next <= y_pos;
+					moved <= '1';
 
 				else
 					new_state <= central_state;
 					energy_next <= energy;
 					y_pos_next <= y_pos;
+					moved <= '0';
 				end if;
 
 		when lvl_up_state => --level up by ladder, energy restored, score stays the same
@@ -383,6 +396,7 @@ begin
 			energy_next <= "11001000";
 			score_next <= score;
 			level_next <= std_logic_vector(unsigned(level)+1);
+			moved <= '0';
 
 		when others => -- in the event of an error don't change anything and go to the central state
 			new_state <= central_state;
@@ -391,6 +405,7 @@ begin
 			x_pos_next <= x_pos;
 			score_next <= score;
 			energy_next <= energy;
+			moved <= '0';
 
 	end case;
 	end process;
