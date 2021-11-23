@@ -20,7 +20,7 @@ end VGA;
 -- Architecture of VGA
 architecture behaviour of VGA is 
 	-- Constants: Placement and width of square.
-	constant BlockWith : integer := 280;
+	constant BlockWidth : integer := 280;
 	constant BlockPosX : integer := 200;
 	constant BlockPosY : integer := 100;
 
@@ -51,45 +51,46 @@ architecture behaviour of VGA is
 	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
 	process (Hcount,Vcount)
 	begin
-		new_Hcount <= Hcount + 1;
-		if (Hcount >= H_DISPLAY + H_FP and Hcount < H_DISPLAY + H_FP + H_SP) then --HSync_pulse
+		
+		if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP) then
+			new_Hcount <= Hcount + 1;
+		else
+			new_Hcount <= (others => '0');
+		end if;
+
+
+		if (Hcount > H_DISPLAY + H_FP and Hcount <= H_DISPLAY + H_FP + H_SP) then --HSync_pulse
 			HS <= '0';
 			if (Hcount = H_DISPLAY + H_FP + H_MARIGN) then
 				new_Vcount <= Vcount + 1;
+			elsif (Vcount > V_DISPLAY + V_FP + V_SP + V_BP) then
+				new_Vcount 	<= 	(others => '0');
+			else
+				new_Vcount <= Vcount;
 			end if;
 		else
 			HS <= '1';
-			if (Hcount >= H_DISPLAY + H_FP + H_SP + H_BP) then
-				new_Hcount <= (others => '0');
-			end if;
+			new_Vcount <= Vcount;
 		end if;	
-		if (Vcount >= V_DISPLAY +  V_FP and Vcount < V_DISPLAY + V_FP + V_SP) then --VSync_pulse
+
+		
+		if (Vcount > V_DISPLAY + V_FP and Vcount <= V_DISPLAY + V_FP + V_SP) then --VSync_pulse
 			VS <= '0';
 		else	
 			VS <= '1';
-			if (Vcount >= V_DISPLAY + V_FP + V_SP + V_BP) then
-				new_Vcount 	<= 	(others => '0');
-			end if;
 		end if;
 
-		if (Hcount >= H_DISPLAY or Vcount >= V_DISPLAY) then
+		if (Hcount > H_DISPLAY or Vcount > V_DISPLAY) then
 			RED 	<= 	(others => '0');
 			GREEN	<=	(others => '0');
 			BLUE 	<=	(others => '0');
 		else
 			-- Assigns Outputs color when the Hcount and Vcount are in the square.   (TEMP)
-			if (Hcount >= BlockPosX and Hcount <= BlockPosX + BlockWith and Vcount >= BlockPosY and Vcount <= BlockPosY + BlockWith) then
-				RED 	<= 	"1111";
-				GREEN	<=	"1111";
-				BLUE 	<=	"0000";
-			else
-				RED 	<= 	(others => '0');
-				GREEN	<=	(others => '0');
-				BLUE 	<=	(others => '0');
-			end if;
-		end if;
 
-		
+			RED 	<= 	(others => '1');
+			GREEN	<=	(others => '0');
+			BLUE 	<=	(others => '0');
+		end if;
 	end process;
 
 	-- Process: Sequential
