@@ -18,7 +18,8 @@ architecture behaviour of player_fsm_tb is
            energy_lvl_out   : OUT std_logic_vector(7 downto 0);
            y_pos_out    : OUT std_logic_vector(3 downto 0);
            x_pos_out    : OUT std_logic_vector(3 downto 0);
-	score_out : OUT std_logic_vector(9 downto 0));
+	score_out : OUT std_logic_vector(9 downto 0);
+	level_out : OUT std_logic_vector(4 downto 0));
    end component;
    signal button_x_left  : std_logic;
    signal button_x_right : std_logic;
@@ -36,11 +37,16 @@ architecture behaviour of player_fsm_tb is
    signal y_pos_out    : std_logic_vector(3 downto 0);
    signal x_pos_out    : std_logic_vector(3 downto 0);
 	signal score_out : std_logic_vector(9 downto 0);
+	signal level_out : std_logic_vector(4 downto 0);
 begin
    test: player_fsm port map (button_x_left, button_x_right, button_y_up, button_y_down, button_mining, map_data_l, map_data_r, map_data_u, map_data_d, CLK, reset, dir_mined, energy_lvl_out, y_pos_out, x_pos_out);
    	button_x_left <= '0' after 0 ns,
 			'1' after 200 ns,
-			'0' after 400 ns;
+			'0' after 400 ns,
+			'1' after 1800 ns,
+			'0' after 2000 ns,
+			'1' after 2200 ns,
+			'0' after 2400 ns;
    button_x_right <= '0' after 0 ns,
 		'1' after 1000 ns,
 		'0' after 1200 ns;
@@ -54,13 +60,19 @@ begin
 		'1' after 150 ns,
 		'0' after 400 ns,
 		'1' after 650 ns,
-		'0' after 800 ns;
+		'0' after 800 ns,
+		'1' after 1000 ns,
+		'0' after 1200 ns,
+		'1' after 1800 ns,
+		'0' after 2000 ns,
+		'1' after 2200 ns,
+		'0' after 2400 ns;
    map_data_l(0) <= '0' after 0 ns;
    map_data_l(1) <= '0' after 0 ns;
    map_data_l(2) <= '1' after 0 ns;
    map_data_r(0) <= '0' after 0 ns;
    map_data_r(1) <= '0' after 0 ns;
-   map_data_r(2) <= '0' after 0 ns;
+   map_data_r(2) <= '1' after 0 ns;
    map_data_u(0) <= '0' after 0 ns;
    map_data_u(1) <= '1' after 0 ns;
    map_data_u(2) <= '0' after 0 ns;
