@@ -12,6 +12,7 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 	signal score, score_next: std_logic_vector(9 downto 0);
 	signal edge_detec1, edge_detec0: std_logic_vector(3 downto 0);
 	signal rise_left, rise_right, rise_up, rise_down: std_logic;
+	signal level, level_next : std_logic_vector(4 downto 0);
 
 	signal state, new_state:	player_fsm_state;
 
@@ -30,6 +31,7 @@ begin
 	x_pos_out <= x_pos;
 	energy_lvl_out <= energy;
 	score_out <= score;
+	level_out <= level;
 
 	-- clocked process
 	process(clk, reset)
@@ -55,6 +57,7 @@ begin
 			score <= score_next;
 			x_pos <= x_pos_next;
 			y_pos <= y_pos_next;
+			level <= level_next;
 		end if;
 		
 	end process;
@@ -72,7 +75,7 @@ begin
 			new_state <= central_state;
 			score_next <= "0000000000";		-- reset score to 0
 			energy_next <= "11001000";		-- reset energy to 200
-		
+ 			level_next <= "00000"; --game over back to level 0
 		when central_state => --central state where we read the inputs of the player
 
 			-- define all outputs
@@ -81,6 +84,7 @@ begin
 			dir_mined <= "000";
 			score_next <= score;
 			energy_next <= energy;
+			level_next <= level;
 
 			-- check energy for game over and go to different states depending on input, 
 			-- also don't enter mine state if energy is less than the energy it costs to mine
@@ -107,6 +111,7 @@ begin
 			dir_mined <= "000";
 			score_next <= score;
 			energy_next <= energy;
+			level_next <= level;
 
 			-- check in which direction the player is mining
 			if(button_mining = '1' and button_x_left = '1') then
@@ -127,6 +132,7 @@ begin
 			new_state <= central_state;
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
+			level_next <= level;
 
 			-- depending on what tile is to the left of the player do the following:
 			-- send the left mined command (dir_mined <= "100") or don't mine (dir_mined <= "000")
@@ -162,6 +168,7 @@ begin
 			new_state <= central_state;
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
+			level_next <= level;
 
 			-- depending on what tile is to the right of the player do the following:
 			-- send the right mined command (dir_mined <= "101") or don't mine (dir_mined <= "000")
@@ -197,6 +204,7 @@ begin
 			new_state <= central_state;
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
+			level_next <= level;
 
 			-- depending on what tile is above the player do the following:
 			-- send the up mined command (dir_mined <= "110") or don't mine (dir_mined <= "000")
@@ -232,6 +240,7 @@ begin
 			new_state <= central_state;
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
+			level_next <= level;
 
 			-- depending on what tile is below the player do the following:
 			-- send the down mined command (dir_mined <= "111") or don't mine (dir_mined <= "000")
@@ -267,6 +276,7 @@ begin
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			score_next <= score;
+			level_next <= level;
 			
 				-- if map data left is ground then change position and decrease energy by one
 				-- if map data left is ladder go to lvl_up_state
@@ -293,6 +303,7 @@ begin
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			score_next <= score;
+			level_next <= level;
 
 				-- if map data right is ground then change position and decrease energy by one
 				-- if map data right is ladder go to lvl_up_state
@@ -318,6 +329,7 @@ begin
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
+			level_next <= level;
 
 				-- if map data up is ground then change position and decrease energy by one
 				-- if map data up is ladder go to lvl_up_state
@@ -343,6 +355,7 @@ begin
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
+			level_next <= level;
 
 				-- if map data down is ground then change position and decrease energy by one
 				-- if map data down is ladder go to lvl_up_state
@@ -369,6 +382,7 @@ begin
 			new_state <= central_state;
 			energy_next <= "11001000";
 			score_next <= score;
+			level_next <= std_logic_vector(unsigned(level)+1);
 
 		when others => -- in the event of an error don't change anything and go to the central state
 			new_state <= central_state;
