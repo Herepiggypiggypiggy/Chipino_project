@@ -1,4 +1,4 @@
-library IEEE;
+	library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity color_driver is
@@ -37,6 +37,11 @@ else
 			red <= "111";
 			green <= "111";
 			blue <= "111";
+		-- **Placeholder**--
+		when "0010" =>
+			red <= "000";
+			green <= "000";
+			blue <= "000";
 		-- Background Red --
 		when "0011" =>
 			red <= "110";
