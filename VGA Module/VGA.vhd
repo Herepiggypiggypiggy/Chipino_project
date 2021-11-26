@@ -1,110 +1,142 @@
+--The VGA module with all the diverent components.
+--included: texture_controller, Tile selector, color_driver and display_controller.
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
--- Entity of VGA
 entity VGA is
-	port(
-	clk,reset 	: in std_logic;
-	IN_RED		: in std_logic_vector(3 downto 0);
-	IN_GREEN	: in std_logic_vector(3 downto 0);
-	IN_BLUE		: in std_logic_vector(3 downto 0);
+port (	clk 		: in std_logic;
+	reset 		: in std_logic;
 
-	HS		: out std_logic;
-	VS		: out std_logic;
-	RED		: out std_logic_vector(3 downto 0);
-	GREEN		: out std_logic_vector(3 downto 0);
-	BLUE		: out std_logic_vector(3 downto 0));
+	map_data	: in std_logic_vector(71 downto 0);
+	Xplayer		: in std_logic_vector(3 downto 0);
+	Yplayer		: in std_logic_vector(3 downto 0);
+	score 		: in std_logic_vector(9 downto 0);
+	energy		: in std_logic_vector(7 downto 0);
+	level_depth 	: in std_logic_vector(4 downto 0);
+	
+	hsync		: out std_logic;
+	vsync		: out std_logic;
+	red		: out std_logic_vector(3 downto 0);
+	green		: out std_logic_vector(3 downto 0);
+	blue		: out std_logic_vector(3 downto 0));
 end VGA;
 
--- Architecture of VGA
-architecture behaviour of VGA is 
-	-- Constants: Placement and width of square.
-	constant BlockWidth : integer := 280;
-	constant BlockPosX : integer := 200;
-	constant BlockPosY : integer := 100;
+architecture behaviour of VGA is
+--texture_controller
+component texture_controller
+port (	clk 		: in std_logic;
+	reset 		: in std_logic;
 
-	-- Constants: Timings.
-	constant H_DISPLAY : integer := 640;
-	constant H_FP : integer := 16;
-	constant H_SP : integer := 96;
-	constant H_BP : integer := 48;
-
-	constant V_DISPLAY : integer := 480;
-	constant V_FP : integer := 10;
-	constant V_SP : integer := 2;
-	constant V_BP : integer := 33;
-
-	-- Constants: For HS and VS intersection
-	constant H_MARIGN : integer := 40;
+	map_data	: in std_logic_vector(71 downto 0);
+	Xplayer		: in std_logic_vector(3 downto 0);
+	Yplayer		: in std_logic_vector(3 downto 0);
+	score 		: in std_logic_vector(9 downto 0);
+	energy		: in std_logic_vector(7 downto 0);
+	level_depth 	: in std_logic_vector(4 downto 0);
 	
-	-- Signals
-	signal Hcount : unsigned(9 downto 0) := (others => '0');
-	signal Vcount : unsigned(9 downto 0) := (others => '0');
+	colum		: out std_logic_vector(4 downto 0);
+	row		: out std_logic_vector(4 downto 0);
+	
+	tile_type	: out std_logic_vector(3 downto 0);
+	
+	Hcount_con	: out unsigned(9 downto 0);
+	Vcount_con	: out unsigned(9 downto 0));
+end component;
 
-	signal new_Hcount : unsigned(9 downto 0) := (others => '0');
-	signal new_Vcount : unsigned(9 downto 0) := (others => '0');
+--Tile
+component tile
+port (	clk 		: in std_logic;
+	reset 		: in std_logic;
+	tile_address 	: in std_logic_vector(3 downto 0);
+	row 		: in std_logic_vector(4 downto 0);
+	column		: in std_logic_vector(4 downto 0);
 
-	begin
+	color_address   : out std_logic_vector(3 downto 0));
+end component;
+--color_driver
+component color_driver
+	port (	clk 		: in std_logic;
+		reset 		: in std_logic;
+		color_address 	: in std_logic_vector(3 downto 0);
 
-	-- Process: Combinatorial
-	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
-	process (Hcount,Vcount)
-	begin
-		
-		if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP) then
-			new_Hcount <= Hcount + 1;
-		else
-			new_Hcount <= (others => '0');
-		end if;
+		red 		: out std_logic_vector(3 downto 0);
+		green		: out std_logic_vector(3 downto 0);
+		blue 		: out std_logic_vector(3 downto 0)
+	);
+end component;
+
+--display_controller
+component display_controller
+       port(	clk,reset 	: in std_logic;
+		in_red		: in std_logic_vector(3 downto 0);
+		in_green	: in std_logic_vector(3 downto 0);
+		in_blue		: in std_logic_vector(3 downto 0);
+		Hcount 		: in unsigned(9 downto 0);
+		vcount 		: in unsigned(9 downto 0);
+		hsync		: out std_logic;
+		vsync		: out std_logic;
+		red		: out std_logic_vector(3 downto 0);
+		green		: out std_logic_vector(3 downto 0);
+		blue		: out std_logic_vector(3 downto 0));
+end component;
 
 
-		if (Hcount > H_DISPLAY + H_FP and Hcount <= H_DISPLAY + H_FP + H_SP) then --HSync_pulse
-			HS <= '0';
-			if (Hcount = H_DISPLAY + H_FP + H_MARIGN) then
-				new_Vcount <= Vcount + 1;
-			elsif (Vcount > V_DISPLAY + V_FP + V_SP + V_BP) then
-				new_Vcount 	<= 	(others => '0');
-			else
-				new_Vcount <= Vcount;
-			end if;
-		else
-			HS <= '1';
-			new_Vcount <= Vcount;
-		end if;	
+--Internal Signals
+signal colum		: std_logic_vector(4 downto 0);
+signal row		: std_logic_vector(4 downto 0);
+signal tile_type	: std_logic_vector(3 downto 0);
+signal Hcount_con	: unsigned(9 downto 0);
+signal Vcount_con	: unsigned(9 downto 0);
 
-		
-		if (Vcount > V_DISPLAY + V_FP and Vcount <= V_DISPLAY + V_FP + V_SP) then --VSync_pulse
-			VS <= '0';
-		else	
-			VS <= '1';
-		end if;
+signal tile_address	: std_logic_vector(3 downto 0);
+signal color_address	: std_logic_vector(3 downto 0);
+signal in_red		: std_logic_vector(3 downto 0);
+signal in_green		: std_logic_vector(3 downto 0);
+signal in_blue		: std_logic_vector(3 downto 0);
 
-		if (Hcount > H_DISPLAY or Vcount > V_DISPLAY) then
-			RED 	<= 	(others => '0');
-			GREEN	<=	(others => '0');
-			BLUE 	<=	(others => '0');
-		else
-			-- Assigns Outputs color when the Hcount and Vcount are in the square.   (TEMP)
+begin
 
-			RED 	<= 	(others => '1');
-			GREEN	<=	(others => '0');
-			BLUE 	<=	(others => '0');
-		end if;
-	end process;
+--Port maps
+texture_module : texture_controller port map(		clk, 
+							reset, 
+							map_data, 
+							Xplayer, 
+							Yplayer, 
+							score, 
+							energy,
+							level_depth,
+							colum,
+							row,
+							tile_type,
+							Hcount_con,
+							Vcount_con); 
 
-	-- Process: Sequential
-	-- Stores new values of Hcount and Vcount in the register.
-	process(clk,reset)
-	begin
-		if (rising_edge (clk)) then
-			if (reset = '1') then
-				Hcount <= (others => '0');
-				Vcount <= (others => '0');
-			else
-				Hcount <= new_Hcount;
-				Vcount <= new_Vcount;
-			end if;
-		end if;
-	end process;
-end architecture behaviour;
+tile_module : tile port map(				clk, 
+							reset, 
+							tile_address, 
+							row, 
+							colum, 
+							color_address); 
+
+color_driver_module : color_driver port map(		clk, 
+							reset, 
+							color_address, 
+							in_red, 
+							in_green, 
+							in_blue);
+ 
+display_controller_module : display_controller port map(clk, 
+							reset, 
+							in_red, 
+							in_green, 
+							in_blue,
+							Hcount_con,
+							Vcount_con, 
+							hsync, 
+							vsync,
+							red,
+							green,
+							blue); 
+end architecture;
