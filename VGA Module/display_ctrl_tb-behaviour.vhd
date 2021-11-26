@@ -2,15 +2,8 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-use ieee.std_logic_textio.all;
-use std.textio.all;
-
-
-entity display_controller_tb is
-end display_controller_tb;
-
-architecture behaviour of display_controller_tb is
-    component display_controller
+architecture behaviour of display_ctrl_tb is
+    component display_ctrl
         port(
 	clk,reset 	: in std_logic;
 	IN_RED		: in std_logic_vector(3 downto 0);
@@ -39,7 +32,7 @@ signal BLUE	: std_logic_vector(3 downto 0);
 	
 signal counter : std_logic_vector(9 downto 0);
 begin
- test: display_controller port map (clk, reset, IN_RED,IN_GREEN,IN_BLUE,HS, VS, RED, GREEN, BLUE);
+ test: display_ctrl port map (clk, reset, IN_RED,IN_GREEN,IN_BLUE,HS, VS, RED, GREEN, BLUE);
 
 process (clk)
     variable count,count2 : integer:=0;
