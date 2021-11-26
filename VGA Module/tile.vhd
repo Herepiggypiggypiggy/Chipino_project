@@ -17,18 +17,19 @@ end tile_driver
  
 architecture behavioural of tile_driver is 
 	
-	constant black 		: std_logic_vector(3 downto 0) := "0000";
-	constant white		: std_logic_vector(3 downto 0) := "0001";
-	constant bg_red		: std_logic_vector(3 downto 0) := "0011";
-	constant dark_grey 	: std_logic_vector(3 downto 0) := "0100";
+	constant black 			: std_logic_vector(3 downto 0) := "0000";
+	constant white			: std_logic_vector(3 downto 0) := "0001";
+	constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0010";
+	constant bg_red			: std_logic_vector(3 downto 0) := "0011";
+	constant dark_grey 		: std_logic_vector(3 downto 0) := "0100";
 
-	constant light_gray	: std_logic_vector(3 downto 0) := "0101";
-	constant orange		: std_logic_vector(3 downto 0) := "0110";
-	constant yellow 	: std_logic_vector(3 downto 0) := "0111";
-	constant denim_blue	: std_logic_vector(3 downto 0) := "1000";
+	constant light_gray		: std_logic_vector(3 downto 0) := "0101";
+	constant orange			: std_logic_vector(3 downto 0) := "0110";
+	constant yellow 		: std_logic_vector(3 downto 0) := "0111";
+	constant denim_blue		: std_logic_vector(3 downto 0) := "1000";
 
-	constant mole_brown	: std_logic_vector(3 downto 0) := "1001";
-	constant diamond 	: std_logic_vector(3 downto 0) := "1010";
+	constant mole_brown		: std_logic_vector(3 downto 0) := "1001";
+	constant diamond 		: std_logic_vector(3 downto 0) := "1010";
 	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
 	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
 
