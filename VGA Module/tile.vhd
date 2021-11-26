@@ -23,7 +23,7 @@ architecture behavioural of tile_driver is
 	constant bg_red			: std_logic_vector(3 downto 0) := "0011";
 	constant dark_grey 		: std_logic_vector(3 downto 0) := "0100";
 
-	constant light_gray		: std_logic_vector(3 downto 0) := "0101";
+	constant light_grey		: std_logic_vector(3 downto 0) := "0101";
 	constant orange			: std_logic_vector(3 downto 0) := "0110";
 	constant yellow 		: std_logic_vector(3 downto 0) := "0111";
 	constant denim_blue		: std_logic_vector(3 downto 0) := "1000";
@@ -51,233 +51,233 @@ else
 	case tile_address is 
 		-- Player -- 
 		when "00000" => 
-			if 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 0 - 2, column 0 - 2
-			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 0 - 2, column 3 - 5
-			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 0 - 2, column 6 - 8
-			elsif	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 0 - 2, column 9 - 11
-			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 0 - 2, column 12 - 14
-			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 0 - 2, column 15 - 17
-			elsif	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 0 - 2, column 18 - 20
-			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 0 - 2, column 21 - 23 
+			if 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= bg_red;	-- row 0 - 2, column 0 - 2
+			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= bg_red;	-- row 0 - 2, column 3 - 5
+			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= mole_brown;	-- row 0 - 2, column 6 - 8
+			elsif	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= mole_brown;	-- row 0 - 2, column 9 - 11
+			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= bg_red;	-- row 0 - 2, column 12 - 14
+			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= bg_red;	-- row 0 - 2, column 15 - 17
+			elsif	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= bg_red;	-- row 0 - 2, column 18 - 20
+			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= bg_red;	-- row 0 - 2, column 21 - 23 
 
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 3 - 5, column 0 - 2
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 3 - 5, column 3 - 5
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 3 - 5, column 6 - 8
-			elsif	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 3 - 5, column 9 - 11
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 3 - 5, column 12 - 14
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 3 - 5, column 15 - 17
-			elsif	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 3 - 5, column 18 - 20
-			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 3 - 5, column 21 - 23  
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= bg_red;	-- row 3 - 5, column 0 - 2
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= yellow;	-- row 3 - 5, column 3 - 5
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= denim_blue;	-- row 3 - 5, column 6 - 8
+			elsif	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= denim_blue;	-- row 3 - 5, column 9 - 11
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= denim_blue;	-- row 3 - 5, column 12 - 14
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 3 - 5, column 15 - 17
+			elsif	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 3 - 5, column 18 - 20
+			elsif 	(row(4 downto 0) = "00011" or row(4 downto 1) = "0010") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= denim_blue;	-- row 3 - 5, column 21 - 23  
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 6 - 8, column 0 - 2
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 6 - 8, column 3 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 6 - 8, column 6 - 8
-			elsif	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 6 - 8, column 9 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 6 - 8, column 12 - 14
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 6 - 8, column 15 - 17
-			elsif	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 6 - 8, column 18 - 20
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 6 - 8, column 21 - 23 
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= yellow;	-- row 6 - 8, column 0 - 2
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= yellow;	-- row 6 - 8, column 3 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= black;		-- row 6 - 8, column 6 - 8
+			elsif	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= mole_brown;	-- row 6 - 8, column 9 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= mole_brown;	-- row 6 - 8, column 12 - 14
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 6 - 8, column 15 - 17
+			elsif	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 6 - 8, column 18 - 20
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 0) = "01000") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= denim_blue;	-- row 6 - 8, column 21 - 23 
 
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 9 - 11, column 0 - 2
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 9 - 11, column 3 - 5
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 9 - 11, column 6 - 8
-			elsif	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 9 - 11, column 9 - 11
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 9 - 11, column 12 - 14
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 9 - 11, column 15 - 17
-			elsif	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 9 - 11, column 18 - 20
-			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 9 - 11, column 21 - 23 
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= orange;	-- row 9 - 11, column 0 - 2
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= yellow;	-- row 9 - 11, column 3 - 5
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= mole_brown;	-- row 9 - 11, column 6 - 8
+			elsif	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= black;		-- row 9 - 11, column 9 - 11
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= mole_brown;	-- row 9 - 11, column 12 - 14
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 9 - 11, column 15 - 17
+			elsif	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 9 - 11, column 18 - 20
+			elsif 	(row(4 downto 0) = "01001" or row(4 downto 1) = "0101") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= bg_red;	-- row 9 - 11, column 21 - 23 
 
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 12 - 14, column 0 - 2
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 12 - 14, column 3 - 5
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 12 - 14, column 6 - 8
-			elsif	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 12 - 14, column 9 - 11
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 12 - 14, column 12 - 14
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 12 - 14, column 15 - 17
-			elsif	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 12 - 14, column 18 - 20
-			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 12 - 14, column 21 - 23 
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= orange;	-- row 12 - 14, column 0 - 2
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= yellow;	-- row 12 - 14, column 3 - 5
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= black;		-- row 12 - 14, column 6 - 8
+			elsif	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= mole_brown;	-- row 12 - 14, column 9 - 11
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= mole_brown;	-- row 12 - 14, column 12 - 14
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 12 - 14, column 15 - 17
+			elsif	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 12 - 14, column 18 - 20
+			elsif 	(row(4 downto 1) = "0110" or row(4 downto 0) = "01110") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= denim_blue;	-- row 12 - 14, column 21 - 23 
 
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 15 - 17, column 0 - 2
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 15 - 17, column 3 - 5
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 15 - 17, column 6 - 8
-			elsif	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 15 - 17, column 9 - 11
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 15 - 17, column 12 - 14
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 15 - 17, column 15 - 17
-			elsif	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 15 - 17, column 18 - 20
-			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 15 - 17, column 21 - 23    
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= orange;	-- row 15 - 17, column 0 - 2
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= orange;	-- row 15 - 17, column 3 - 5
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= mole_brown;	-- row 15 - 17, column 6 - 8
+			elsif	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= mole_brown;	-- row 15 - 17, column 9 - 11
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= mole_brown;	-- row 15 - 17, column 12 - 14
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 15 - 17, column 15 - 17
+			elsif	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 15 - 17, column 18 - 20
+			elsif 	(row(4 downto 0) = "01111" or row(4 downto 1) = "1000") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= denim_blue;	-- row 15 - 17, column 21 - 23    
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 18 - 20, column 0 - 2
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 18 - 20, column 3 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 18 - 20, column 6 - 8
-			elsif	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 18 - 20, column 9 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 18 - 20, column 12 - 14
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 18 - 20, column 15 - 17
-			elsif	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 18 - 20, column 18 - 20
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 18 - 20, column 21 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= bg_red;	-- row 18 - 20, column 0 - 2
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= orange;	-- row 18 - 20, column 3 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= denim_blue;	-- row 18 - 20, column 6 - 8
+			elsif	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= denim_blue;	-- row 18 - 20, column 9 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= denim_blue;	-- row 18 - 20, column 12 - 14
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= denim_blue;	-- row 18 - 20, column 15 - 17
+			elsif	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= denim_blue;	-- row 18 - 20, column 18 - 20
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 0) = "10100") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= denim_blue;	-- row 18 - 20, column 21 - 23
 
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= "0000";	-- row 21 - 23, column 0 - 2
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= "0000";	-- row 21 - 23, column 3 - 5
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= "0000";	-- row 21 - 23, column 6 - 8
-			elsif	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= "0000";	-- row 21 - 23, column 9 - 11
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= "0000";	-- row 21 - 23, column 12 - 14
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= "0000";	-- row 21 - 23, column 15 - 17
-			elsif	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= "0000";	-- row 21 - 23, column 18 - 20
-			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= "0000";	-- row 21 - 23, column 21 - 23    
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= bg_red;	-- row 21 - 23, column 0 - 2
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= bg_red;	-- row 21 - 23, column 3 - 5
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= mole_brown;	-- row 21 - 23, column 6 - 8
+			elsif	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "01001" or column(4 downto 1) = "0101") then	color_address <= mole_brown;	-- row 21 - 23, column 9 - 11
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "0110" or column(4 downto 0) = "01110") then	color_address <= bg_red;	-- row 21 - 23, column 12 - 14
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "01111" or column(4 downto 1) = "1000") then	color_address <= bg_red;	-- row 21 - 23, column 15 - 17
+			elsif	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 1) = "1001" or column(4 downto 0) = "10100") then	color_address <= bg_red;	-- row 21 - 23, column 18 - 20
+			elsif 	(row(4 downto 0) = "10101" or row(4 downto 1) = "1011") and (column(4 downto 0) = "10101" or column(4 downto 1) = "1011") then	color_address <= bg_red;	-- row 21 - 23, column 21 - 23    
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if;
 		 
-		-- **Placeholder** -- 
+		-- Background Red -- 
 		when "00001" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= bg_red;	-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= bg_red;	-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= bg_red;	-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= bg_red;	-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= bg_red;	-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= bg_red;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= bg_red;	-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= bg_red;	-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 18 - 23, column 18 - 23
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if;
  
-		-- **Placeholder** -- 
+		-- Normal Rock -- 
 		when "00010" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= dark_grey;	-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= light_grey;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= dark_grey;	-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= light_grey;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= light_grey;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= light_grey;	-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 18 - 23, column 18 - 23
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if;
  
-		-- **Placeholder** -- 
+		-- Gold Ore -- 
 		when "00011" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= yellow;	-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= yellow;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= dark_grey;	-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= light_grey;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= light_grey;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= yellow;	-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 18 - 23, column 18 - 23
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if;
  
-		-- **Placeholder** -- 
+		-- Diamond Ore -- 
 		when "00100" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= diamond;	-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= diamond;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= dark_grey;	-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= light_grey;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= light_grey;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= light_grey;	-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= diamond;	-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= bg_red;	-- row 18 - 23, column 18 - 23
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if; 
  
-		-- **Placeholder** -- 
+		-- Ladder -- 
 		when "00101" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= orange;	-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= orange;	-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= orange;	-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= orange;	-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= black;		-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= orange;	-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= black;		-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= bg_red;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= black;		-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= orange;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= black;	 	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= orange;	-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= orange;	-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= orange;	-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= orange;	-- row 18 - 23, column 18 - 23
 
-			else																     	color_address <= "0000";
+			else																     	color_address <= white;
 	
 			end if; 
  
-		-- **Placeholder** -- 
+		-- Boundary -- 
 		when "00110" => 
-			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 0 - 5, column 0 - 5
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 0 - 5, column 6 - 11
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 0 - 5, column 12 - 17
-			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 0 - 5, column 18 - 23
+			if 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= black;		-- row 0 - 5, column 0 - 5
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= black;		-- row 0 - 5, column 6 - 11
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= black;		-- row 0 - 5, column 12 - 17
+			elsif 	(row(4 downto 2) = "000" or row(4 downto 1) = "0010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= black;		-- row 0 - 5, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 6 - 11, column 0 - 5
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 6 - 11, column 6 - 11
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 6 - 11, column 12 - 17
-			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 6 - 11, column 18 - 23
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= dark_grey;	-- row 6 - 11, column 0 - 5
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= dark_grey;	-- row 6 - 11, column 6 - 11
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= black;		-- row 6 - 11, column 12 - 17
+			elsif 	(row(4 downto 1) = "0011" or row(4 downto 2) = "010") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 6 - 11, column 18 - 23
 
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 12 - 17, column 0 - 5
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 12 - 17, column 6 - 11
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 12 - 17, column 12 - 17
-			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 12 - 17, column 18 - 23
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= dark_grey;	-- row 12 - 17, column 0 - 5
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= black;		-- row 12 - 17, column 6 - 11
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= dark_grey;	-- row 12 - 17, column 12 - 17
+			elsif 	(row(4 downto 2) = "011" or row(4 downto 1) = "1000") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= dark_grey;	-- row 12 - 17, column 18 - 23
 
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= "0000";	-- row 18 - 23, column 0 - 5
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= "0000";	-- row 18 - 23, column 6 - 11
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= "0000";	-- row 18 - 23, column 12 - 17
-			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= "0000";	-- row 18 - 23, column 18 - 23
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "000" or column(4 downto 1) = "0010") then 	color_address <= black;		-- row 18 - 23, column 0 - 5
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "0011" or column(4 downto 2) = "010") then 	color_address <= black;		-- row 18 - 23, column 6 - 11
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 2) = "011" or column(4 downto 1) = "1000") then 	color_address <= black;		-- row 18 - 23, column 12 - 17
+			elsif 	(row(4 downto 1) = "1001" or row(4 downto 2) = "101") and (column(4 downto 1) = "1001" or column(4 downto 2) = "101") then 	color_address <= black;		-- row 18 - 23, column 18 - 23
 
 			else																     	color_address <= "0000";
 	
