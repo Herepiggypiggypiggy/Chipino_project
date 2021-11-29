@@ -2,7 +2,7 @@ architecture behavioural of tile_ctrl is
 	
 	constant black 			: std_logic_vector(3 downto 0) := "0000";
 	constant white			: std_logic_vector(3 downto 0) := "0001";
-	constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0010";
+	--constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0010";
 	constant bg_red			: std_logic_vector(3 downto 0) := "0011";
 	constant dark_grey 		: std_logic_vector(3 downto 0) := "0100";
 
@@ -13,13 +13,13 @@ architecture behavioural of tile_ctrl is
 
 	constant mole_brown		: std_logic_vector(3 downto 0) := "1001";
 	constant diamond 		: std_logic_vector(3 downto 0) := "1010";
-	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
 
-	constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0000";
-	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
 
 begin 
 process (clk, reset, tile_address, row, column) 
@@ -1046,7 +1046,7 @@ else
 			end if;	
 
 		-- Number: 7 --
-		when "10101" =>
+		when "10111" =>
 			if 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= black;		-- row 0 - 2, column 0 - 2
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= black;		-- row 0 - 2, column 3 - 5
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= black;		-- row 0 - 2, column 6 - 8
@@ -1124,7 +1124,7 @@ else
 			end if; 
 
 		-- Number: 8 --
-		when "10101" =>
+		when "11000" =>
 			if 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= black;		-- row 0 - 2, column 0 - 2
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= black;		-- row 0 - 2, column 3 - 5
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= black;		-- row 0 - 2, column 6 - 8
@@ -1202,7 +1202,7 @@ else
 			end if;
 
 		-- Number: 9 --
-		when "10101" =>
+		when "11001" =>
 			if 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0000" or column(4 downto 0) = "00010") then	color_address <= black;		-- row 0 - 2, column 0 - 2
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 0) = "00011" or column(4 downto 1) = "0010") then	color_address <= black;		-- row 0 - 2, column 3 - 5
 			elsif 	(row(4 downto 1) = "0000" or row(4 downto 0) = "00010") and (column(4 downto 1) = "0011" or column(4 downto 0) = "01000") then	color_address <= black;		-- row 0 - 2, column 6 - 8
