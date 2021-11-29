@@ -27,18 +27,15 @@ architecture behaviour of texture_ctrl is
 	-- Signals
 	signal Hcount : unsigned(9 downto 0);
 	signal Vcount : unsigned(9 downto 0);
-	
+
 	signal new_Hcount : unsigned(9 downto 0);
 	signal new_Vcount : unsigned(9 downto 0);
-	
-	signal column : unsigned(4 downto 0);
-	signal row : unsigned(4 downto 0);
 
-	signal new_column : unsigned(4 downto 0);
-	signal new_row : unsigned(4 downto 0);
-	
-	signal Xposition : unsigned(4 downto 0);
-	signal Yposition : unsigned(4 downto 0);
+	signal new_column : std_logic_vector(4 downto 0);
+	signal new_row : std_logic_vector(4 downto 0);
+
+	signal column : std_logic_vector(4 downto 0);
+	signal row : std_logic_vector(4 downto 0);
 	
 	signal new_Xposition : unsigned(4 downto 0);
 	signal new_Yposition : unsigned(4 downto 0);
@@ -49,20 +46,6 @@ architecture behaviour of texture_ctrl is
 	begin
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
-	if (unsigned(score) < 10) then
-		Score_(11 downto 9) <= "000" 
-		Score_(8 downto 6) <= "000" 
-		Score_(5 downto 3) <= "000" 
-		Score_(2 downto 0) <= score(2 downto 0)
-	elsif (unsigned(score) < 100) then
-		Score_(19 downto 15) <= "000" 
-		Score_(14 downto 10) <= "000" 
-		Score_(9 downto 5) <= "000" 
-		Score_(4 downto 0) <= score(2 downto 0)
-	elsif (unsigned(score) < 1000) then
-
-	else
-	end if
 	
 	process (row,column,Xposition,Yposition,Hcount,Vcount)
 	begin
@@ -282,6 +265,6 @@ architecture behaviour of texture_ctrl is
 	Hcount_out <= Hcount;
 	Vcount_out <= Vcount;
 
-	column_out <= std_logic_vector(column);
-	row_out <= std_logic_vector(row);
+	column_out <= column;
+	row_out <= row;
 end architecture behaviour;
