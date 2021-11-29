@@ -34,10 +34,16 @@ Architecture RTL of SPI_Master is
 	signal clock_internal : std_logic;
 
 	signal byte_MOSI_SPI_setup : std_logic_vector(7 downto 0);
-	signal ready_to_send : unsigned(0 downto 0); 
 	
 	signal bit_counter_master_next : unsigned(4 downto 0);
 	signal MOSI_next : std_logic; 
+
+	signal MISO_setup : std_logic;
+	signal bit_counter_slave : unsigned(3 downto 0);
+	signal bit_counter_slave_next: unsigned(3 downto 0);
+	signal HR_FM : std_logic;
+	signal byte_MISO : std_logic_vector(15 downto 0);
+	signal byte_MISO_storage : std_logic_vector(15 downto 0);
 begin
 
 
@@ -80,7 +86,7 @@ byte_MOSI_SPI_setup <= "11110011";
 SCLK <= clock_internal;
 
 -----------MOSI-------------------------
-clocked : process(clock_internal)
+MOSI_counter : process(clock_internal)
 begin
 	if(rising_edge(clock_internal)) then
 
@@ -110,11 +116,49 @@ begin
 			elsif(bit_counter_master = 24) then
 				HS_FM <= '1';
 				RS_FM <= '1';
-				ready_to_send <= "1";
+				MOSI_next <= '0';
 
 			end if;
 
 end process;
+
+
+----------------MISO---------------------
+
+MISO_counter : process(clock_internal)
+begin
+	if(rising_edge(clock_internal)) then
+		if(reset_in = '1' or RS_FS = '1') then
+		bit_counter_slave <= (others => '0');
+		MISO_setup <= '0';
+	        else
+		bit_counter_slave <= bit_counter_slave_next;
+		MISO_setup <= MISO; 
+		end if;
+	end if;
+end process;
+
+MISO_DATA : process(bit_counter_slave)
+begin
+		if(bit_counter_slave <16) then
+			byte_MISO(to_integer(bit_counter_slave)) <= MISO_setup;
+			bit_counter_slave_next <= bit_counter_slave +1;
+		elsif(bit_counter_slave = 16) then
+			RC_FM <= '1';
+			
+		end if;
+	
+end process;
+
+MISO_storage : process(clock_internal)
+begin
+	if(RS_FS = '1') then
+		byte_MISO_storage <= byte_MISO;
+	else 
+		byte_MISO_storage <= byte_MISO_storage;
+	end if;
+end process;
+
 end Architecture;
 
 
