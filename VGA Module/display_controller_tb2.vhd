@@ -5,8 +5,12 @@ use IEEE.numeric_std.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
-architecture behaviour of display_ctrl_tb2 is
-    component display_ctrl
+
+entity display_controller_tb2 is
+end display_controller_tb2;
+
+architecture behaviour of display_controller_tb2 is
+    component display_controller
         port(
 	clk,reset 	: in std_logic;
 	IN_RED		: in std_logic_vector(3 downto 0);
@@ -35,7 +39,7 @@ signal BLUE	: std_logic_vector(3 downto 0);
 	
 signal counter : std_logic_vector(9 downto 0);
 begin
- test: display_ctrl port map (clk, reset, IN_RED,IN_GREEN,IN_BLUE,HS, VS, RED, GREEN, BLUE);
+ test: display_controller port map (clk, reset, IN_RED,IN_GREEN,IN_BLUE,HS, VS, RED, GREEN, BLUE);
 process (clk)
     file file_pointer: text is out "write.txt";
     variable line_el: line;
