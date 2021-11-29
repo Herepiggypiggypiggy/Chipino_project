@@ -19,6 +19,12 @@ architecture behavioural of color_driver is
 begin
 process (clk, reset, color_address)
 begin
+-- If reset is high, always select black --
+if (reset = '1') then
+	red <= "000";
+	green <= "000";
+	blue <= "000";
+else
 	-- Select color depending on the address --
 	case color_address is
 		-- Black --
@@ -107,6 +113,8 @@ begin
 			green <= "000";
 			blue <= "000";
 	end case;
+		
+end if;
 end process;
 end architecture behavioural;
 

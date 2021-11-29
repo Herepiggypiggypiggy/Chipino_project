@@ -1,14 +1,10 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 
-entity color_tb is
-end color_tb;
-
-architecture behavioural of color_tb is 
+architecture behavioural of color_ctrl_tb is 
 	
-component color_driver
-	port (	
-		clk 		: in std_logic;
+component color_ctrl
+	port (	clk 		: in std_logic;
 		reset 		: in std_logic;
 		color_address 	: in std_logic_vector(3 downto 0);
 
@@ -18,18 +14,16 @@ component color_driver
 	);
 end component;
 	
-	signal clk 		: std_logic := '0';
+	signal clk 		: std_logic;
 	signal reset 		: std_logic;
-
 	signal color_address 	: std_logic_vector(3 downto 0);
-
 	signal red 		: std_logic_vector(2 downto 0);
 	signal green		: std_logic_vector(2 downto 0);
 	signal blue 		: std_logic_vector(2 downto 0);
 
 begin
 
-	test : color_driver port map(clk, reset, color_address, red, green, blue); 
+	test : color_ctrl port map(clk, reset, color_address, red, green, blue); 
 
 	clk 		<= not clk 	after 20 ns;
 	reset 		<= '1' 		after 0 ns,
