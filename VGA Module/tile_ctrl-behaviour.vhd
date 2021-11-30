@@ -2,11 +2,11 @@ architecture behavioural of tile_ctrl is
 	
 	constant black 			: std_logic_vector(3 downto 0) := "0000";
 	constant white			: std_logic_vector(3 downto 0) := "0001";
-	--constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0010";
+	constant magenta	 	: std_logic_vector(3 downto 0) := "0010";
 	constant bg_red			: std_logic_vector(3 downto 0) := "0011";
 	constant dark_grey 		: std_logic_vector(3 downto 0) := "0100";
 
-	constant grey		: std_logic_vector(3 downto 0) := "0101";
+	constant grey			: std_logic_vector(3 downto 0) := "0101";
 	constant orange			: std_logic_vector(3 downto 0) := "0110";
 	constant yellow 		: std_logic_vector(3 downto 0) := "0111";
 	constant denim_blue		: std_logic_vector(3 downto 0) := "1000";
@@ -105,7 +105,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= bg_red;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 		 
@@ -183,7 +183,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= bg_red;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -261,7 +261,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= dark_grey;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -340,7 +340,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= dark_grey;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -418,7 +418,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= dark_grey;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 				
@@ -496,7 +496,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -574,7 +574,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= grey;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= grey;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -652,7 +652,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -730,7 +730,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if; 
 
@@ -808,7 +808,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -886,7 +886,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if; 
  
@@ -964,7 +964,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -1042,7 +1042,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -1120,7 +1120,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -1198,7 +1198,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -1276,7 +1276,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1354,7 +1354,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1432,7 +1432,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1510,7 +1510,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1588,7 +1588,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1666,7 +1666,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1744,7 +1744,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1822,7 +1822,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1900,7 +1900,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -1978,7 +1978,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 
@@ -2056,7 +2056,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
  
@@ -2134,7 +2134,7 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= white;
+			else						color_address <= magenta;
 	
 			end if;
 				

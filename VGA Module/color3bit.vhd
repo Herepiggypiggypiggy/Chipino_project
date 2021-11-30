@@ -31,11 +31,11 @@ begin
 			red <= "111";
 			green <= "111";
 			blue <= "111";
-		-- **Placeholder**--
+		-- Magenta--
 		when "0010" =>
-			red <= "000";
+			red <= "110";
 			green <= "000";
-			blue <= "000";
+			blue <= "111";
 		-- Background Red --
 		when "0011" =>
 			red <= "110";
