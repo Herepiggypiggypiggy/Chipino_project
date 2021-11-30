@@ -13,13 +13,12 @@ architecture behavioural of tile_ctrl is
 
 	constant mole_brown		: std_logic_vector(3 downto 0) := "1001";
 	constant diamond 		: std_logic_vector(3 downto 0) := "1010";
-	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	constant lighter_grey		: std_logic_vector(3 downto 0) := "1011";
+	constant light_yellow	 	: std_logic_vector(3 downto 0) := "1100";
 
-	--constant -- **Placeholder** -- 	: std_logic_vector(3 downto 0) := "0000";
-	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
-	--constant -- **Placeholder** --	: std_logic_vector(3 downto 0) := "0000";
+	constant light_blue	 	: std_logic_vector(3 downto 0) := "1101";
+	constant dark_diamond		: std_logic_vector(3 downto 0) := "1110";
+	constant light_orange		: std_logic_vector(3 downto 0) := "1111";
 
 begin 
 process (clk, reset, tile_address, row, column) 
