@@ -76,31 +76,31 @@ begin
 			red <= "001";
 			green <= "111";
 			blue <= "111";
-		-- **Placeholder** --
+		-- Lighter Grey --
 		when "1011" =>
-			red <= "000";
-			green <= "000";
-			blue <= "000";
-		-- **Placeholder** --
+			red <= "100";
+			green <= "100";
+			blue <= "100";
+		-- Light Yellow --
 		when "1100" =>
-			red <= "000";
-			green <= "000";
-			blue <= "000";
-		-- **Placeholder** --
+			red <= "111";
+			green <= "110";
+			blue <= "001";
+		-- Light Blue --
 		when "1101" =>
 			red <= "000";
-			green <= "000";
-			blue <= "000";
-		-- **Placeholder** --
+			green <= "011";
+			blue <= "110";
+		-- Dark Diamond --
 		when "1110" =>
-			red <= "000";
-			green <= "000";
-			blue <= "000";
-		-- **Placeholder** --
+			red <= "001";
+			green <= "110";
+			blue <= "110";
+		-- Light Orange --
 		when "1111" =>
-			red <= "000";
-			green <= "000";
-			blue <= "000";
+			red <= "111";
+			green <= "101";
+			blue <= "010";
 		-- Exception: use black
 		when others =>
 			red <= "000";
