@@ -19,8 +19,11 @@ architecture behaviour of texture_ctrl is
 	-- Constants: For HS and VS intersection
 	constant H_MARGIN : integer := 40;
 
-	constant pixel_num : integer := 24;
-	
+	constant pixel_num : unsigned(4 downto 0) := "11111"; --31
+	constant pixel_tile_data : unsigned(2 downto 0) := "111";	--7
+	constant pixel_tile : unsigned(1 downto 0) := "11";	--3
+
+
 	constant INFO_LV : integer := 2;
 	constant INFO_LV_SPACE : integer := 1;
 	
@@ -31,11 +34,11 @@ architecture behaviour of texture_ctrl is
 	signal new_Hcount : unsigned(9 downto 0);
 	signal new_Vcount : unsigned(9 downto 0);
 
-	signal new_column : std_logic_vector(4 downto 0);
-	signal new_row : std_logic_vector(4 downto 0);
+	signal new_column : unsigned(2 downto 0);
+	signal new_row : unsigned(2 downto 0);
 
-	signal column : std_logic_vector(4 downto 0);
-	signal row : std_logic_vector(4 downto 0);
+	signal column : unsigned(2 downto 0);
+	signal row : unsigned(2 downto 0);
 	
 	signal new_Xposition : unsigned(4 downto 0);
 	signal new_Yposition : unsigned(4 downto 0);
@@ -47,7 +50,7 @@ architecture behaviour of texture_ctrl is
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
 	
-	process (row,column,Xposition,Yposition,Hcount,Vcount)
+	process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer)
 	begin
 
 	--Tile Type selector
@@ -114,12 +117,14 @@ architecture behaviour of texture_ctrl is
 	
 	else tile_address <= "00000";--BLACK
 	end if;
-
-
+	end process;
+	
+	process (Hcount,Vcount,row,column,Xposition,Yposition,map_data,Xplayer,Yplayer)
+	begin
 	if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
 		new_Xposition <= (others => '0');
 	else
-		if (column = "10111") then
+		if (Hcount(4 downto 0) = pixel_num) then
 			new_Xposition <= Xposition + 1;
 		else
 			new_Xposition <= Xposition;
@@ -129,7 +134,7 @@ architecture behaviour of texture_ctrl is
 	if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
 		new_Yposition <= (others => '0');
 	else
-		if (row = "10111" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
+		if (Vcount(4 downto 0) = pixel_num and Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
 			new_Yposition <= Yposition + 1;
 		else
 			new_Yposition <= Yposition;
@@ -138,73 +143,32 @@ architecture behaviour of texture_ctrl is
 	
 
 	--Colum selector
-	if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then
-	case to_integer(Hcount) mod pixel_num is
-		when 23 => new_column <= "00000";		
-		when 0 	=> new_column <= "00001";		
-		when 1 	=> new_column <= "00010";		
-		when 2 	=> new_column <= "00011";
-		when 3 	=> new_column <= "00100";
-		when 4 	=> new_column <= "00101";
-		when 5 	=> new_column <= "00110";
-		when 6 	=> new_column <= "00111";
-		when 7 	=> new_column <= "01000";
-		when 8 	=> new_column <= "01001";
-		when 9  => new_column <= "01010";
-		when 10 => new_column <= "01011";
-		when 11 => new_column <= "01100";
-		when 12 => new_column <= "01101";
-		when 13 => new_column <= "01110";
-		when 14 => new_column <= "01111";
-		when 15 => new_column <= "10000";
-		when 16 => new_column <= "10001";
-		when 17 => new_column <= "10010";
-		when 18 => new_column <= "10011";
-		when 19 => new_column <= "10100";
-		when 20 => new_column <= "10101";
-		when 21 => new_column <= "10110";
-		when 22 => new_column <= "10111";
-		when others => new_column <= "00000";
-	end case;
+	if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when not at the end of the H
+		if (Hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
+			new_column <= (others => '0');
+		elsif (Hcount(1 downto 0) = pixel_tile) then  -- when hcount mod 4 is 3 add column
+			new_column <= column + 1;
+		else
+			new_column <= column;
+		end if;
 	else
-		new_column <= "00000";
+		new_column <= (others => '0');
 	end if;
+
 	
 	--Row selector
-	if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
-		new_row <= "00000";
-	elsif (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
-	case to_integer(Vcount) mod pixel_num is
-		when 23 => new_row <= "00000";		
-		when 0 	=> new_row <= "00001";		
-		when 1 	=> new_row <= "00010";		
-		when 2 	=> new_row <= "00011";
-		when 3 	=> new_row <= "00100";
-		when 4 	=> new_row <= "00101";
-		when 5 	=> new_row <= "00110";
-		when 6 	=> new_row <= "00111";
-		when 7 	=> new_row <= "01000";
-		when 8 	=> new_row <= "01001";
-		when 9  => new_row <= "01010";
-		when 10 => new_row <= "01011";
-		when 11 => new_row <= "01100";
-		when 12 => new_row <= "01101";
-		when 13 => new_row <= "01110";
-		when 14 => new_row <= "01111";
-		when 15 => new_row <= "10000";
-		when 16 => new_row <= "10001";
-		when 17 => new_row <= "10010";
-		when 18 => new_row <= "10011";
-		when 19 => new_row <= "10100";
-		when 20 => new_row <= "10101";
-		when 21 => new_row <= "10110";
-		when 22 => new_row <= "10111";
-		when others => new_row <= "00000";
-	end case;
+	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1 and Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when not at the end of the total frame
+		if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+			new_row <= (others => '0');
+		elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 add row if H is end of line
+			new_row <= row + 1;
+		else
+			new_row <= row;
+		end if;
 	else
-		new_row <= row;
-	
+		new_row <= (others => '0');
 	end if;
+
 	
 
 	--Hcounter COM
@@ -246,7 +210,6 @@ architecture behaviour of texture_ctrl is
 				column <= (others => '0');
 				row <= (others => '0');
 
-
 			else
 				--Assign to internal signal
 				Hcount <= new_Hcount;
@@ -265,6 +228,6 @@ architecture behaviour of texture_ctrl is
 	Hcount_out <= Hcount;
 	Vcount_out <= Vcount;
 
-	column_out <= column;
-	row_out <= row;
+	column_out <= std_logic_vector(column);
+	row_out <= std_logic_vector(row);
 end architecture behaviour;

@@ -14,13 +14,12 @@ port (
 	energy		: in std_logic_vector(7 downto 0);
 	level_depth 	: in std_logic_vector(4 downto 0);
 	
-	column_out	: out std_logic_vector(4 downto 0);
-	row_out		: out std_logic_vector(4 downto 0);
+	column_out	: out std_logic_vector(2 downto 0);
+	row_out		: out std_logic_vector(2 downto 0);
 	
 	tile_address	: out std_logic_vector(4 downto 0);
 	
 	Hcount_out	: out unsigned(9 downto 0);
-	Vcount_out	: out unsigned(9 downto 0)
-);
+	Vcount_out	: out unsigned(9 downto 0));
 end texture_ctrl;
 
