@@ -23,9 +23,9 @@ architecture behavioural of tile_ctrl is
 begin 
 process (clk, reset, tile_address, row, column) 
 begin 
--- If reset is high, always select **Placeholer** -- 
+-- If reset is high, always select magenta -- 
 if (reset = '1') then 
-	color_address <= "0000"; 
+	color_address <= magenta; 
 else 
 	-- Select color address depending on the tile address, and the row and column  
 	case tile_address is 
