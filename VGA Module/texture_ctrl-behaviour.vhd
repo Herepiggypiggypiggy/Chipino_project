@@ -78,24 +78,24 @@ architecture behaviour of texture_ctrl is
 	elsif (Xposition = unsigned(Xplayer)		and Yposition = unsigned(Yplayer) + 2) 	then tile_address <= "10" & map_data(8 downto 6);
 	elsif (Xposition = unsigned(Xplayer) + 1  	and Yposition = unsigned(Yplayer) + 2) 	then tile_address <= "10" & map_data(5 downto 3);
 	elsif (Xposition = unsigned(Xplayer)		and Yposition = unsigned(Yplayer) + 3) 	then tile_address <= "10" & map_data(2 downto 0);
-	elsif (Xposition = unsigned(Xplayer)		and Yposition = unsigned(Yplayer)) 	then tile_address <= "00000";
+	elsif (Xposition = unsigned(Xplayer)		and Yposition = unsigned(Yplayer)) 	then tile_address <= "11111";
 
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 0) 			then tile_address <= "00000";--L
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 1) 			then tile_address <= "00000";--V
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 2) 			then tile_address <= "00000";--L
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 3) 			then tile_address <= "00000";--
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 4) 			then tile_address <= "00000";--Y
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 5) 			then tile_address <= "00000";--G
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 6) 			then tile_address <= "00000";--R
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 7) 			then tile_address <= "00000";--E
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 8) 			then tile_address <= "00000";--N
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 9) 			then tile_address <= "00000";--E
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 10) 			then tile_address <= "00000";--
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 11) 			then tile_address <= "00000";--E
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 12) 			then tile_address <= "00000";--R
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 13) 			then tile_address <= "00000";--O
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 14) 			then tile_address <= "00000";--C
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 15) 			then tile_address <= "00000";--S
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 0) 			then tile_address <= "01110";--L
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 1) 			then tile_address <= "11101";--V
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 2) 			then tile_address <= "01110";--L
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 3) 			then tile_address <= "01010";--Black
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 4) 			then tile_address <= "11110";--Y
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 5) 			then tile_address <= "01101";--G
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 6) 			then tile_address <= "11011";--R
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 7) 			then tile_address <= "01100";--E
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 8) 			then tile_address <= "01111";--N
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 9) 			then tile_address <= "01100";--E
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 10) 			then tile_address <= "01010";--Black
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 11) 			then tile_address <= "01100";--E
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 12) 			then tile_address <= "11011";--R
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 13) 			then tile_address <= "11010";--O
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 14) 			then tile_address <= "01011";--C
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 15) 			then tile_address <= "11100";--S
 
 	elsif (Xposition = 16 + INFO_LV + INFO_LV_SPACE	and Yposition = 0) 			then tile_address <= "00000";
 	elsif (Xposition = 16 + INFO_LV	+ INFO_LV_SPACE	and Yposition = 1) 			then tile_address <= "00000";
@@ -115,7 +115,7 @@ architecture behaviour of texture_ctrl is
 	elsif (Xposition = 16 + INFO_LV	+ INFO_LV_SPACE	and Yposition = 15) 			then tile_address <= "00000";
 
 	
-	else tile_address <= "00000";--BLACK
+	else tile_address <= "01010";--BLACK
 	end if;
 	end process;
 	
