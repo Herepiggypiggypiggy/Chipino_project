@@ -20,6 +20,8 @@ port (
 	tile_address	: out std_logic_vector(4 downto 0);
 	
 	Hcount_out	: out unsigned(9 downto 0);
-	Vcount_out	: out unsigned(9 downto 0));
+	Vcount_out	: out unsigned(9 downto 0);
+
+	vga_done	: out std_logic);
 end texture_ctrl;
 

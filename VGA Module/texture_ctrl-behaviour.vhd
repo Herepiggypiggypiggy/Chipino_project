@@ -158,9 +158,9 @@ architecture behaviour of texture_ctrl is
 	
 	--Row selector
 	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1 and Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when not at the end of the total frame
-		if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+		if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 and H is end of line start new tile
 			new_row <= (others => '0');
-		elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 add row if H is end of line
+		elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 and if H is end of line
 			new_row <= row + 1;
 		else
 			new_row <= row;
@@ -194,6 +194,14 @@ architecture behaviour of texture_ctrl is
 	end if;
 	end process;
 
+
+	-- VGA done signal
+	if (Vcount > V_DISPLAY - 1) then
+		vga_done <= 1;
+	else
+		vga_done <= 0;
+		
+	
 	-- Process: Sequential
 	-- Stores new values of Hcount and Vcount in the register.
 	process(clk)
