@@ -50,7 +50,7 @@ architecture behaviour of texture_ctrl is
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
 	
-	process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer)
+	process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer,score,level,energy)
 	begin
 
 	--Tile Type selector
@@ -87,9 +87,9 @@ architecture behaviour of texture_ctrl is
 	--Energy display--
 	elsif (Xposition = 14 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
 	elsif (Xposition = 14 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 2) 			then tile_address <= "10000";--energy(0)
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 3) 			then tile_address <= "10000";--energy(1)
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 4) 			then tile_address <= "10000";--energy(2)
+	elsif (Xposition = 14 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & score(3 downto 0);--energy(0)
+	elsif (Xposition = 14 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & score(7 downto 4);--energy(1)
+	elsif (Xposition = 14 + INFO_LV			and Yposition = 4) 			then tile_address <= '1' & score(11 downto 8);--energy(2)
 	elsif (Xposition = 14 + INFO_LV			and Yposition = 5) 			then tile_address <= "01010";--black
 	elsif (Xposition = 14 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
 	elsif (Xposition = 14 + INFO_LV			and Yposition = 7) 			then tile_address <= "11110";--Y
@@ -107,12 +107,12 @@ architecture behaviour of texture_ctrl is
 	--Score display--
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 2) 			then tile_address <= "10000";--score(0)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 3) 			then tile_address <= "10000";--score(1)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 4) 			then tile_address <= "10000";--score(2)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 5) 			then tile_address <= "10000";--score(3)
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & score(3 downto 0);--score(0)
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & score(7 downto 4);--score(1)
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 4) 			then tile_address <= '1' & score(11 downto 8);--score(2)
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 5) 			then tile_address <= '1' & score(15 downto 12);--score(3)
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 7) 			then tile_address <= "11110";--black
+	elsif (Xposition = 16 + INFO_LV			and Yposition = 7) 			then tile_address <= "01010";--black
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 8) 			then tile_address <= "01100";--E
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 9) 			then tile_address <= "11011";--R
 	elsif (Xposition = 16 + INFO_LV			and Yposition = 10) 			then tile_address <= "11010";--O
@@ -127,12 +127,12 @@ architecture behaviour of texture_ctrl is
 	--Level display--
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 2) 			then tile_address <= "10000";--level(0)
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 3) 			then tile_address <= "10000";--level(1)
+	elsif (Xposition = 18 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & level(3 downto 0);--level(0)
+	elsif (Xposition = 18 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & level(7 downto 4);--level(1)
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 4) 			then tile_address <= "01010";--black
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 5) 			then tile_address <= "01010";--black
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 7) 			then tile_address <= "11110";--black
+	elsif (Xposition = 18 + INFO_LV			and Yposition = 7) 			then tile_address <= "01010";--black
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 8) 			then tile_address <= "01110";--L
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 9) 			then tile_address <= "01100";--E
 	elsif (Xposition = 18 + INFO_LV			and Yposition = 10) 			then tile_address <= "11101";--V
@@ -184,24 +184,23 @@ architecture behaviour of texture_ctrl is
 
 	
 	--Row selector
-<<<<<<< Updated upstream
-	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1 and Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when not at the end of the total frame
-		if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 and H is end of line start new tile
-=======
+
 	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-		if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
->>>>>>> Stashed changes
-			new_row <= (others => '0');
-		elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 and if H is end of line
-			new_row <= row + 1;
-		else
-			new_row <= row;
+
+		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+			if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+
+				new_row <= (others => '0');
+			elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 and if H is end of line
+				new_row <= row + 1;
+			else
+				new_row <= row;
+			end if;
 		end if;
 	else
 		new_row <= (others => '0');
 	end if;
 
-	
 
 	--Hcounter COM
 	if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then
@@ -224,15 +223,18 @@ architecture behaviour of texture_ctrl is
 			new_Vcount <= Vcount;
 		end if;
 	end if;
-	end process;
-
 
 	-- VGA done signal
 	if (Vcount > V_DISPLAY - 1) then
-		vga_done <= 1;
+		vga_done <= '1';
 	else
-		vga_done <= 0;
-		
+		vga_done <= '0';
+	end if;
+
+	end process;
+
+
+	
 	
 	-- Process: Sequential
 	-- Stores new values of Hcount and Vcount in the register.
@@ -271,4 +273,3 @@ architecture behaviour of texture_ctrl is
 	column_out <= std_logic_vector(column);
 	row_out <= std_logic_vector(row);
 end architecture behaviour;
-
