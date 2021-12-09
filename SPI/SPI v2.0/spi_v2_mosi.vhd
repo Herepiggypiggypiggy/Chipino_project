@@ -8,6 +8,7 @@ entity spi_v2_mosi is
         SCLK      : out std_logic;
         SS        : out std_logic;
         clk       : in  std_logic;
-        reset     : in  std_logic);
+        reset     : in  std_logic;
+	MISO	  : in  std_logic;
+	map_data  : out std_logic_vector(71 downto 0));
 end spi_v2_mosi;
-
