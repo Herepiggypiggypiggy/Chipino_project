@@ -45,6 +45,7 @@ begin
                 to_spi(7 downto 4) <= std_logic_vector(unsigned(y_pos_out)+1);
             end if;
             to_spi(12 downto 8) <= level;
+            to_spi(13) <= '1';
             
         else
             send_spi <= '0';
