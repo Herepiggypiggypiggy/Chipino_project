@@ -190,7 +190,7 @@ begin
         	case state is 
             		when reset_state => 	-- we go to the reset state when we start the chip and when there is a game over
 			dir_mined <= "000";				-- the first bit detirmines if a mining action took place, the last two bits determine the direction
-			x_pos_next <= "1000";			-- the spawn location for the player is (8,3)
+			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
 			new_state <= central_state;
 			score_next <= (others => '0');		-- reset score to 0
