@@ -5,7 +5,7 @@ use IEEE.numeric_std.all;
 -- Architecture of VGA
 architecture behavioural of display_ctrl is 
 
-	-- Constants: Timings.
+	-- Constants: Timings
 	constant H_DISPLAY 	: integer := 640;
 	constant H_FP 		: integer := 16;
 	constant H_SP 		: integer := 96;
@@ -23,9 +23,6 @@ architecture behavioural of display_ctrl is
 
 	begin
 	
-	
-
-
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
 	process (clk)

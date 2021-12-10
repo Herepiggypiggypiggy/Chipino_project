@@ -10,6 +10,5 @@ port (
 	red 		: out std_logic_vector(3 downto 0);
 	green		: out std_logic_vector(3 downto 0);
 	blue 		: out std_logic_vector(3 downto 0)
-
 );
 end color_ctrl;
