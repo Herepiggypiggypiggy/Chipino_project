@@ -20,32 +20,38 @@ SCLK <= SCLK_internal;
 process (clk)
 begin
 	if (rising_edge(clk)) then
-
-		-- counter to devide clk
-		if ((SCLK_counter = "111" or reset = '1')) then
-		 	SCLK_counter <= "000";
-		else
-			SCLK_counter <= std_logic_vector(unsigned(SCLK_counter) + 1);
-		end if;
-
-		-- set internal SCLK values depending on counter
-		if (SCLK_counter(2) = '0') then
+		if (reset = '1') then
+			SCLK_counter <= "000";
 			SCLK_internal <= '0';
-		else 
-			SCLK_internal <= '1';
-		end if;
-
-		-- output rise and fall signals for when to read and when to write
-		if (SCLK_counter = "000") then
-			SCLK_fall <= '1';
-			SCLK_rise	<= '0';
-		elsif (SCLK_counter = "100") then
-			SCLK_fall <= '0';
-			SCLK_rise <= '1';
-		else 
-			SCLK_fall <= '0';
 			SCLK_rise <= '0';
-		end if;	
+			SCLK_fall <= '0';
+		else
+			-- counter to devide clk
+			if ((SCLK_counter = "111" or reset = '1')) then
+				SCLK_counter <= "000";
+			else
+				SCLK_counter <= std_logic_vector(unsigned(SCLK_counter) + 1);
+			end if;
+
+			-- set internal SCLK values depending on counter
+			if (SCLK_counter(2) = '0') then
+				SCLK_internal <= '0';
+			else 
+				SCLK_internal <= '1';
+			end if;
+
+			-- output rise and fall signals for when to read and when to write
+			if (SCLK_counter = "000") then
+				SCLK_fall <= '1';
+				SCLK_rise	<= '0';
+			elsif (SCLK_counter = "100") then
+				SCLK_fall <= '0';
+				SCLK_rise <= '1';
+			else 
+				SCLK_fall <= '0';
+				SCLK_rise <= '0';
+			end if;	
+		end if;
 	end if;
 end process;
 
@@ -56,8 +62,12 @@ MOSI <= MOSI_shift(15);
 process (clk)
 begin
 	if (rising_edge(clk)) then
-		-- shift
-		MOSI_shift <= MOSI_shift_next;
+		if (reset = '1') then
+			MOSI_shift <= (others => '0');
+		else
+			-- shift
+			MOSI_shift <= MOSI_shift_next;
+		end if;
 	end if;
 end process;
 
@@ -88,9 +98,15 @@ SS <= SS_internal;
 process(clk)
 begin
 	if rising_edge(clk) then
-		SS_count <= SS_count_next;
-		hold_send <= hold_send_next;
-		request_map <= request_map_next;
+		if (reset = '1') then
+			SS_count <= (others => '0');
+			hold_send <= '0';
+			request_map <= '0';
+		else
+			SS_count <= SS_count_next;
+			hold_send <= hold_send_next;
+			request_map <= request_map_next;
+		end if;
 	end if;
 end process;
 
@@ -125,7 +141,7 @@ begin
 			SS_count_next <= "0000000";
 		elsif (SS_count = "0001111" and request_map = '0') then -- reset count when we get to a certain point
 			SS_count_next <= "0000000";
-		elsif (SS_count = "1011000" and request_map = '1') then -- if we are requesting data, count 88 times (16 send 72 recieve)
+		elsif (SS_count = "1010111" and request_map = '1') then -- if we are requesting data, count 88 times (16 send 72 recieve)
 			SS_count_next <= "0000000";
 		else
 			SS_count_next <= std_logic_vector(unsigned(SS_count) + 1);
@@ -150,8 +166,13 @@ map_data <= map_data_internal;
 process (clk)
 begin
 	if (rising_edge(clk)) then
-		MISO_shift <= MISO_shift_next;
-		map_data_internal	<= map_data_next;
+		if (reset = '1') then
+			MISO_shift <= (others => '0');
+			map_data_internal <= (others => '0');
+		else
+			MISO_shift <= MISO_shift_next;
+			map_data_internal	<= map_data_next;
+		end if;
 	end if;
 end process;
 
