@@ -22,7 +22,8 @@ port (
 	tile_address	: out std_logic_vector(4 downto 0);
 	
 	Hcount_out	: out unsigned(9 downto 0);
-	Vcount_out	: out unsigned(9 downto 0)
+	Vcount_out	: out unsigned(9 downto 0);
+	vga_done: out std_logic
 );
 
 end component;
@@ -97,7 +98,8 @@ texture_module : texture_ctrl port map(			clk,
 							row,
 							tile_address,
 							Hcount,
-							Vcount); 
+							Vcount,
+							vga_done); 
 
 tile_module : tile_ctrl port map(				clk, 
 							reset, 

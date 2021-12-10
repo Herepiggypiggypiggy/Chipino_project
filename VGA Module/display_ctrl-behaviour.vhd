@@ -20,27 +20,31 @@ architecture behavioural of display_ctrl is
 	signal new_Hcount : unsigned(9 downto 0) := (others => '0');
 	signal new_Vcount : unsigned(9 downto 0) := (others => '0');
 
+
 	begin
+	
+	
+
 
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
 	process (clk)
 	begin
 	if (rising_edge (clk)) then
-		if (Hcount > H_DISPLAY + H_FP - 1 and Hcount < H_DISPLAY + H_FP + H_SP) then --HSync_pulse
+		if (Hcount > "111101111" and Hcount < "1001010000") then --HSync_pulse
 			hsync <= '0';
 		else
 			hsync <= '1';
 		end if;	
 
 		
-		if (Vcount > V_DISPLAY + V_FP - 1 and Vcount < V_DISPLAY + V_FP + V_SP) then --VSync_pulse
+		if (Vcount > "111101001" and Vcount < "111101100") then --VSync_pulse
 			vsync <= '0';
 		else	
 			vsync <= '1';
 		end if;
 
-		if (Hcount > H_DISPLAY or Vcount > V_DISPLAY) then
+		if (Hcount > "1010000000" or Vcount > "111100000") then
 			red 	<= 	(others => '0');
 			green	<=	(others => '0');
 			blue 	<=	(others => '0');

@@ -170,7 +170,9 @@ architecture behaviour of texture_ctrl is
 	
 
 	--Colum selector
-	if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when not at the end of the H
+	if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when not at the end of the H
+		new_column <= (others => '0');
+	else
 		if (Hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
 			new_column <= (others => '0');
 		elsif (Hcount(1 downto 0) = pixel_tile) then  -- when hcount mod 4 is 3 add column
@@ -178,18 +180,15 @@ architecture behaviour of texture_ctrl is
 		else
 			new_column <= column;
 		end if;
-	else
-		new_column <= (others => '0');
 	end if;
 
 	
 	--Row selector
-
-	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-
+	if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+		new_row <= (others => '0');
+	else
 		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
 			if (Vcount(4 downto 0) = pixel_num and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
-
 				new_row <= (others => '0');
 			elsif (Vcount(1 downto 0) = "11" and Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then  -- when Vcount mod 4 is 3 and if H is end of line
 				new_row <= row + 1;
@@ -197,38 +196,36 @@ architecture behaviour of texture_ctrl is
 				new_row <= row;
 			end if;
 		end if;
-	else
-		new_row <= (others => '0');
 	end if;
 
 
 	--Hcounter COM
-	if (Hcount < H_DISPLAY + H_FP + H_SP + H_BP - 1) then
-		new_Hcount <= Hcount + 1;
-	else
+	if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
 		new_Hcount <= (others => '0');
+	else
+		new_Hcount <= Hcount + 1;
 	end if;
 
 	--Vcounter COM
-	if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
-		if (Hcount = H_DISPLAY + H_FP + H_MARGIN - 1) then
-			new_Vcount <= Vcount + 1;
+	if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1) then
+		if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
+			new_Vcount <= (others => '0');
 		else
 			new_Vcount <= Vcount;
 		end if;
 	else
-		if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
-			new_Vcount <= (others => '0');
+		if (Hcount = H_DISPLAY + H_FP + H_MARGIN - 1) then
+			new_Vcount <= Vcount + 1;
 		else
 			new_Vcount <= Vcount;
 		end if;
 	end if;
 
 	-- VGA done signal
-	if (Vcount > V_DISPLAY - 1) then
-		vga_done <= '1';
-	else
+	if (Vcount = V_DISPLAY - 1) then
 		vga_done <= '0';
+	else
+		vga_done <= '1';
 	end if;
 
 	end process;
@@ -238,7 +235,7 @@ architecture behaviour of texture_ctrl is
 	
 	-- Process: Sequential
 	-- Stores new values of Hcount and Vcount in the register.
-	process(clk)
+	ttt: process(clk)
 	begin
 		if (rising_edge (clk)) then
 			if (reset = '1') then

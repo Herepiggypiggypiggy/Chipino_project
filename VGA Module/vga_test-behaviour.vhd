@@ -1,5 +1,4 @@
 library IEEE;
-library IEEE;
 use IEEE.std_logic_1164.ALL;
 
 architecture behaviour of VGA_TEST is
@@ -76,6 +75,5 @@ end case;
 
 end process;
 end architecture;
-
 
 

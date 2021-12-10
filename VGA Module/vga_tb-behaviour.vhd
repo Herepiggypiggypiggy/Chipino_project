@@ -38,7 +38,7 @@ end component;
 	signal green		: std_logic_vector(3 downto 0);
 	signal blue		: std_logic_vector(3 downto 0);
 begin
-VGA_test : VGA port map(clk, reset, map_data, Xplayer, Yplayer, score, energy, level, hsync,	vsync, red	,green	,blue,vga_done); 
+test : VGA port map(clk, reset, map_data, Xplayer, Yplayer, score, energy, level, hsync,	vsync, red	,green	,blue,vga_done); 
 
 clk 		<= not clk 	after 20 ns;
 reset 		<= '1' 		after 0 ns,
