@@ -10,8 +10,25 @@ signal MOSI_shift, MOSI_shift_next : std_logic_vector (15 downto 0);
 signal MISO_shift, MISO_shift_next, map_data_next, map_data_internal : std_logic_vector (71 downto 0);
 signal SS_count, SS_count_next : std_logic_vector (6 downto 0);
 signal SS_internal, hold_send, hold_send_next, request_map, request_map_next : std_logic;
+signal send_in0, send_in1, send_rise : std_logic;
 
 begin
+
+-- rising edge detector for send
+process (clk)
+begin
+	if (rising_edge(clk)) then
+		if (reset = '0') then
+			send_in0 <= '0';
+			send_in1 <= '0';
+		else
+			send_in0 <= send;
+			send_in1 <= send_in0;
+		end if;
+	end if;
+end process;
+
+send_rise <= not send_in1 and send_in0;
 
 -- set SCLK to be equal to SCLK_internal
 SCLK <= SCLK_internal;
@@ -73,10 +90,10 @@ end process;
 
 -- MOSI output / shift register process
 
-process (MOSI_data, send, SCLK_internal, SCLK_rise, SCLK_fall, SS_count, MOSI_shift, SS_internal)
+process (MOSI_data, send_rise, SCLK_internal, SCLK_rise, SCLK_fall, SS_count, MOSI_shift, SS_internal)
 begin
 	-- if statement to determine MOSI_shift_next
-	if (send = '1') then
+	if (send_rise = '1') then
 
 		-- read input
 		MOSI_shift_next <= MOSI_data;
@@ -111,13 +128,13 @@ begin
 end process;
 
 -- slave select and sending, combinatorial proccess
-process (SS_count, send, hold_send, SCLK_fall, request_map, MOSI_data)
+process (SS_count, send_rise, hold_send, SCLK_fall, request_map, MOSI_data)
 begin
 
 	-- a signal that remembers if the player moved or mined
 	-- we use this signal to extend the SS_count in case of move,
 	-- since we need to keep SS_count going if we are receving new data
-	if (send = '1') then
+	if (send_rise = '1') then
 		request_map_next <= MOSI_data(13);
 	else
 		request_map_next <= request_map;
@@ -125,7 +142,7 @@ begin
 
 	-- implementation of hold send signal that holds the send signal untill the next falling edge of the SCLK
 	-- this ensures that the timing of when we send the data to be consistent.
-	if (send = '1') then
+	if (send_rise = '1') then
 		hold_send_next <= '1';
 	elsif (SCLK_fall = '1') then
 		hold_send_next <= '0';
