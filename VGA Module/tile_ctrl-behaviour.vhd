@@ -25,7 +25,6 @@ architecture behavioural of tile_ctrl is
 	constant caustic_green		: std_logic_vector(4 downto 0) := "10010";
 	constant lavender		: std_logic_vector(4 downto 0) := "10011";
 
-
 begin 
 process (clk, reset, tile_address, row, column) 
 begin 
@@ -2161,9 +2160,19 @@ else
 		when "11111" => 
 			if 	(row = "000" and column = "000") then	color_address <= bg_red;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg_red;	-- row 0, column 1
-			elsif 	(row = "000" and column = "010") then	color_address <= mole_brown;	-- row 0, column 2
+			elsif 	(row = "000" and column = "010") then					-- row 0, column 2 --p1
+				if (timer1(5)='1') then color_address <= mole_brown;
+				elsif (timer1(5)='0') then color_address <= bg_red;
+				else color_address <= magenta;
+				end if;
+				
 			elsif	(row = "000" and column = "011") then	color_address <= mole_brown;	-- row 0, column 3
-			elsif 	(row = "000" and column = "100") then	color_address <= bg_red;	-- row 0, column 4
+			elsif 	(row = "000" and column = "100") then					-- row 0, column 4 --p2
+				if (timer1(5)='1') then color_address <= bg_red;
+				elsif (timer1(5)='0') then color_address <= mole_brown;
+				else color_address <= magenta;
+				end if;				
+				
 			elsif 	(row = "000" and column = "101") then	color_address <= bg_red;	-- row 0, column 5
 			elsif	(row = "000" and column = "110") then	color_address <= bg_red;	-- row 0, column 6
 			elsif 	(row = "000" and column = "111") then	color_address <= bg_red;	-- row 0, column 7
@@ -2224,9 +2233,19 @@ else
 
 			elsif	(row = "111" and column = "000") then	color_address <= bg_red;	-- row 7, column 0
 			elsif 	(row = "111" and column = "001") then	color_address <= bg_red;	-- row 7, column 1
-			elsif 	(row = "111" and column = "010") then	color_address <= mole_brown;	-- row 7, column 2
+			elsif 	(row = "111" and column = "010") then					-- row 7, column 2 --p2
+				if (timer1(5)='1') then color_address <= bg_red;
+				elsif (timer1(5)='0') then color_address <= mole_brown;
+				else color_address <= magenta;
+				end if;		
+					
 			elsif	(row = "111" and column = "011") then	color_address <= mole_brown;	-- row 7, column 3
-			elsif 	(row = "111" and column = "100") then	color_address <= bg_red;	-- row 7, column 4
+			elsif 	(row = "111" and column = "100") then					-- row 7, column 4 --p1
+				if (timer1(5)='1') then color_address <= mole_brown;
+				elsif (timer1(5)='0') then color_address <= bg_red;
+				else color_address <= magenta;
+				end if;
+					
 			elsif 	(row = "111" and column = "101") then	color_address <= bg_red;	-- row 7, column 5
 			elsif	(row = "111" and column = "110") then	color_address <= bg_red;	-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= bg_red;	-- row 7, column 7  
