@@ -35,7 +35,7 @@ else
 	-- Select color address depending on the tile address, and the row and column  
 	case tile_address is 
 		-- Empty floor tile / Background red
-		when "00000" =>
+		when "000000" =>
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= bg;	-- row 0, column 2
@@ -113,7 +113,7 @@ else
 			end if; 
 	
 		-- Rocks or Normal Rock
-		when "00001" =>
+		when "000001" =>
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= bg;	-- row 0, column 2
@@ -191,7 +191,7 @@ else
 			end if;
 		
 		-- Gold Ore
-		when "00010" =>
+		when "000010" =>
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= bg;	-- row 0, column 2
@@ -269,7 +269,7 @@ else
 			end if;
 
 		-- Boundary
-		when "00011" =>
+		when "000011" =>
 			if 	(row = "000" and column = "000") then	color_address <= dark_grey;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= light_grey;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= grey;		-- row 0, column 2
@@ -347,7 +347,7 @@ else
 			end if;
 
 		-- Diamond Ore
-		when "00100" =>
+		when "000100" =>
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= bg;	-- row 0, column 2
@@ -425,7 +425,7 @@ else
 			end if;
 
 		-- Ladder
-		when "00101" =>
+		when "000101" =>
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
@@ -503,23 +503,23 @@ else
 			end if;
 
 		-- Empty
-		when "00110" =>
+		when "000110" =>
 			color_address <= magenta;
 
 		-- Rock with Ladder
-		when "00111" =>
+		when "000111" =>
 			color_address <= magenta;
 	
 		-- **Placeholder** --
-		when "01000" =>	
+		when "001000" =>	
 			color_address <= magenta;	
 
 		-- **Placeholder** --
-		when "01001" =>
+		when "001001" =>
 			color_address <= magenta;
 
 		-- Black Tile --
-		when "01010" =>
+		when "001010" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;	-- row 0, column 2
@@ -597,7 +597,7 @@ else
 			end if; 
 
 		-- C --
-		when "01011" =>
+		when "001011" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -675,7 +675,7 @@ else
 			end if;
 
 		-- E --
-		when "01100" =>
+		when "001100" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -753,7 +753,7 @@ else
 			end if;
 
 		-- G --
-		when "01101" =>
+		when "001101" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -831,7 +831,7 @@ else
 			end if;
 
 		-- L --
-		when "01110" =>
+		when "001110" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
@@ -909,7 +909,7 @@ else
 			end if;
 
 		-- N --
-		when "01111" =>
+		when "001111" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -987,7 +987,7 @@ else
 			end if;
 
 		-- Number: 0 --
-		when "10000" =>
+		when "010000" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1065,7 +1065,7 @@ else
 			end if;
 
 		-- Number: 1 --
-		when "10001" =>
+		when "010001" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
@@ -1143,7 +1143,7 @@ else
 			end if;
 
 		-- Number: 2 --
-		when "10010" =>
+		when "010010" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1221,7 +1221,7 @@ else
 			end if;
 
 		-- Number: 3 --
-		when "10011" =>
+		when "010011" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1299,7 +1299,7 @@ else
 			end if;
 
 		-- Number: 4 --
-		when "10100" =>
+		when "010100" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1377,7 +1377,7 @@ else
 			end if;
 
 		-- Number: 5 --
-		when "10101" =>
+		when "010101" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
@@ -1455,7 +1455,7 @@ else
 			end if;
 
 		-- Number: 6 --
-		when "10110" =>
+		when "010110" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
@@ -1533,7 +1533,7 @@ else
 			end if;
 
 		-- Number: 7 --
-		when "10111" =>
+		when "010111" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1611,7 +1611,7 @@ else
 			end if;
 
 		-- Number: 8 --
-		when "11000" =>
+		when "011000" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1689,7 +1689,7 @@ else
 			end if;
 
 		-- Number: 9 --
-		when "11001" =>
+		when "011001" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1767,7 +1767,7 @@ else
 			end if;
 
 		-- O -- 
-		when "11010" => 
+		when "011010" => 
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1845,7 +1845,7 @@ else
 			end if;
 
 		-- R -- 
-		when "11011" => 
+		when "011011" => 
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -1923,7 +1923,7 @@ else
 			end if;
 
 		-- S -- 
-		when "11100" => 
+		when "011100" => 
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -2001,7 +2001,7 @@ else
 			end if;
 
 		-- V -- 
-		when "11101" =>
+		when "011101" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -2079,7 +2079,7 @@ else
 			end if;
 
 		-- Y --
-		when "11110" =>
+		when "011110" =>
 			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
@@ -2155,9 +2155,20 @@ else
 			else						color_address <= magenta;
 	
 			end if;
+		
+		-- Placeholder
+		when "011111" =>
+			color_address <= magenta;
+		-- Placeholder
+		when "100000" =>
+			color_address <= magenta;
+		-- Placeholder
+		when "100001" =>
+			color_address <= magenta;
+		--Continue until address "111111"
 
 		-- Player -- 
-		when "11111" => 
+		when "111111" => 
 			if 	(row = "000" and column = "000") then	color_address <= bg;	-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= bg;	-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then					-- row 0, column 2 --p1
