@@ -5,7 +5,7 @@ entity color_driver is
 port (
 	clk 		: in std_logic;
 	reset 		: in std_logic;
-	color_address 	: in std_logic_vector(3 downto 0);
+	color_address 	: in std_logic_vector(4 downto 0);
 
 	red 		: out std_logic_vector(2 downto 0);
 	green		: out std_logic_vector(2 downto 0);
@@ -22,82 +22,82 @@ begin
 	-- Select color depending on the address --
 	case color_address is
 		-- Black --
-		when "0000" =>
+		when "00000" =>
 			red <= "000";
 			green <= "000";
 			blue <= "000";
 		-- White --
-		when "0001" =>
+		when "00001" =>
 			red <= "111";
 			green <= "111";
 			blue <= "111";
 		-- Magenta--
-		when "0010" =>
+		when "00010" =>
 			red <= "110";
 			green <= "000";
 			blue <= "111";
 		-- Background Red --
-		when "0011" =>
+		when "00011" =>
 			red <= "110";
 			green <= "010";
 			blue <= "000";
 		-- Dark Grey --
-		when "0100" =>
+		when "00100" =>
 			red <= "010";
 			green <= "010";
 			blue <= "010";
 		-- Light Grey --
-		when "0101" =>
+		when "00101" =>
 			red <= "011";
 			green <= "011";
 			blue <= "011";
 		-- Orange -- 
-		when "0110" =>
+		when "00110" =>
 			red <= "111";
 			green <= "100";
 			blue <= "000";
 		-- Yellow --
-		when "0111" =>
+		when "00111" =>
 			red <= "111";
 			green <= "101";
 			blue <= "000";
 		-- Denim Blue --
-		when "1000" =>
+		when "01000" =>
 			red <= "000";
 			green <= "010";
 			blue <= "110";
 		-- Mole Brown --
-		when "1001" =>
+		when "01001" =>
 			red <= "011";
 			green <= "010";
 			blue <= "010";
 		-- Diamond --
-		when "1010" =>
+		when "01010" =>
 			red <= "001";
 			green <= "111";
 			blue <= "111";
 		-- Lighter Grey --
-		when "1011" =>
+		when "01011" =>
 			red <= "100";
 			green <= "100";
 			blue <= "100";
 		-- Light Yellow --
-		when "1100" =>
+		when "01100" =>
 			red <= "111";
 			green <= "110";
 			blue <= "001";
 		-- Light Blue --
-		when "1101" =>
+		when "01101" =>
 			red <= "000";
 			green <= "011";
 			blue <= "110";
 		-- Dark Diamond --
-		when "1110" =>
+		when "01110" =>
 			red <= "001";
 			green <= "110";
 			blue <= "110";
 		-- Light Orange --
-		when "1111" =>
+		when "01111" =>
 			red <= "111";
 			green <= "101";
 			blue <= "010";
