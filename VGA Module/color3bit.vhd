@@ -101,6 +101,26 @@ begin
 			red <= "111";
 			green <= "101";
 			blue <= "010";
+		-- Swamp Green --
+		when "10000" =>
+			red <= "000";
+			green <= "010";
+			blue <= "010";
+		-- Spirit Blue --
+		when "10001" =>
+			red <= "010";
+			green <= "101";
+			blue <= "111";
+		-- Caustic Green --
+		when "10010" =>
+			red <= "101";
+			green <= "110";
+			blue <= "001";
+		-- Lavender --
+		when "10011" =>
+			red <= "110";
+			green <= "100";
+			blue <= "110";
 		-- Exception: use black
 		when others =>
 			red <= "000";
