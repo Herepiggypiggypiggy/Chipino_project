@@ -10,20 +10,20 @@ port (
 	map_data	: in std_logic_vector(71 downto 0);
 	Xplayer		: in std_logic_vector(3 downto 0);
 	Yplayer		: in std_logic_vector(3 downto 0);
-
 	score 		: in std_logic_vector(15 downto 0);
 	energy		: in std_logic_vector(11 downto 0);
-	level 		: in std_logic_vector(7 downto 0);
+	level 	: in std_logic_vector(7 downto 0);
 	
-	column_out	: out std_logic_vector(2 downto 0);
+	column_out		: out std_logic_vector(2 downto 0);
 	row_out		: out std_logic_vector(2 downto 0);
 	
 	tile_address	: out std_logic_vector(4 downto 0);
 	
 	Hcount_out	: out unsigned(9 downto 0);
 	Vcount_out	: out unsigned(9 downto 0);
-
-	vga_done 	: out std_logic
+	vga_done : out std_logic
 );
 end texture_ctrl;
+
+
 
