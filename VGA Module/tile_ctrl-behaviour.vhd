@@ -1,24 +1,24 @@
 architecture behavioural of tile_ctrl is 
 	
-	constant black 			: std_logic_vector(3 downto 0) := "0000";
-	constant white			: std_logic_vector(3 downto 0) := "0001";
-	constant magenta	 	: std_logic_vector(3 downto 0) := "0010";
-	constant bg_red			: std_logic_vector(3 downto 0) := "0011";
+	constant black 			: std_logic_vector(4 downto 0) := "00000";
+	constant white			: std_logic_vector(4 downto 0) := "00001";
+	constant magenta	 	: std_logic_vector(4 downto 0) := "00010";
+	constant bg_red			: std_logic_vector(4 downto 0) := "00011";
 
-	constant dark_grey 		: std_logic_vector(3 downto 0) := "0100";
-	constant grey			: std_logic_vector(3 downto 0) := "0101";
-	constant orange			: std_logic_vector(3 downto 0) := "0110";
-	constant yellow 		: std_logic_vector(3 downto 0) := "0111";
+	constant dark_grey 		: std_logic_vector(4 downto 0) := "00100";
+	constant grey			: std_logic_vector(4 downto 0) := "00101";
+	constant orange			: std_logic_vector(4 downto 0) := "00110";
+	constant yellow 		: std_logic_vector(4 downto 0) := "00111";
 
-	constant denim_blue		: std_logic_vector(3 downto 0) := "1000";
-	constant mole_brown		: std_logic_vector(3 downto 0) := "1001";
-	constant diamond 		: std_logic_vector(3 downto 0) := "1010";
-	constant light_grey		: std_logic_vector(3 downto 0) := "1011";
+	constant denim_blue		: std_logic_vector(4 downto 0) := "01000";
+	constant mole_brown		: std_logic_vector(4 downto 0) := "01001";
+	constant diamond 		: std_logic_vector(4 downto 0) := "01010";
+	constant light_grey		: std_logic_vector(4 downto 0) := "01011";
 
-	constant light_yellow	 	: std_logic_vector(3 downto 0) := "1100";
-	constant light_blue	 	: std_logic_vector(3 downto 0) := "1101";
-	constant dark_diamond		: std_logic_vector(3 downto 0) := "1110";
-	constant light_orange		: std_logic_vector(3 downto 0) := "1111";
+	constant light_yellow	 	: std_logic_vector(4 downto 0) := "01100";
+	constant light_blue	 	: std_logic_vector(4 downto 0) := "01101";
+	constant dark_diamond		: std_logic_vector(4 downto 0) := "01110";
+	constant light_orange		: std_logic_vector(4 downto 0) := "01111";
 
 begin 
 process (clk, reset, tile_address, row, column) 
