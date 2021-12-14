@@ -24,8 +24,25 @@ architecture behavioural of tile_ctrl is
 	constant spirit_blue		: std_logic_vector(4 downto 0) := "10001";
 	constant caustic_green		: std_logic_vector(4 downto 0) := "10010";
 	constant lavender		: std_logic_vector(4 downto 0) := "10011";
+	constant ice			: std_logic_vector(4 downto 0) := "10100";
+	constant lava			: std_logic_vector(4 downto 0) := "10101";
 
 begin 
+	process (bg_select)
+	begin
+		if (bg_select = "000") then bg <= black;
+		elsif (bg_select = "001") then bg <= bg_red;
+		elsif (bg_select = "010") then bg <= swamp_green;
+		elsif (bg_select = "011") then bg <= ice;
+		elsif (bg_select = "100") then bg <= caustic_green;
+		elsif (bg_select = "101") then bg <= lava;
+		elsif (bg_select = "110") then bg <= lavender;
+		elsif (bg_select = "111") then bg <= magenta;
+		else bg = magenta;
+		end if;
+	end process;
+	
+	
 process (clk, reset, tile_address, row, column) 
 begin 
 -- If reset is high, always select magenta -- 
