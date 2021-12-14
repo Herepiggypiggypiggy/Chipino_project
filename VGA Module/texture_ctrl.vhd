@@ -12,10 +12,12 @@ port (
 	Yplayer		: in std_logic_vector(3 downto 0);
 	score 		: in std_logic_vector(15 downto 0);
 	energy		: in std_logic_vector(11 downto 0);
-	level 	: in std_logic_vector(7 downto 0);
+	level 		: in std_logic_vector(7 downto 0);
 	
 	column_out		: out std_logic_vector(2 downto 0);
 	row_out		: out std_logic_vector(2 downto 0);
+	
+	bg_select 	: out std_logic_vector(2 downto 0);
 	
 	tile_address	: out std_logic_vector(4 downto 0);
 	
