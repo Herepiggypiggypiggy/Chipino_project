@@ -121,6 +121,11 @@ begin
 			red <= "110";
 			green <= "100";
 			blue <= "110";
+		-- Ice --
+		when "10100" =>
+			red <= "110";
+			green <= "111";
+			blue <= "111";
 		-- Exception: use black
 		when others =>
 			red <= "000";
