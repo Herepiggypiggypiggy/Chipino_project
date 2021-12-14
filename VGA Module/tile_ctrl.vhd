@@ -10,6 +10,7 @@ port(
 	row		: in  std_logic_vector(2 downto 0);
 	column		: in  std_logic_vector(2 downto 0);
 	timer1 		: in  std_logic_vector(5 downto 0);
+	bg_select	: in  std_logic_vector(2 downto 0);
 
 	color_address	: out std_logic_vector(4 downto 0)
 );
