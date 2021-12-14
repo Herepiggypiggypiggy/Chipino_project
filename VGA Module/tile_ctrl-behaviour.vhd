@@ -20,6 +20,12 @@ architecture behavioural of tile_ctrl is
 	constant dark_diamond		: std_logic_vector(4 downto 0) := "01110";
 	constant light_orange		: std_logic_vector(4 downto 0) := "01111";
 
+	constant swamp_green		: std_logic_vector(4 downto 0) := "10000";
+	constant spirit_blue		: std_logic_vector(4 downto 0) := "10001";
+	constant caustic_green		: std_logic_vector(4 downto 0) := "10010";
+	constant lavender		: std_logic_vector(4 downto 0) := "10011";
+
+
 begin 
 process (clk, reset, tile_address, row, column) 
 begin 
