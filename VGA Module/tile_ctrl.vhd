@@ -10,6 +10,6 @@ port(
 	row		: in  std_logic_vector(2 downto 0);
 	column		: in  std_logic_vector(2 downto 0);
 
-	color_address	: out std_logic_vector(3 downto 0)
+	color_address	: out std_logic_vector(4 downto 0)
 );
 end tile_ctrl;
