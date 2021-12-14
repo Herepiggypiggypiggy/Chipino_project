@@ -126,6 +126,11 @@ begin
 			red <= "110";
 			green <= "111";
 			blue <= "111";
+		-- Lava --
+		when "10101" =>
+			red <= "111";
+			green <= "010";
+			blue <= "000";
 		-- Exception: use black
 		when others =>
 			red <= "000";
