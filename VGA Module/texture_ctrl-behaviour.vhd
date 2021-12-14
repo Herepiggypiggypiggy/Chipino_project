@@ -45,106 +45,183 @@ architecture behaviour of texture_ctrl is
 	
 	signal Xposition : unsigned(4 downto 0);
 	signal Yposition : unsigned(4 downto 0);
+
+	signal timer1 : unsigned(5 downto 0);
+	signal timer2 : unsigned(5 downto 0);
+	signal new_timer1 : unsigned(5 downto 0);
+	signal new_timer2 : unsigned(5 downto 0);
 	
 	begin
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
+
+	-- Start screen
+	if (game_state = "00") then
+		process (clk, Xposition, Yposition, timer1, timer2)
+		begin
+		if   (Xposition = 3) then
+			if    (Yposition = 4)   then tile_address <= "111111"; --Player
+			elsif (Yposition = 5)   then tile_address <= "001100"; --E
+			elsif (Yposition = 6)   then tile_address <= "001110"; --L
+			elsif (Yposition = 7)   then tile_address <= "011010"; --O
+			elsif (Yposition = 10)  then tile_address <= "100000"; --M
+
+			else tile_address <= "001010"; --black
+			end if;
+
+		elsif (Xposition = 4) then
+			if    (Yposition = 4)   then tile_address <= "011011"; --R
+			elsif (Yposition = 6)   then tile_address <= "001100"; --E
+			elsif (Yposition = 7)   then tile_address <= "001111"; --N
+			elsif (Yposition = 8)   then tile_address <= "100001"; --I
+			elsif (Yposition = 9)   then tile_address <= "100000"; --M
+			elsif (Yposition = 10)  then tile_address <= "000001"; --Rock
+
+			else tile_address <= "001010"; --black
+			end if;
+
+		else tile_address <= "001010"; --black
+		end if;
+		end process;
+
+
+	-- In game
+	elsif (game_state = "01") then
+		process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer,score,level,energy)
+		begin
+
+		--Tile Type selector
+		if    (Xposition = unsigned(Xplayer) 	 and Yposition = unsigned(Yplayer) + 3)	then tile_address <= "000" & map_data(71 downto 69);--1
+		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer) + 2)	then tile_address <= "000" & map_data(68 downto 66);--2
+		elsif (Xposition = unsigned(Xplayer) 	 and Yposition = unsigned(Yplayer) + 2)	then tile_address <= "000" & map_data(65 downto 63);--3
+		elsif (Xposition = unsigned(Xplayer) + 1 and Yposition = unsigned(Yplayer) + 2)	then tile_address <= "000" & map_data(62 downto 60);--4
+
+		elsif (Xposition = unsigned(Xplayer) - 2 and Yposition = unsigned(Yplayer) + 1) then tile_address <= "000" & map_data(59 downto 57);--5
+		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer) + 1) then tile_address <= "000" & map_data(56 downto 54);--6
+		elsif (Xposition = unsigned(Xplayer) 	 and Yposition = unsigned(Yplayer) + 1) then tile_address <= "000" & map_data(53 downto 51);--7
+		elsif (Xposition = unsigned(Xplayer) + 1 and Yposition = unsigned(Yplayer) + 1) then tile_address <= "000" & map_data(50 downto 48);--8
+		elsif (Xposition = unsigned(Xplayer) + 2 and Yposition = unsigned(Yplayer) + 1) then tile_address <= "000" & map_data(47 downto 45);--9
+
+		elsif (Xposition = unsigned(Xplayer) - 3 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(44 downto 42);--10
+		elsif (Xposition = unsigned(Xplayer) - 2 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(41 downto 39);--11
+		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(38 downto 36);--12
+		elsif (Xposition = unsigned(Xplayer) + 1 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(35 downto 33);--13
+		elsif (Xposition = unsigned(Xplayer) + 2 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(32 downto 30);--14
+		elsif (Xposition = unsigned(Xplayer) + 3 and Yposition = unsigned(Yplayer)) 	then tile_address <= "000" & map_data(29 downto 27);--15
+
+		elsif (Xposition = unsigned(Xplayer) - 2 and Yposition = unsigned(Yplayer) - 1) then tile_address <= "000" & map_data(26 downto 24);--16
+		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer) - 1) then tile_address <= "000" & map_data(23 downto 21);--17
+		elsif (Xposition = unsigned(Xplayer)	 and Yposition = unsigned(Yplayer) - 1) then tile_address <= "000" & map_data(20 downto 18);--18
+		elsif (Xposition = unsigned(Xplayer) + 1 and Yposition = unsigned(Yplayer) - 1) then tile_address <= "000" & map_data(17 downto 15);--19
+		elsif (Xposition = unsigned(Xplayer) + 2 and Yposition = unsigned(Yplayer) - 1) then tile_address <= "000" & map_data(14 downto 12);--20
+
+		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer) - 2) then tile_address <= "000" & map_data(11 downto 9);--21
+		elsif (Xposition = unsigned(Xplayer)	 and Yposition = unsigned(Yplayer) - 2) then tile_address <= "000" & map_data(8 downto 6);--22
+		elsif (Xposition = unsigned(Xplayer) + 1 and Yposition = unsigned(Yplayer) - 2) then tile_address <= "000" & map_data(5 downto 3);--23
+		elsif (Xposition = unsigned(Xplayer)	 and Yposition = unsigned(Yplayer) - 3) then tile_address <= "000" & map_data(2 downto 0);--24
+		elsif (Xposition = unsigned(Xplayer)	 and Yposition = unsigned(Yplayer)) 	then tile_address <= "111111";--player
+
+		--Energy display--
+		elsif (Xposition = 14 + INFO_LV) then
+			if    (Yposition = 2)  then tile_address <= "01" & score(3 downto 0);--energy(0)
+			elsif (Yposition = 3)  then tile_address <= "01" & score(7 downto 4);--energy(1)
+			elsif (Yposition = 4)  then tile_address <= "01" & score(11 downto 8);--energy(2)
+			elsif (Yposition = 7)  then tile_address <= "011110"; --Y
+			elsif (Yposition = 8)  then tile_address <= "001101"; --G
+			elsif (Yposition = 9)  then tile_address <= "011011"; --R
+			elsif (Yposition = 10) then tile_address <= "001100"; --E
+			elsif (Yposition = 11) then tile_address <= "001111"; --N
+			elsif (Yposition = 12) then tile_address <= "001100"; --E
+
+			else tile_address <= "001010"; --black
+			end if;
 	
-	process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer,score,level,energy)
+		--Score display--
+		elsif (Xposition = 16 + INFO_LV) then
+			if    (Yposition = 2) then tile_address <= "01" & score(3 downto 0);--score(0)
+			elsif (Yposition = 3) then tile_address <= "01" & score(7 downto 4);--score(1)
+			elsif (Yposition = 4) then tile_address <= "01" & score(11 downto 8);--score(2)
+			elsif (Yposition = 5) then tile_address <= "01" & score(15 downto 12);--score(3)
+			elsif (Yposition = 8) then tile_address <= "001100"; --E
+			elsif (Yposition = 9) then tile_address <= "011011"; --R
+			elsif (Yposition = 10) then tile_address <= "011010"; --O
+			elsif (Yposition = 11) then tile_address <= "001011"; --C
+			elsif (Yposition = 12) then tile_address <= "011100"; --S
+
+			else tile_address <= "001010"; --black
+			end if;
+	
+		--Level display--
+		elsif (Xposition = 18 + INFO_LV) then
+			if    (Yposition = 2)  then tile_address <= "01" & level(3 downto 0);--level(0)
+			elsif (Yposition = 3)  then tile_address <= "01" & level(7 downto 4);--level(1)
+			elsif (Yposition = 8)  then tile_address <= "001110"; --L
+			elsif (Yposition = 9)  then tile_address <= "001100"; --E
+			elsif (Yposition = 10) then tile_address <= "011101"; --V
+			elsif (Yposition = 11) then tile_address <= "001100"; --E
+			elsif (Yposition = 12) then tile_address <= "001110"; --L
+
+			else tile_address <= "001010"; --black
+	
+		else tile_address <= "001010";--BLACK
+		end if;
+		end process;
+
+	
+	-- End screen
+	elsif (game_state = "10") then
+		process (clk, Xposition, Yposition, timer1, timer2)
+		begin	
+
+		if (Xposition = 3) then
+			if    (Yposition = 3)  then tile_address <= "011011"; --R
+			elsif (Yposition = 4)  then tile_address <= "001100"; --E
+			elsif (Yposition = 5)  then tile_address <= "011101"; --V
+			elsif (Yposition = 6)  then tile_address <= "011010"; --O
+			elsif (Yposition = 8)  then tile_address <= "001100"; --E
+			elsif (Yposition = 9)  then tile_address <= "100000"; --M
+			elsif (Yposition = 10) then tile_address <= "011111"; --A
+			elsif (Yposition = 11) then tile_address <= "001101"; --G
+		
+			else tile_address <= "001010"; --black
+			end if;
+
+		else tile_address <= "001010"; --black
+		end if;
+		end process;
+
+	elsif (game_state = "11") then tile_address <= "000110"
+
+	else tile_address <= "000110"; --black
+	end if;
+
+	process (vga_done)
 	begin
-
-	--Tile Type selector
-	if    (Xposition = unsigned(Xplayer) 					and Yposition = unsigned(Yplayer) + 3) 	then tile_address <= "00" & map_data(71 downto 69);--1
-	elsif (Xposition = unsigned(Xplayer) - 1 	and Yposition = unsigned(Yplayer) + 2) 	then tile_address <= "00" & map_data(68 downto 66);--2
-	elsif (Xposition = unsigned(Xplayer) 					and Yposition = unsigned(Yplayer) + 2) 	then tile_address <= "00" & map_data(65 downto 63);--3
-	elsif (Xposition = unsigned(Xplayer) + 1 	and Yposition = unsigned(Yplayer) + 2) 	then tile_address <= "00" & map_data(62 downto 60);--4
-
-	elsif (Xposition = unsigned(Xplayer) - 2 	and Yposition = unsigned(Yplayer) + 1) 	then tile_address <= "00" & map_data(59 downto 57);--5
-	elsif (Xposition = unsigned(Xplayer) - 1 	and Yposition = unsigned(Yplayer) + 1) 	then tile_address <= "00" & map_data(56 downto 54);--6
-	elsif (Xposition = unsigned(Xplayer) 					and Yposition = unsigned(Yplayer) + 1) 	then tile_address <= "00" & map_data(53 downto 51);--7
-	elsif (Xposition = unsigned(Xplayer) + 1 	and Yposition = unsigned(Yplayer) + 1) 	then tile_address <= "00" & map_data(50 downto 48);--8
-	elsif (Xposition = unsigned(Xplayer) + 2  and Yposition = unsigned(Yplayer) + 1) 	then tile_address <= "00" & map_data(47 downto 45);--9
-
-	elsif (Xposition = unsigned(Xplayer) - 3  and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(44 downto 42);--10
-	elsif (Xposition = unsigned(Xplayer) - 2  and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(41 downto 39);--11
-	elsif (Xposition = unsigned(Xplayer) - 1  and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(38 downto 36);--12
-	elsif (Xposition = unsigned(Xplayer) + 1  and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(35 downto 33);--13
-	elsif (Xposition = unsigned(Xplayer) + 2		and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(32 downto 30);--14
-	elsif (Xposition = unsigned(Xplayer) + 3 	and Yposition = unsigned(Yplayer)) 	then tile_address <= "00" & map_data(29 downto 27);--15
-
-	elsif (Xposition = unsigned(Xplayer) - 2 	and Yposition = unsigned(Yplayer) - 1) 	then tile_address <= "00" & map_data(26 downto 24);--16
-	elsif (Xposition = unsigned(Xplayer) - 1  and Yposition = unsigned(Yplayer) - 1) 	then tile_address <= "00" & map_data(23 downto 21);--17
-	elsif (Xposition = unsigned(Xplayer)					 and Yposition = unsigned(Yplayer) - 1) 	then tile_address <= "00" & map_data(20 downto 18);--18
-	elsif (Xposition = unsigned(Xplayer) + 1  and Yposition = unsigned(Yplayer) - 1) 	then tile_address <= "00" & map_data(17 downto 15);--19
-	elsif (Xposition = unsigned(Xplayer) + 2	 and Yposition = unsigned(Yplayer) - 1) 	then tile_address <= "00" & map_data(14 downto 12);--20
-
-	elsif (Xposition = unsigned(Xplayer) - 1	 and Yposition = unsigned(Yplayer) - 2) 	then tile_address <= "00" & map_data(11 downto 9);--21
-	elsif (Xposition = unsigned(Xplayer)					 and Yposition = unsigned(Yplayer) - 2) 	then tile_address <= "00" & map_data(8 downto 6);--22
-	elsif (Xposition = unsigned(Xplayer) + 1  and Yposition = unsigned(Yplayer) - 2) 	then tile_address <= "00" & map_data(5 downto 3);--23
-	elsif (Xposition = unsigned(Xplayer)		    and Yposition = unsigned(Yplayer) - 3) 	then tile_address <= "00" & map_data(2 downto 0);--24
-	elsif (Xposition = unsigned(Xplayer)		    and Yposition = unsigned(Yplayer)) 	then tile_address <= "11111";--player
-
-	--Energy display--
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & score(3 downto 0);--energy(0)
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & score(7 downto 4);--energy(1)
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 4) 			then tile_address <= '1' & score(11 downto 8);--energy(2)
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 5) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 7) 			then tile_address <= "11110";--Y
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 8) 			then tile_address <= "01101";--G
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 9) 			then tile_address <= "11011";--R
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 10) 			then tile_address <= "01100";--E
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 11) 			then tile_address <= "01111";--N
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 12) 			then tile_address <= "01100";--E
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 13) 			then tile_address <= "01010";--black
-	elsif (Xposition = 14 + INFO_LV			and Yposition = 14) 			then tile_address <= "01010";--black
-
-	--Black Row--
-	elsif (Xposition = 15 + INFO_LV) 			then tile_address <= "01010";--black
-	
-	--Score display--
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & score(3 downto 0);--score(0)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & score(7 downto 4);--score(1)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 4) 			then tile_address <= '1' & score(11 downto 8);--score(2)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 5) 			then tile_address <= '1' & score(15 downto 12);--score(3)
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 7) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 8) 			then tile_address <= "01100";--E
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 9) 			then tile_address <= "11011";--R
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 10) 			then tile_address <= "11010";--O
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 11) 			then tile_address <= "01011";--C
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 12) 			then tile_address <= "11100";--S
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 13) 			then tile_address <= "01010";--black
-	elsif (Xposition = 16 + INFO_LV			and Yposition = 14) 			then tile_address <= "01010";--black
-
-	--Black Row--
-	elsif (Xposition = 17 + INFO_LV) 			then tile_address <= "01010";--black
-	
-	--Level display--
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 0) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 1) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 2) 			then tile_address <= '1' & level(3 downto 0);--level(0)
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 3) 			then tile_address <= '1' & level(7 downto 4);--level(1)
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 4) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 5) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 6) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 7) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 8) 			then tile_address <= "01110";--L
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 9) 			then tile_address <= "01100";--E
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 10) 			then tile_address <= "11101";--V
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 11) 			then tile_address <= "01100";--E
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 12) 			then tile_address <= "01110";--L
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 13) 			then tile_address <= "01010";--black
-	elsif (Xposition = 18 + INFO_LV			and Yposition = 14) 			then tile_address <= "01010";--black
-
-	
-	else tile_address <= "01010";--BLACK
+	if (rising_edge(vga_done)) then
+		if (reset = 1) then
+			timer1 <= 0;
+			timer2 <= 0;
+		else
+			timer1 <= new_timer1;
+			timer2 <= new_timer2;
+		end if;
 	end if;
 	end process;
+
+	process (timer1, timer2)
+	begin
+	if (timer1 < 63) then
+		new_timer1 <= timer1 + 1
+	else
+		new_timer1 <= 0;
+		if (timer2 < 63) then
+			new_timer2 <= timer2 + 1;
+		else
+			new_timer2 <= 0;
+		end if;
+	end if;
+	end process;
+
 	
 	process (Hcount,Vcount,row,column,Xposition,Yposition,map_data,Xplayer,Yplayer)
 	begin
