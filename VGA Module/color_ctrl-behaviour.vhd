@@ -9,97 +9,97 @@ begin
 	-- Select color depending on the address --
 	case color_address is
 		-- Black --
-		when "0000" =>
+		when "00000" =>
 			red <= "0000";
 			green <= "0000";
 			blue <= "0000";
 
 		-- White --
-		when "0001" =>
+		when "00001" =>
 			red <= "1110";
 			green <= "1110";
 			blue <= "1110";
 
 		-- Magenta --
-		when "0010" =>
+		when "00010" =>
 			red <= "1101";
 			green <= "0000";
 			blue <= "1111";
 
 		-- Background Red --
-		when "0011" =>
+		when "00011" =>
 			red <= "1100";
 			green <= "0100";
 			blue <= "0000";
 
 		-- Dark Grey --
-		when "0100" =>
+		when "00100" =>
 			red <= "0100";
 			green <= "0100";
 			blue <= "0100";
 
 		-- Light Grey --
-		when "0101" =>
+		when "00101" =>
 			red <= "0110";
 			green <= "0110";
 			blue <= "0110";
 
 		-- Orange -- 
-		when "0110" =>
+		when "00110" =>
 			red <= "1110";
 			green <= "1000";
 			blue <= "0000";
 
 		-- Yellow --
-		when "0111" =>
+		when "00111" =>
 			red <= "1110";
 			green <= "1010";
 			blue <= "0000";
 
 		-- Denim Blue --
-		when "1000" =>
+		when "01000" =>
 			red <= "0000";
 			green <= "0100";
 			blue <= "1100";
 
 		-- Mole Brown --
-		when "1001" =>
+		when "01001" =>
 			red <= "0110";
 			green <= "0100";
 			blue <= "0100";
 
 		-- Diamond --
-		when "1010" =>
+		when "01010" =>
 			red <= "0010";
 			green <= "1110";
 			blue <= "1110";
 
 		-- Lighter Grey --
-		when "1011" =>
+		when "01011" =>
 			red <= "1001";
 			green <= "1001";
 			blue <= "1001";
 
 		-- Light Yellow --
-		when "1100" =>
+		when "01100" =>
 			red <= "1111";
 			green <= "1101";
 			blue <= "0011";
 
 		-- Light Blue --
-		when "1101" =>
+		when "01101" =>
 			red <= "0001";
 			green <= "0111";
 			blue <= "1101";
 
 		-- Dark Diamond --
-		when "1110" =>
+		when "01110" =>
 			red <= "0011";
 			green <= "1101";
 			blue <= "1101";
 
 		-- Light Orange --
-		when "1111" =>
+		when "01111" =>
 			red <= "1111";
 			green <= "1011";
 			blue <= "0101";
