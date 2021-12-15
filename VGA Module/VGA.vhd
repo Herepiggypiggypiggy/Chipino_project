@@ -18,14 +18,15 @@ port (
 	score 		: in std_logic_vector(15 downto 0);
 	energy		: in std_logic_vector(11 downto 0);
 	level 		: in std_logic_vector(7 downto 0);
-	
+	game_state      : in std_logic_vector(1 downto 0);
+	timer1_out		: out  unsigned(5 downto 0);
+	timer2_out		: out  unsigned(5 downto 0);
 	hsync		: out std_logic;
 	vsync		: out std_logic;
-
 	red		: out std_logic_vector(3 downto 0);
 	green		: out std_logic_vector(3 downto 0);
 	blue		: out std_logic_vector(3 downto 0);
 
-	vga_done	: out std_logic
+	vga_done_out	: out std_logic
 );
 end VGA;

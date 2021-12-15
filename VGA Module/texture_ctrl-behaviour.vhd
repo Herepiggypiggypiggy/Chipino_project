@@ -51,14 +51,16 @@ architecture behaviour of texture_ctrl is
 	signal new_timer1 : unsigned(5 downto 0);
 	signal new_timer2 : unsigned(5 downto 0);
 	
+	signal vga_done : std_logic;
 	begin
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
 
 	-- Start screen
-	if (game_state = "00") then
-		process (clk, Xposition, Yposition, timer1, timer2)
-		begin
+	process(clk,Xposition,Yposition,map_data,Xplayer,Yplayer,score,level,energy)
+	begin
+	case game_state is 
+	when "00" =>
 		if   (Xposition = 3) then
 			if    (Yposition = 4)   then tile_address <= "111111"; --Player
 			elsif (Yposition = 5)   then tile_address <= "001100"; --E
@@ -82,14 +84,10 @@ architecture behaviour of texture_ctrl is
 
 		else tile_address <= "001010"; --black
 		end if;
-		end process;
 
 
-	-- In game
-	elsif (game_state = "01") then
-		process (clk,Xposition,Yposition,map_data,Xplayer,Yplayer,score,level,energy)
-		begin
-
+		-- In game
+	when "01" =>
 		--Tile Type selector
 		if    (Xposition = unsigned(Xplayer) 	 and Yposition = unsigned(Yplayer) + 3)	then tile_address <= "000" & map_data(71 downto 69);--1
 		elsif (Xposition = unsigned(Xplayer) - 1 and Yposition = unsigned(Yplayer) + 2)	then tile_address <= "000" & map_data(68 downto 66);--2
@@ -162,17 +160,13 @@ architecture behaviour of texture_ctrl is
 			elsif (Yposition = 12) then tile_address <= "001110"; --L
 
 			else tile_address <= "001010"; --black
-	
+		end if;
 		else tile_address <= "001010";--BLACK
 		end if;
-		end process;
 
 	
 	-- End screen
-	elsif (game_state = "10") then
-		process (clk, Xposition, Yposition, timer1, timer2)
-		begin	
-
+	when "10" =>
 		if (Xposition = 3) then
 			if    (Yposition = 3)  then tile_address <= "011011"; --R
 			elsif (Yposition = 4)  then tile_address <= "001100"; --E
@@ -188,43 +182,11 @@ architecture behaviour of texture_ctrl is
 
 		else tile_address <= "001010"; --black
 		end if;
-		end process;
+	when "11" => tile_address <= "000110";
 
-	elsif (game_state = "11") then tile_address <= "000110"
-
-	else tile_address <= "000110"; --black
-	end if;
-
-	process (vga_done)
-	begin
-	if (rising_edge(vga_done)) then
-		if (reset = 1) then
-			timer1 <= 0;
-			timer2 <= 0;
-		else
-			timer1 <= new_timer1;
-			timer2 <= new_timer2;
-		end if;
-	end if;
-	end process;
-
-	process (timer1, timer2)
-	begin
-	if (timer1 < 63) then
-		new_timer1 <= timer1 + 1
-	else
-		new_timer1 <= 0;
-		if (timer2 < 63) then
-			new_timer2 <= timer2 + 1;
-		else
-			new_timer2 <= 0;
-		end if;
-	end if;
-	end process;
-
+	when others => tile_address <= "000110"; --black
+	end case;
 	
-	process (Hcount,Vcount,row,column,Xposition,Yposition,map_data,Xplayer,Yplayer)
-	begin
 	if (Hcount = H_DISPLAY + H_FP + H_SP + H_BP - 1) then
 		new_Xposition <= (others => '0');
 	else
@@ -312,20 +274,49 @@ architecture behaviour of texture_ctrl is
 
 	process(level)
 	begin
-		if (level = "00000000") then bg_select = "000";
-		elsif (level = "00000001" or level(7 downto 1) = "0000001") then bg_select = "001"; -- levels 1 to 3
-		elsif (level(7 downto 1) = "0000010" or level = "00000110") then bg_select = "010"; -- levels 4 to 6
-		elsif (level = "00000111" or level (7 downto 1) = "0000100") then bg_select = "011"; -- levels 7 to 9
-		elsif (level(7 downto 1)= "0001000" or level = "00010010") then bg_select = "100"; -- levels 10 to 12
-		elsif (level(7 downto 1)= "0001010" or level = "00010011") then bg_select = "101"; -- levels 13 to 15
-		elsif (level(7 downto 1)= "0001011" or level = "00011000") then bg_select = "110"; -- levels 16 to 18
-		elsif (level(7 downto 5)= "001" or level = "00011001") then bg_select = "111"; -- levels 19 to 22
-		else bg_select = "111";
+		if (level = "00000000") then bg_select <= "000";
+		elsif (level = "00000001" or level(7 downto 1) = "0000001") then bg_select <= "001"; -- levels 1 to 3
+		elsif (level(7 downto 1) = "0000010" or level = "00000110") then bg_select <= "010"; -- levels 4 to 6
+		elsif (level = "00000111" or level (7 downto 1) = "0000100") then bg_select <= "011"; -- levels 7 to 9
+		elsif (level(7 downto 1)= "0001000" or level = "00010010") then bg_select <= "100"; -- levels 10 to 12
+		elsif (level(7 downto 1)= "0001010" or level = "00010011") then bg_select <= "101"; -- levels 13 to 15
+		elsif (level(7 downto 1)= "0001011" or level = "00011000") then bg_select <= "110"; -- levels 16 to 18
+		elsif (level(7 downto 5)= "001" or level = "00011001") then bg_select <= "111"; -- levels 19 to 22
+		else bg_select <= "111";
 		end if;
 	end process;
 	
 	
+	-- Process: Timer
+	process (timer1, timer2)
+	begin
+	if (timer1 < 63) then
+		new_timer1 <= timer1 + 1;
+	else
+		new_timer1 <= (others => '0');
+		if (timer2 < 63) then
+			new_timer2 <= timer2 + 1;
+		else
+			new_timer2 <= (others => '0');
+		end if;
+	end if;
+	end process;
+
 	-- Process: Sequential
+	process (vga_done,reset)
+	begin
+	if (reset = '1') then
+		timer1 <= (others => '0');
+		timer2 <= (others => '0');
+	else
+		if (rising_edge(vga_done)) then
+			
+				timer1 <= new_timer1;
+				timer2 <= new_timer2;
+			end if;
+		end if;
+	end process;
+	
 	-- Stores new values of Hcount and Vcount in the register.
 	process(clk)
 	begin
@@ -358,7 +349,10 @@ architecture behaviour of texture_ctrl is
 	--Assign to output signals
 	Hcount_out <= Hcount;
 	Vcount_out <= Vcount;
-
+	
+	vga_done_out <= vga_done;
+	timer1_out <= timer1;
+	timer2_out <= timer2;
 	column_out <= std_logic_vector(column);
 	row_out <= std_logic_vector(row);
 end architecture behaviour;

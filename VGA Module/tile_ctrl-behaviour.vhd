@@ -27,6 +27,8 @@ architecture behavioural of tile_ctrl is
 	constant ice			: std_logic_vector(4 downto 0) := "10100";
 	constant lava			: std_logic_vector(4 downto 0) := "10101";
 
+	signal bg : std_logic_vector(4 downto 0);
+
 begin 
 	process (bg_select)
 	begin
@@ -38,7 +40,7 @@ begin
 		elsif (bg_select = "101") then bg <= lava;
 		elsif (bg_select = "110") then bg <= lavender;
 		elsif (bg_select = "111") then bg <= magenta;
-		else bg = magenta;
+		else bg <= magenta;
 		end if;
 	end process;
 	
