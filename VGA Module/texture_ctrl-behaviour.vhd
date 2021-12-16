@@ -119,9 +119,9 @@ architecture behaviour of texture_ctrl is
 	when "00" =>
 		if   (xposition = 3) then
 			if    (yposition = 4)   then tile_address <= "111111"; --Player
-			elsif (yposition = 5)   then tile_address <= "001100"; --E
-			elsif (yposition = 6)   then tile_address <= "001110"; --L
-			elsif (yposition = 7)   then tile_address <= "011010"; --O
+			elsif (yposition = 7)   then tile_address <= "001100"; --E
+			elsif (yposition = 8)   then tile_address <= "001110"; --L
+			elsif (yposition = 9)   then tile_address <= "011010"; --O
 			elsif (yposition = 10)  then tile_address <= "100000"; --M
 
 			else tile_address <= "001010"; --black
@@ -129,10 +129,10 @@ architecture behaviour of texture_ctrl is
 
 		elsif (xposition = 4) then
 			if    (yposition = 4)   then tile_address <= "011011"; --R
-			elsif (yposition = 6)   then tile_address <= "001100"; --E
-			elsif (yposition = 7)   then tile_address <= "001111"; --N
-			elsif (yposition = 8)   then tile_address <= "100001"; --I
-			elsif (yposition = 9)   then tile_address <= "100000"; --M
+			elsif (yposition = 5)   then tile_address <= "001100"; --E
+			elsif (yposition = 6)   then tile_address <= "001111"; --N
+			elsif (yposition = 7)   then tile_address <= "100001"; --I
+			elsif (yposition = 8)   then tile_address <= "100000"; --M
 			elsif (yposition = 10)  then tile_address <= "000001"; --Rock
 
 			else tile_address <= "001010"; --black
