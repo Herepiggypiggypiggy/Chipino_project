@@ -63,8 +63,8 @@ end process;
    reset <= '1' after 0 ns,
             '0' after 80 ns;
 
-   input <= 	"001" after 0 ns,
-		"010" after 16.7 ms,
-		"011" after 33.4 ms;
+   input <= 	"000" after 0 ns,
+		"001" after 17 ms,
+		"010" after 34 ms;
 end behaviour;
 
