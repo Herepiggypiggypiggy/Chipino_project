@@ -64,7 +64,7 @@ end process;
             '0' after 80 ns;
 
    input <= 	"000" after 0 ns,
-		"001" after 17 ms,
-		"010" after 34 ms;
+		"001" after 34 ms,
+		"010" after 40 ms;
 end behaviour;
 
