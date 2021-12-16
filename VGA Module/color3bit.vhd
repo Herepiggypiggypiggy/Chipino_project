@@ -131,6 +131,56 @@ begin
 			red <= "111";
 			green <= "010";
 			blue <= "000";
+        -- *Placeholder* --
+        when "10110" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "10111" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11000" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11001" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11010" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11011" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11100" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11101" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11110" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
+        -- *Placeholder* --
+        when "11111" =>
+            red <= "000";
+            green <= "000";
+            blue <= "000";
 		-- Exception: use black
 		when others =>
 			red <= "000";

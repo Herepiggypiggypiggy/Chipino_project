@@ -367,11 +367,10 @@ architecture behaviour of texture_ctrl is
 		timer2 <= (others => '0');
 	else
 		if (rising_edge(vga_done)) then
-			
 				timer1 <= new_timer1;
 				timer2 <= new_timer2;
-			end if;
 		end if;
+	end if;
 	end process;
 	
 	-- Stores new values of hcount and Vcount in the register.
