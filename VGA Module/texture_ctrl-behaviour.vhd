@@ -71,52 +71,32 @@ architecture behaviour of texture_ctrl is
 	signal hsigned 	: signed(10 downto 0);
 	signal vsigned 	: signed(10 downto 0);
 	begin
-	
-	
 
-	dimmer: process(hcount,vcount,xposition,yposition,xplayer,yplayer)
-	begin
-		hsigned <= signed('0' & hcount);
-		vsigned <= signed('0' & vcount);
-
-		xp1 <= signed("0000000" & unsigned(xplayer));
-		yp1 <= signed("0000000" & unsigned(yplayer));
-
-		xp <= shift_left(xp1,5) + 16;
-		yp <= shift_left(yp1,5) + 16;
-
-		
-		xr <= (xp - hsigned) * (xp - hsigned);
-		yr <= (yp - vsigned) * (yp - vsigned);
-
-		p1 <= unsigned(xr + yr);
-		p2 <= vis1 - p1;
-		vis <= "0000000000100100000000";--(32+16)^2 2304
-		vis1 <= "0000000001100100000000";--(32+16+32)^2 6400
-		if (vis < p1 and p1 <= vis1) then
-			if 	(p2 < "0000000000010000000000") then --1024
-				dim <= "1110";
-			elsif 	(p2 < "0000000000100000000000") then --2048
-				dim <= "1000";
-			elsif 	(p2 < "0000000000110000000000") then --3072
-				dim <= "0100";
-			else
-				dim <= "0010";
-			end if;
-		else
-			dim <= "0000";
-		end if;
-		
-	end process dimmer;
-
+	vis <= "0000000000100100000000";--(32+16)^2 2304
+	vis1 <= "0000000001100100000000";--(32+16+32)^2 6400
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
 
 	-- Start screen
-	process(clk,xposition,yposition,map_data,xplayer,yplayer,score,level,energy)
+	process(clk,hcount,vcount,xposition,yposition,map_data,xplayer,yplayer,score,level,energy,p1,p2,vis,vis1)
 	begin
 	case game_state is 
 	when "00" =>
+		hsigned <= (others => '0');
+		vsigned <= (others => '0');
+
+		xp1 <= (others => '0');
+		yp1 <= (others => '0');
+
+		xp <= (others => '0');
+		yp <= (others => '0');
+		
+		xr <= (others => '0');
+		yr <= (others => '0');
+
+		p1 <= (others => '0');
+		p2 <= (others => '0');
+		dim <= "0000";
 		if   (xposition = 3) then
 			if    (yposition = 4)   then tile_address <= "111111"; --Player
 			elsif (yposition = 7)   then tile_address <= "001100"; --E
@@ -144,6 +124,37 @@ architecture behaviour of texture_ctrl is
 
 		-- In game
 	when "01" =>
+		hsigned <= signed('0' & hcount);
+		vsigned <= signed('0' & vcount);
+
+		xp1 <= signed("0000000" & unsigned(xplayer));
+		yp1 <= signed("0000000" & unsigned(yplayer));
+
+		xp <= shift_left(xp1,5) + 16;
+		yp <= shift_left(yp1,5) + 16;
+
+		
+		xr <= (xp - hsigned) * (xp - hsigned);
+		yr <= (yp - vsigned) * (yp - vsigned);
+
+		p1 <= unsigned(xr + yr);
+		p2 <= vis1 - p1;
+		if (p1 <= vis) then
+			dim <= "0000";
+		elsif (vis < p1 and p1 <= vis1) then
+			if 	(p2 < "0000000000010000000000") then --1024
+				dim <= "1110";
+			elsif 	(p2 < "0000000000100000000000") then --2048
+				dim <= "1000";
+			elsif 	(p2 < "0000000000110000000000") then --3072
+				dim <= "0100";
+			else
+				dim <= "0010";
+			end if;
+		else 
+			dim <= "1111";
+		end if;
+		
 		--Tile Type selector
 		if    (xposition = unsigned(xplayer) 	 and yposition = unsigned(yplayer) + 3)	then tile_address <= "000" & map_data(71 downto 69);--1
 		elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 2)	then tile_address <= "000" & map_data(68 downto 66);--2
@@ -223,6 +234,21 @@ architecture behaviour of texture_ctrl is
 	
 	-- End screen
 	when "10" =>
+		hsigned <= (others => '0');
+		vsigned <= (others => '0');
+
+		xp1 <= (others => '0');
+		yp1 <= (others => '0');
+
+		xp <= (others => '0');
+		yp <= (others => '0');
+		
+		xr <= (others => '0');
+		yr <= (others => '0');
+
+		p1 <= (others => '0');
+		p2 <= (others => '0');
+		dim <= "0000";
 		if (xposition = 3) then
 			if    (yposition = 3)  then tile_address <= "011011"; --R
 			elsif (yposition = 4)  then tile_address <= "001100"; --E
@@ -239,10 +265,42 @@ architecture behaviour of texture_ctrl is
 		else tile_address <= "001010"; --black
 		end if;
 	when "11" => tile_address <= "000110";
+		hsigned <= (others => '0');
+		vsigned <= (others => '0');
+
+		xp1 <= (others => '0');
+		yp1 <= (others => '0');
+
+		xp <= (others => '0');
+		yp <= (others => '0');
+		
+		xr <= (others => '0');
+		yr <= (others => '0');
+
+		p1 <= (others => '0');
+		p2 <= (others => '0');
+		dim <= "0000";
 
 	when others => tile_address <= "000110"; --black
+		hsigned <= (others => '0');
+		vsigned <= (others => '0');
+
+		xp1 <= (others => '0');
+		yp1 <= (others => '0');
+
+		xp <= (others => '0');
+		yp <= (others => '0');
+		
+		xr <= (others => '0');
+		yr <= (others => '0');
+
+		p1 <= (others => '0');
+		p2 <= (others => '0');
+		dim <= "0000";
 	end case;
 	
+	
+
 	if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
 		new_xposition <= (others => '0');
 	else
@@ -367,10 +425,11 @@ architecture behaviour of texture_ctrl is
 		timer2 <= (others => '0');
 	else
 		if (rising_edge(vga_done)) then
+			
 				timer1 <= new_timer1;
 				timer2 <= new_timer2;
+			end if;
 		end if;
-	end if;
 	end process;
 	
 	-- Stores new values of hcount and Vcount in the register.
