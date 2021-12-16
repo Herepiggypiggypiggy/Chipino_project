@@ -32,7 +32,7 @@ architecture behavioural of tile_ctrl is
 begin 
 	process (bg_select)
 	begin
-		if (bg_select = "000") then bg <= black;
+		if    (bg_select = "000") then bg <= black;
 		elsif (bg_select = "001") then bg <= bg_red;
 		elsif (bg_select = "010") then bg <= swamp_green;
 		elsif (bg_select = "011") then bg <= ice;
@@ -40,7 +40,7 @@ begin
 		elsif (bg_select = "101") then bg <= lava;
 		elsif (bg_select = "110") then bg <= lavender;
 		elsif (bg_select = "111") then bg <= magenta;
-		else bg <= magenta;
+		else                           bg <= magenta;
 		end if;
 	end process;
 	
