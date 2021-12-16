@@ -46,9 +46,22 @@ architecture behavioural of display_ctrl is
 			green	<=	(others => '0');
 			blue 	<=	(others => '0');
 		else
-			red 	<= 	in_red;
-			green	<=	in_green;
-			blue 	<=	in_blue;
+				
+			if (unsigned(in_red) > dim) then
+				red 	<= 	std_logic_vector(unsigned(in_red) - dim);
+			else
+				red 	<= 	(others => '0');
+			end if;
+			if (unsigned(in_green) > dim) then
+				green 	<= 	std_logic_vector(unsigned(in_green) - dim);
+			else
+				green 	<= 	(others => '0');
+			end if;
+			if (unsigned(in_blue) > dim) then
+				blue 	<= 	std_logic_vector(unsigned(in_blue) - dim);
+			else
+				blue 	<= 	(others => '0');
+			end if;			
 		end if;
 	end if;
 	end process;

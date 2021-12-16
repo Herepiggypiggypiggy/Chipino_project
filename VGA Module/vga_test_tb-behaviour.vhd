@@ -1,5 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.ALL;
+use ieee.std_logic_textio.all;
+use std.textio.all;
 
 architecture behaviour of vga_test_tb is
    component vga_test
@@ -23,6 +25,38 @@ architecture behaviour of vga_test_tb is
    signal green		: std_logic_vector(3 downto 0);
    signal blue		: std_logic_vector(3 downto 0);
 begin
+process (clk)
+	file file_pointer: text is out "write.txt";
+    	variable line_el: line;
+begin
+    	if rising_edge(clk) then
+		  -- Write the time
+        	write(line_el, now); -- write the line.
+       	 	WRITE(line_el, string'(":")); -- write the line.
+
+        	-- Write the hsync
+        	write(line_el, string'(" "));
+        	write(line_el, Hsync); -- write the line.
+
+        	-- Write the vsync
+        	write(line_el, string'(" "));
+        	write(line_el, Vsync); -- write the line.
+
+        	-- Write the red
+        	write(line_el, string'(" "));
+        	write(line_el, RED); -- write the line.
+
+        	-- Write the green
+        	write(line_el, string'(" "));
+        	write(line_el, GREEN); -- write the line.
+
+        	-- Write the blue
+        	write(line_el, string'(" "));
+        	write(line_el, BLUE); -- write the line.
+
+        	writeline(file_pointer, line_el); -- write the contents into the file.
+		end if;
+end process;
    test: vga_test port map (clk, reset, input, hsync, vsync, red, green, blue);
    clk <= '0' after 0 ns,
           '1' after 20 ns when clk /= '1' else '0' after 20 ns;
@@ -30,6 +64,7 @@ begin
             '0' after 80 ns;
 
    input <= 	"001" after 0 ns,
-		"010" after 16.7 ms;
+		"010" after 16.7 ms,
+		"011" after 33.4 ms;
 end behaviour;
 

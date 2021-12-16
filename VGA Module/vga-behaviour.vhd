@@ -16,7 +16,8 @@ port (
 	energy		: in std_logic_vector(11 downto 0);
 	level 	: in std_logic_vector(7 downto 0);
 	game_state      : in std_logic_vector(1 downto 0);
-	column_out		: out std_logic_vector(2 downto 0);
+	dim		: out unsigned(3 downto 0);
+	column_out	: out std_logic_vector(2 downto 0);
 	row_out		: out std_logic_vector(2 downto 0);
 	timer1_out		: out  unsigned(5 downto 0);
 	timer2_out		: out  unsigned(5 downto 0);
@@ -55,17 +56,26 @@ end component;
 
 --display_controller
 component display_ctrl
-       port(	clk,reset 	: in std_logic;
-		in_red		: in std_logic_vector(3 downto 0);
-		in_green	: in std_logic_vector(3 downto 0);
-		in_blue		: in std_logic_vector(3 downto 0);
-		Hcount 		: in unsigned(9 downto 0);
-		vcount 		: in unsigned(9 downto 0);
-		hsync		: out std_logic;
-		vsync		: out std_logic;
-		red		: out std_logic_vector(3 downto 0);
-		green		: out std_logic_vector(3 downto 0);
-		blue		: out std_logic_vector(3 downto 0));
+       port(
+	clk		: in std_logic;
+	reset 		: in std_logic;
+
+	IN_RED		: in std_logic_vector(3 downto 0);
+	IN_GREEN	: in std_logic_vector(3 downto 0);
+	IN_BLUE		: in std_logic_vector(3 downto 0);
+
+	Hcount 		: in unsigned(9 downto 0);
+	Vcount 		: in unsigned(9 downto 0);
+	
+	dim		: in unsigned(3 downto 0);
+	
+	hsync		: out std_logic;
+	vsync		: out std_logic;
+
+	red		: out std_logic_vector(3 downto 0);
+	green		: out std_logic_vector(3 downto 0);
+	blue		: out std_logic_vector(3 downto 0)
+);
 end component;
 
 
@@ -83,7 +93,7 @@ signal in_green		: std_logic_vector(3 downto 0);
 signal in_blue		: std_logic_vector(3 downto 0);
 signal tile_address: std_logic_vector(5 downto 0);
 signal bg_select	:  std_logic_vector(2 downto 0);
-
+signal dim		: unsigned(3 downto 0);
 signal timer1		: unsigned(5 downto 0);
 signal timer2		: unsigned(5 downto 0);
 
@@ -102,6 +112,7 @@ texture_module : texture_ctrl port map(			clk,
 							energy,
 							level,
 							game_State,
+							dim,
 							column,
 							row,
 							timer1,
@@ -134,7 +145,8 @@ display_controller_module : display_ctrl port map(	clk,
 							in_green, 
 							in_blue,
 							Hcount,
-							Vcount, 
+							Vcount,
+							dim, 
 							hsync, 
 							vsync,
 							red,

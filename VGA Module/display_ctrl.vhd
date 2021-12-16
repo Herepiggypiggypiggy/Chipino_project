@@ -14,7 +14,9 @@ port(
 
 	Hcount 		: in unsigned(9 downto 0);
 	Vcount 		: in unsigned(9 downto 0);
-
+	
+	dim		: in unsigned(3 downto 0);
+	
 	hsync		: out std_logic;
 	vsync		: out std_logic;
 
