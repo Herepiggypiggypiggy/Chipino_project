@@ -15,14 +15,14 @@ architecture behavioural of tile_ctrl is
 	constant diamond 		: std_logic_vector(4 downto 0) := "01010";
 	constant light_grey		: std_logic_vector(4 downto 0) := "01011";
 
-	constant light_yellow	 	: std_logic_vector(4 downto 0) := "01100";
+	constant light_yellow	: std_logic_vector(4 downto 0) := "01100";
 	constant light_blue	 	: std_logic_vector(4 downto 0) := "01101";
-	constant dark_diamond		: std_logic_vector(4 downto 0) := "01110";
-	constant light_orange		: std_logic_vector(4 downto 0) := "01111";
+	constant dark_diamond	: std_logic_vector(4 downto 0) := "01110";
+	constant light_orange	: std_logic_vector(4 downto 0) := "01111";
 
-	constant swamp_green		: std_logic_vector(4 downto 0) := "10000";
-	constant spirit_blue		: std_logic_vector(4 downto 0) := "10001";
-	constant caustic_green		: std_logic_vector(4 downto 0) := "10010";
+	constant swamp_green	: std_logic_vector(4 downto 0) := "10000";
+	constant spirit_blue	: std_logic_vector(4 downto 0) := "10001";
+	constant caustic_green	: std_logic_vector(4 downto 0) := "10010";
 	constant lavender		: std_logic_vector(4 downto 0) := "10011";
 	constant ice			: std_logic_vector(4 downto 0) := "10100";
 	constant lava			: std_logic_vector(4 downto 0) := "10101";
@@ -2177,7 +2177,7 @@ else
 		
 		-- A
 		when "011111" =>
-			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
+			if 	    (row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= black;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
 			elsif	(row = "000" and column = "011") then	color_address <= white;		-- row 0, column 3
@@ -2189,35 +2189,35 @@ else
 			elsif	(row = "001" and column = "000") then	color_address <= black;		-- row 1, column 0
 			elsif 	(row = "001" and column = "001") then	color_address <= white;		-- row 1, column 1
 			elsif 	(row = "001" and column = "010") then	color_address <= white;		-- row 1, column 2
-			elsif	(row = "001" and column = "011") then	color_address <= black;		-- row 1, column 3
-			elsif 	(row = "001" and column = "100") then	color_address <= black;		-- row 1, column 4
+			elsif	(row = "001" and column = "011") then	color_address <= white;		-- row 1, column 3
+			elsif 	(row = "001" and column = "100") then	color_address <= white;		-- row 1, column 4
 			elsif 	(row = "001" and column = "101") then	color_address <= white;		-- row 1, column 5
-			elsif	(row = "001" and column = "110") then	color_address <= black;		-- row 1, column 6
-			elsif 	(row = "001" and column = "111") then	color_address <= black;		-- row 1, column 7 
+			elsif	(row = "001" and column = "110") then	color_address <= white;		-- row 1, column 6
+			elsif 	(row = "001" and column = "111") then	color_address <= white;		-- row 1, column 7 
 			
 			elsif	(row = "010" and column = "000") then	color_address <= black;		-- row 2, column 0
 			elsif 	(row = "010" and column = "001") then	color_address <= white;		-- row 2, column 1
-			elsif 	(row = "010" and column = "010") then	color_address <= black;		-- row 2, column 2
+			elsif 	(row = "010" and column = "010") then	color_address <= white;		-- row 2, column 2
 			elsif	(row = "010" and column = "011") then	color_address <= black;		-- row 2, column 3
-			elsif 	(row = "010" and column = "100") then	color_address <= black;		-- row 2, column 4
+			elsif 	(row = "010" and column = "100") then	color_address <= white;		-- row 2, column 4
 			elsif 	(row = "010" and column = "101") then	color_address <= white;		-- row 2, column 5
 			elsif	(row = "010" and column = "110") then	color_address <= black;		-- row 2, column 6
 			elsif 	(row = "010" and column = "111") then	color_address <= black;		-- row 2, column 7
 
 			elsif	(row = "011" and column = "000") then	color_address <= black;		-- row 3, column 0
 			elsif 	(row = "011" and column = "001") then	color_address <= white;		-- row 3, column 1
-			elsif 	(row = "011" and column = "010") then	color_address <= black;		-- row 3, column 2
+			elsif 	(row = "011" and column = "010") then	color_address <= white;		-- row 3, column 2
 			elsif	(row = "011" and column = "011") then	color_address <= black;		-- row 3, column 3
-			elsif 	(row = "011" and column = "100") then	color_address <= black;		-- row 3, column 4
+			elsif 	(row = "011" and column = "100") then	color_address <= white;		-- row 3, column 4
 			elsif 	(row = "011" and column = "101") then	color_address <= white;		-- row 3, column 5
 			elsif	(row = "011" and column = "110") then	color_address <= black;		-- row 3, column 6
 			elsif 	(row = "011" and column = "111") then	color_address <= black;		-- row 3, column 7
 
 			elsif	(row = "100" and column = "000") then	color_address <= black;		-- row 4, column 0
 			elsif 	(row = "100" and column = "001") then	color_address <= white;		-- row 4, column 1
-			elsif 	(row = "100" and column = "010") then	color_address <= black;		-- row 4, column 2
+			elsif 	(row = "100" and column = "010") then	color_address <= white;		-- row 4, column 2
 			elsif	(row = "100" and column = "011") then	color_address <= black;		-- row 4, column 3
-			elsif 	(row = "100" and column = "100") then	color_address <= black;		-- row 4, column 4
+			elsif 	(row = "100" and column = "100") then	color_address <= white;		-- row 4, column 4
 			elsif 	(row = "100" and column = "101") then	color_address <= white;		-- row 4, column 5
 			elsif	(row = "100" and column = "110") then	color_address <= black;		-- row 4, column 6
 			elsif 	(row = "100" and column = "111") then	color_address <= black;		-- row 4, column 7
@@ -2225,11 +2225,11 @@ else
 			elsif	(row = "101" and column = "000") then	color_address <= black;		-- row 5, column 0
 			elsif 	(row = "101" and column = "001") then	color_address <= white;		-- row 5, column 1
 			elsif 	(row = "101" and column = "010") then	color_address <= white;		-- row 5, column 2
-			elsif	(row = "101" and column = "011") then	color_address <= black;		-- row 5, column 3
-			elsif 	(row = "101" and column = "100") then	color_address <= black;		-- row 5, column 4
+			elsif	(row = "101" and column = "011") then	color_address <= white;		-- row 5, column 3
+			elsif 	(row = "101" and column = "100") then	color_address <= white;		-- row 5, column 4
 			elsif 	(row = "101" and column = "101") then	color_address <= white;		-- row 5, column 5
-			elsif	(row = "101" and column = "110") then	color_address <= black;		-- row 5, column 6
-			elsif 	(row = "101" and column = "111") then	color_address <= black;		-- row 5, column 7 
+			elsif	(row = "101" and column = "110") then	color_address <= white;		-- row 5, column 6
+			elsif 	(row = "101" and column = "111") then	color_address <= white;		-- row 5, column 7 
 
 			elsif	(row = "110" and column = "000") then	color_address <= black;		-- row 6, column 0
 			elsif 	(row = "110" and column = "001") then	color_address <= black;		-- row 6, column 1
@@ -2255,7 +2255,7 @@ else
 		
 		-- M
 		when "100000" =>
-			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
+			if 	    (row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
 			elsif	(row = "000" and column = "011") then	color_address <= white;		-- row 0, column 3
@@ -2267,17 +2267,17 @@ else
 			elsif	(row = "001" and column = "000") then	color_address <= black;		-- row 1, column 0
 			elsif 	(row = "001" and column = "001") then	color_address <= white;		-- row 1, column 1
 			elsif 	(row = "001" and column = "010") then	color_address <= white;		-- row 1, column 2
-			elsif	(row = "001" and column = "011") then	color_address <= black;		-- row 1, column 3
-			elsif 	(row = "001" and column = "100") then	color_address <= black;		-- row 1, column 4
-			elsif 	(row = "001" and column = "101") then	color_address <= black;		-- row 1, column 5
-			elsif	(row = "001" and column = "110") then	color_address <= black;		-- row 1, column 6
-			elsif 	(row = "001" and column = "111") then	color_address <= black;		-- row 1, column 7 
+			elsif	(row = "001" and column = "011") then	color_address <= white;		-- row 1, column 3
+			elsif 	(row = "001" and column = "100") then	color_address <= white;		-- row 1, column 4
+			elsif 	(row = "001" and column = "101") then	color_address <= white;		-- row 1, column 5
+			elsif	(row = "001" and column = "110") then	color_address <= white;		-- row 1, column 6
+			elsif 	(row = "001" and column = "111") then	color_address <= white;		-- row 1, column 7 
 			
 			elsif	(row = "010" and column = "000") then	color_address <= black;		-- row 2, column 0
 			elsif 	(row = "010" and column = "001") then	color_address <= black;		-- row 2, column 1
 			elsif 	(row = "010" and column = "010") then	color_address <= white;		-- row 2, column 2
 			elsif	(row = "010" and column = "011") then	color_address <= white;		-- row 2, column 3
-			elsif 	(row = "010" and column = "100") then	color_address <= black;		-- row 2, column 4
+			elsif 	(row = "010" and column = "100") then	color_address <= white;		-- row 2, column 4
 			elsif 	(row = "010" and column = "101") then	color_address <= black;		-- row 2, column 5
 			elsif	(row = "010" and column = "110") then	color_address <= black;		-- row 2, column 6
 			elsif 	(row = "010" and column = "111") then	color_address <= black;		-- row 2, column 7
@@ -2287,7 +2287,7 @@ else
 			elsif 	(row = "011" and column = "010") then	color_address <= black;		-- row 3, column 2
 			elsif	(row = "011" and column = "011") then	color_address <= white;		-- row 3, column 3
 			elsif 	(row = "011" and column = "100") then	color_address <= white;		-- row 3, column 4
-			elsif 	(row = "011" and column = "101") then	color_address <= black;		-- row 3, column 5
+			elsif 	(row = "011" and column = "101") then	color_address <= white;		-- row 3, column 5
 			elsif	(row = "011" and column = "110") then	color_address <= black;		-- row 3, column 6
 			elsif 	(row = "011" and column = "111") then	color_address <= black;		-- row 3, column 7
 
@@ -2295,7 +2295,7 @@ else
 			elsif 	(row = "100" and column = "001") then	color_address <= black;		-- row 4, column 1
 			elsif 	(row = "100" and column = "010") then	color_address <= white;		-- row 4, column 2
 			elsif	(row = "100" and column = "011") then	color_address <= white;		-- row 4, column 3
-			elsif 	(row = "100" and column = "100") then	color_address <= black;		-- row 4, column 4
+			elsif 	(row = "100" and column = "100") then	color_address <= white;		-- row 4, column 4
 			elsif 	(row = "100" and column = "101") then	color_address <= black;		-- row 4, column 5
 			elsif	(row = "100" and column = "110") then	color_address <= black;		-- row 4, column 6
 			elsif 	(row = "100" and column = "111") then	color_address <= black;		-- row 4, column 7
@@ -2303,11 +2303,11 @@ else
 			elsif	(row = "101" and column = "000") then	color_address <= black;		-- row 5, column 0
 			elsif 	(row = "101" and column = "001") then	color_address <= white;		-- row 5, column 1
 			elsif 	(row = "101" and column = "010") then	color_address <= white;		-- row 5, column 2
-			elsif	(row = "101" and column = "011") then	color_address <= black;		-- row 5, column 3
-			elsif 	(row = "101" and column = "100") then	color_address <= black;		-- row 5, column 4
-			elsif 	(row = "101" and column = "101") then	color_address <= black;		-- row 5, column 5
-			elsif	(row = "101" and column = "110") then	color_address <= black;		-- row 5, column 6
-			elsif 	(row = "101" and column = "111") then	color_address <= black;		-- row 5, column 7 
+			elsif	(row = "101" and column = "011") then	color_address <= white;		-- row 5, column 3
+			elsif 	(row = "101" and column = "100") then	color_address <= white;		-- row 5, column 4
+			elsif 	(row = "101" and column = "101") then	color_address <= white;		-- row 5, column 5
+			elsif	(row = "101" and column = "110") then	color_address <= white;		-- row 5, column 6
+			elsif 	(row = "101" and column = "111") then	color_address <= white;		-- row 5, column 7 
 
 			elsif	(row = "110" and column = "000") then	color_address <= black;		-- row 6, column 0
 			elsif 	(row = "110" and column = "001") then	color_address <= white;		-- row 6, column 1
@@ -2327,37 +2327,37 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= magenta;
+			else						                    color_address <= magenta;
 	
 			end if;
 		
 		-- I
 		when "100001" =>
-			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
+			if 	    (row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
-			elsif 	(row = "000" and column = "010") then	color_address <= black;		-- row 0, column 2
+			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
 			elsif	(row = "000" and column = "011") then	color_address <= black;		-- row 0, column 3
 			elsif 	(row = "000" and column = "100") then	color_address <= black;		-- row 0, column 4
 			elsif 	(row = "000" and column = "101") then	color_address <= black;		-- row 0, column 5
-			elsif	(row = "000" and column = "110") then	color_address <= black;		-- row 0, column 6
+			elsif	(row = "000" and column = "110") then	color_address <= white;		-- row 0, column 6
 			elsif 	(row = "000" and column = "111") then	color_address <= white;		-- row 0, column 7
 
 			elsif	(row = "001" and column = "000") then	color_address <= black;		-- row 1, column 0
 			elsif 	(row = "001" and column = "001") then	color_address <= white;		-- row 1, column 1
-			elsif 	(row = "001" and column = "010") then	color_address <= black;		-- row 1, column 2
+			elsif 	(row = "001" and column = "010") then	color_address <= white;		-- row 1, column 2
 			elsif	(row = "001" and column = "011") then	color_address <= black;		-- row 1, column 3
 			elsif 	(row = "001" and column = "100") then	color_address <= black;		-- row 1, column 4
 			elsif 	(row = "001" and column = "101") then	color_address <= black;		-- row 1, column 5
-			elsif	(row = "001" and column = "110") then	color_address <= black;		-- row 1, column 6
+			elsif	(row = "001" and column = "110") then	color_address <= white;		-- row 1, column 6
 			elsif 	(row = "001" and column = "111") then	color_address <= white;		-- row 1, column 7 
 			
 			elsif	(row = "010" and column = "000") then	color_address <= black;		-- row 2, column 0
 			elsif 	(row = "010" and column = "001") then	color_address <= white;		-- row 2, column 1
-			elsif 	(row = "010" and column = "010") then	color_address <= black;		-- row 2, column 2
-			elsif	(row = "010" and column = "011") then	color_address <= black;		-- row 2, column 3
-			elsif 	(row = "010" and column = "100") then	color_address <= black;		-- row 2, column 4
-			elsif 	(row = "010" and column = "101") then	color_address <= black;		-- row 2, column 5
-			elsif	(row = "010" and column = "110") then	color_address <= black;		-- row 2, column 6
+			elsif 	(row = "010" and column = "010") then	color_address <= white;		-- row 2, column 2
+			elsif	(row = "010" and column = "011") then	color_address <= white;		-- row 2, column 3
+			elsif 	(row = "010" and column = "100") then	color_address <= white;		-- row 2, column 4
+			elsif 	(row = "010" and column = "101") then	color_address <= white;		-- row 2, column 5
+			elsif	(row = "010" and column = "110") then	color_address <= white;		-- row 2, column 6
 			elsif 	(row = "010" and column = "111") then	color_address <= white;		-- row 2, column 7
 
 			elsif	(row = "011" and column = "000") then	color_address <= black;		-- row 3, column 0
@@ -2371,29 +2371,29 @@ else
 
 			elsif	(row = "100" and column = "000") then	color_address <= black;		-- row 4, column 0
 			elsif 	(row = "100" and column = "001") then	color_address <= white;		-- row 4, column 1
-			elsif 	(row = "100" and column = "010") then	color_address <= black;		-- row 4, column 2
-			elsif	(row = "100" and column = "011") then	color_address <= black;		-- row 4, column 3
-			elsif 	(row = "100" and column = "100") then	color_address <= black;		-- row 4, column 4
-			elsif 	(row = "100" and column = "101") then	color_address <= black;		-- row 4, column 5
-			elsif	(row = "100" and column = "110") then	color_address <= black;		-- row 4, column 6
+			elsif 	(row = "100" and column = "010") then	color_address <= white;		-- row 4, column 2
+			elsif	(row = "100" and column = "011") then	color_address <= white;		-- row 4, column 3
+			elsif 	(row = "100" and column = "100") then	color_address <= white;		-- row 4, column 4
+			elsif 	(row = "100" and column = "101") then	color_address <= white;		-- row 4, column 5
+			elsif	(row = "100" and column = "110") then	color_address <= white;		-- row 4, column 6
 			elsif 	(row = "100" and column = "111") then	color_address <= white;		-- row 4, column 7
 	
 			elsif	(row = "101" and column = "000") then	color_address <= black;		-- row 5, column 0
 			elsif 	(row = "101" and column = "001") then	color_address <= white;		-- row 5, column 1
-			elsif 	(row = "101" and column = "010") then	color_address <= black;		-- row 5, column 2
+			elsif 	(row = "101" and column = "010") then	color_address <= white;		-- row 5, column 2
 			elsif	(row = "101" and column = "011") then	color_address <= black;		-- row 5, column 3
 			elsif 	(row = "101" and column = "100") then	color_address <= black;		-- row 5, column 4
 			elsif 	(row = "101" and column = "101") then	color_address <= black;		-- row 5, column 5
-			elsif	(row = "101" and column = "110") then	color_address <= black;		-- row 5, column 6
+			elsif	(row = "101" and column = "110") then	color_address <= white;		-- row 5, column 6
 			elsif 	(row = "101" and column = "111") then	color_address <= white;		-- row 5, column 7 
 
 			elsif	(row = "110" and column = "000") then	color_address <= black;		-- row 6, column 0
 			elsif 	(row = "110" and column = "001") then	color_address <= white;		-- row 6, column 1
-			elsif 	(row = "110" and column = "010") then	color_address <= black;		-- row 6, column 2
+			elsif 	(row = "110" and column = "010") then	color_address <= white;		-- row 6, column 2
 			elsif	(row = "110" and column = "011") then	color_address <= black;		-- row 6, column 3
 			elsif 	(row = "110" and column = "100") then	color_address <= black;		-- row 6, column 4
 			elsif 	(row = "110" and column = "101") then	color_address <= black;		-- row 6, column 5
-			elsif	(row = "110" and column = "110") then	color_address <= black;		-- row 6, column 6
+			elsif	(row = "110" and column = "110") then	color_address <= white;		-- row 6, column 6
 			elsif 	(row = "110" and column = "111") then	color_address <= white;		-- row 6, column 7   
 
 			elsif	(row = "111" and column = "000") then	color_address <= black;		-- row 7, column 0
