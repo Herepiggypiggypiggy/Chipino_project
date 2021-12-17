@@ -44,20 +44,20 @@
 
 10 00 00	->	Letter: M
 10 00 01	->	Letter: I
-10 00 10	
-10 00 11
+10 00 10	->	Death animation: second player frame
+10 00 11	-> 	Death animation: third player frame
 
-10 01 00	
-10 01 01	
-10 01 10	
-10 01 11
+10 01 00	->	Death animation: fourth player frame	
+10 01 01	->	Death animation: first poof frame
+10 01 10	->	Death animation: second poof frame
+10 01 11	->	Death animation: third poof frame
 
-10 10 00	
-10 10 01	
-10 10 10	
-10 10 11
+10 10 00	->	Death animation: fourth poof frame
+10 10 01	->	Death animation: first soul frame
+10 10 10	->	Death animation: second soul frame
+10 10 11	-> 	Death animation: fifth poof frame
 
-10 11 00	
+10 11 00	->	Death animation: third soul frame
 10 11 01	
 10 11 10	
 10 11 11
