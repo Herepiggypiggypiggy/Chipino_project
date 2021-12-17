@@ -136,6 +136,11 @@ begin
    		       red <= "1100";
      		       green <= "1100";
      		       blue <= "1100";
+		-- Beige --
+   		when "10110" =>
+   		       red <= "1110";
+     		       green <= "1100";
+     		       blue <= "1000";
 
 		-- Exception: use black
 		when others =>
