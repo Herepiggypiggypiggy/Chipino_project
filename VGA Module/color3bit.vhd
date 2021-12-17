@@ -131,11 +131,11 @@ begin
 			red <= "111";
 			green <= "010";
 			blue <= "000";
-        -- Lightest grey --
-        when "10110" =>
-            red <= "110";
-            green <= "110";
-            blue <= "110";
+		-- Lightest grey --
+   		when "10110" =>
+   		       red <= "110";
+     		       green <= "110";
+     		       blue <= "110";
 
         -- *Placeholder* --
         when "10111" =>
