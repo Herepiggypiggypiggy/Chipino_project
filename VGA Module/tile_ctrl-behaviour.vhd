@@ -15,17 +15,18 @@ architecture behavioural of tile_ctrl is
 	constant diamond 		: std_logic_vector(4 downto 0) := "01010";
 	constant light_grey		: std_logic_vector(4 downto 0) := "01011";
 
-	constant light_yellow	: std_logic_vector(4 downto 0) := "01100";
+	constant light_yellow		: std_logic_vector(4 downto 0) := "01100";
 	constant light_blue	 	: std_logic_vector(4 downto 0) := "01101";
-	constant dark_diamond	: std_logic_vector(4 downto 0) := "01110";
-	constant light_orange	: std_logic_vector(4 downto 0) := "01111";
+	constant dark_diamond		: std_logic_vector(4 downto 0) := "01110";
+	constant light_orange		: std_logic_vector(4 downto 0) := "01111";
 
-	constant swamp_green	: std_logic_vector(4 downto 0) := "10000";
-	constant spirit_blue	: std_logic_vector(4 downto 0) := "10001";
-	constant caustic_green	: std_logic_vector(4 downto 0) := "10010";
+	constant swamp_green		: std_logic_vector(4 downto 0) := "10000";
+	constant spirit_blue		: std_logic_vector(4 downto 0) := "10001";
+	constant caustic_green		: std_logic_vector(4 downto 0) := "10010";
 	constant lavender		: std_logic_vector(4 downto 0) := "10011";
 	constant ice			: std_logic_vector(4 downto 0) := "10100";
 	constant lava			: std_logic_vector(4 downto 0) := "10101";
+	constant lightest_grey		: std_logic_vector(4 downto 0) := "10110";
 
 	signal bg : std_logic_vector(4 downto 0);
 
