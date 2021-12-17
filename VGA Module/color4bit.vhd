@@ -101,6 +101,42 @@ begin
 			red <= "1111";
 			green <= "1011";
 			blue <= "0101";
+		-- Swamp Green --
+		when "10000" =>
+			red <= "0000";
+			green <= "0100";
+			blue <= "0100";
+		-- Spirit Blue --
+		when "10001" =>
+			red <= "0100";
+			green <= "1010";
+			blue <= "1110";
+		-- Caustic Green --
+		when "10010" =>
+			red <= "1010";
+			green <= "1100";
+			blue <= "0010";
+		-- Lavender --
+		when "10011" =>
+			red <= "1100";
+			green <= "1000";
+			blue <= "1100";
+		-- Ice --
+		when "10100" =>
+			red <= "1100";
+			green <= "1110";
+			blue <= "1110";
+		-- Lava --
+		when "10101" =>
+			red <= "1110";
+			green <= "0100";
+			blue <= "0000";
+		-- Lightest grey --
+   		when "10110" =>
+   		       red <= "1100";
+     		       green <= "1100";
+     		       blue <= "1100";
+
 		-- Exception: use black
 		when others =>
 			red <= "0000";
