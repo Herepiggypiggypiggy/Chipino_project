@@ -136,12 +136,12 @@ begin
    		       red <= "110";
      		       green <= "110";
      		       blue <= "110";
+      		-- Beige --
+      		when "10111" =>
+       			red <= "111";
+        		green <= "110";
+       			blue <= "100";
 
-        -- *Placeholder* --
-        when "10111" =>
-            red <= "000";
-            green <= "000";
-            blue <= "000";
         -- *Placeholder* --
         when "11000" =>
             red <= "000";
