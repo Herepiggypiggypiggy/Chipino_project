@@ -1,68 +1,128 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
+use work.parameter_def.all;
 
 -- Architecture of VGA
 architecture behavioural of display_ctrl is 
 
-	-- Constants: Timings
-	constant H_DISPLAY 	: integer := 640;
-	constant H_FP 		: integer := 16;
-	constant H_SP 		: integer := 96;
-	constant H_BP 		: integer := 48;
-
-	constant V_DISPLAY 	: integer := 480;
-	constant V_FP 		: integer := 10;
-	constant V_SP 		: integer := 2;
-	constant V_BP 		: integer := 33;
-	
 	-- Signals
-	signal new_Hcount : unsigned(9 downto 0) := (others => '0');
-	signal new_Vcount : unsigned(9 downto 0) := (others => '0');
+	signal new_hsync : std_logic;
+	signal new_vsync : std_logic;
 
+	type state_type IS (hsync_on, hsync_off, vsync_on, vsync_off, display_on, display_off);
+
+	signal hsync_state       : state_type;
+	signal new_hsync_state   : state_type;
+
+	signal vsync_state       : state_type;
+	signal new_vsync_state   : state_type;
+
+	signal display_state   	   : state_type;
+	signal new_display_state   : state_type;
+
+	signal new_red   	   : std_logic_vector(3 downto 0);
+	signal new_green   	   : std_logic_vector(3 downto 0);
+	signal new_blue   	   : std_logic_vector(3 downto 0);
 
 	begin
 	
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
+
+	hstate_process: process(hcount)
+	begin 
+		if (Hcount > h_display + h_fp - 1 and Hcount < h_display + h_fp + h_sp) then
+			new_hsync_state <= hsync_off;
+		else
+			new_hsync_state <= hsync_on;
+	end if;	
+	end process hstate_process;
+
+	vstate_process: process(vcount)
+	begin
+		if (Vcount > v_display + v_fp - 1 and Vcount <  v_display + v_fp + v_sp) then
+			new_vsync_state <= vsync_off;
+		else	
+			new_vsync_state <= vsync_on;
+		end if;
+	end process vstate_process;
+
+	hsync_process: process(hsync_state)
+	begin
+		if hsync_state = hsync_on then
+			hsync <= '1';
+		else
+			hsync <= '0';
+		end if;	
+	end process;
+
+	vsync_process: process(vsync_state)
+	begin
+		if vsync_state = vsync_on then
+			vsync <= '1';
+		else
+			vsync <= '0';
+		end if;	
+	end process;
+
+	
+	display: process(hcount,vcount,display_state)
+	begin
+		if (Hcount > "1010000000" or Vcount > "111100000") then
+			new_display_state <= display_off;
+		else
+			new_display_state <= display_on;
+		end if;
+	end process display;
+
+	RGB: process(in_red,in_green,in_blue,dim)
+	begin
+		if (display_state = display_on) then
+				if(dim > "0000") then	
+					if (unsigned(in_red) > dim) then
+						new_red 	<= 	std_logic_vector(unsigned(in_red) - dim);
+					else
+						new_red 	<= 	(others => '0');
+					end if;
+					if (unsigned(in_green) > dim) then
+						new_green 	<= 	std_logic_vector(unsigned(in_green) - dim);
+					else
+						new_green 	<= 	(others => '0');
+					end if;
+					if (unsigned(in_blue) > dim) then
+						new_blue 	<= 	std_logic_vector(unsigned(in_blue) - dim);
+					else
+						new_blue 	<= 	(others => '0');
+					end if;	
+				else
+					new_red 	<= 	in_red;	
+					new_green 	<= 	in_green;	
+					new_blue 	<= 	in_blue;		
+				end if;
+		else
+			new_red 	<= 	(others => '0');	
+			new_green 	<= 	(others => '0');	
+			new_blue 	<= 	(others => '0');
+		end if;
+	end process RGB;
+
 	process (clk)
 	begin
-	if (rising_edge (clk)) then
-		if (Hcount > "111101111" and Hcount < "1001010000") then --HSync_pulse
-			hsync <= '0';
-		else
-			hsync <= '1';
-		end if;	
+		if (rising_edge (clk)) then
+			if reset = '1' then
+				vsync_state <= vsync_on;
+				hsync_state <= hsync_on;
+				display_state <= display_on;	
+			else
+				vsync_state <= new_vsync_state;
+				hsync_state <= new_hsync_state;
+				display_state <= new_display_state;
 
-		
-		if (Vcount > "111101001" and Vcount < "111101100") then --VSync_pulse
-			vsync <= '0';
-		else	
-			vsync <= '1';
-		end if;
-
-		if (Hcount > "1010000000" or Vcount > "111100000") then
-			red 	<= 	(others => '0');
-			green	<=	(others => '0');
-			blue 	<=	(others => '0');
-		else
-				
-			if (unsigned(in_red) > dim) then
-				red 	<= 	std_logic_vector(unsigned(in_red) - dim);
-			else
-				red 	<= 	(others => '0');
+				red 	<= 	new_red;	
+				green 	<= 	new_green;	
+				blue 	<= 	new_blue;		
 			end if;
-			if (unsigned(in_green) > dim) then
-				green 	<= 	std_logic_vector(unsigned(in_green) - dim);
-			else
-				green 	<= 	(others => '0');
-			end if;
-			if (unsigned(in_blue) > dim) then
-				blue 	<= 	std_logic_vector(unsigned(in_blue) - dim);
-			else
-				blue 	<= 	(others => '0');
-			end if;			
 		end if;
-	end if;
 	end process;
 end architecture behavioural;

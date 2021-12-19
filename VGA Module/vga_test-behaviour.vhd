@@ -35,51 +35,52 @@ signal	Yplayer		: std_logic_vector(3 downto 0);
 signal	score 		: std_logic_vector(15 downto 0);
 signal	energy		: std_logic_vector(11 downto 0);
 signal	level 	: std_logic_vector(7 downto 0);
-signal  game_state      : std_logic_vector(1 downto 0);
-signal  timer1		: unsigned(5 downto 0);
-signal	timer2		: unsigned(5 downto 0);
+	signal game_state      : std_logic_vector(1 downto 0);
+	signal timer1_out		: unsigned(5 downto 0);
+	signal timer2_out		: unsigned(5 downto 0);
 
 begin
-test: VGA port map(clk,reset,map_data,Xplayer,Yplayer,score,energy,level,game_state,timer1,timer2,hsync,vsync,red,green,blue,vga_done_out);
+test : VGA port map(clk, reset, map_data, Xplayer, Yplayer, score, energy, level,game_state,timer1_out,timer2_out,hsync, vsync, red,green,blue,vga_done_out); 
 
 process(clk,reset)
 begin
 
 case input is
 	when "000" => 
-		map_data <= "011011000011011001000000011011010000101000011011100111000011011000011011";
+		map_data <= "011011010011011100000001011011000000000000011011000111000011011000011011";
+		game_state <= "00";
 		Xplayer <= "0111";
 		Yplayer <= "0111";
-		game_state <= "00";
 		score 		<= "0000000000100000";
-		energy		<= "010000100000";
+		energy		<= "000000000001";
 		level 		<= "00000001";
 	when "001" => 
-		map_data <= "011011000011011001000000011011010000101000011011100111000011011000011011";
-		Xplayer <= "0111";
-		Yplayer <= "0111";
+		map_data <= "011011010011011100000001011011000000000000011011000111000011011000011011";
 		game_state <= "01";
+		Xplayer <= "0101";
+		Yplayer <= "0011";
 		score 		<= "0000000000100000";
-		energy		<= "010000100000";
+		energy		<= "000000000001";
 		level 		<= "00000001";
 	when "010" => 
-		map_data <= "111111000011011001000000011011010000101000011011100111000011011000011011";
+		map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
+        		game_state <= "01";
 		Xplayer <= "0111";
 		Yplayer <= "0110";
-		game_state <= "10";
-		score 		<= "1111011111111111";
-		energy		<= "010001100000";
+		score 		<= "0000000000100000";
+		energy		<= "000000000001";
 		level 		<= "00000001";
 	when "011" => 
-		map_data <= "111111000011011001000000011011010000101000011011100111000011011000011011";
+		map_data <= "011011010011011100000001011011000000000000011011000111000011011000011110";
+		game_state <= "01";
 		Xplayer <= "0001";
 		Yplayer <= "0111";
-		game_state <= "10";
-		score 		<= "1111111111111111";
-		energy		<= "010010100000";
+		score 		<= "0000000000100000";
+		energy		<= "000000000001";
 		level 		<= "00000001";
 	when others => 
-		map_data <= "111111000011011001000000011011010000101000011011100111000011011000011011";
+		map_data <= "011011010011011100000001011011000000000000011011000111000011011000011110";
+		game_state <= "01";
 		score 		<= (others => '0');
 		energy		<= (others => '0');
 		level 		<= (others => '0');
@@ -89,5 +90,8 @@ end case;
 
 end process;
 end architecture;
+
+
+
 
 

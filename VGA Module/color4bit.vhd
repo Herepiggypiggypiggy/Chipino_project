@@ -137,7 +137,7 @@ begin
      		       green <= "1100";
      		       blue <= "1100";
 		-- Beige --
-   		when "10110" =>
+   		when "10111" =>
    		       red <= "1110";
      		       green <= "1100";
      		       blue <= "1000";

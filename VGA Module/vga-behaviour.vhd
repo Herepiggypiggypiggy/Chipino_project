@@ -158,3 +158,5 @@ display_controller_module : display_ctrl port map(	clk,
 							green,
 							blue); 
 end architecture;
+
+

@@ -30,3 +30,5 @@ port (
 	vga_done_out	: out std_logic
 );
 end VGA;
+
+

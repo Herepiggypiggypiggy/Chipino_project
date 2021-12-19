@@ -1,29 +1,10 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
+use work.parameter_def.all;
 
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
-    -- Constants: Timings.
-    constant h_display : integer := 640;
-    constant h_fp      : integer := 16;
-    constant h_sp      : integer := 96;
-    constant h_bp      : integer := 48;
-
-    constant V_DISPLAY : integer := 480;
-    constant V_FP      : integer := 10;
-    constant V_SP      : integer := 2;
-    constant V_BP      : integer := 33;
-
-    -- Constants: For HS and VS intersection
-    constant H_MARGIN : integer := 40;
-
-    constant pixel_num       : unsigned(4 downto 0) := "11111"; --31
-    constant pixel_tile_data : unsigned(2 downto 0) := "111"; --7
-    constant pixel_tile      : unsigned(1 downto 0) := "11"; --3
-
-    constant info_lv       : integer := 1;
-    constant info_lv_SPACE : integer := 1;
 
     -- Signals
     signal hcount : unsigned(9 downto 0);
@@ -57,9 +38,6 @@ architecture behaviour of texture_ctrl is
     signal p1 : unsigned(21 downto 0);
     signal p2 : unsigned(21 downto 0);
 
-    signal vis  : unsigned(21 downto 0);
-    signal vis1 : unsigned(21 downto 0);
-
     signal xr : signed(21 downto 0);
     signal yr : signed(21 downto 0);
 
@@ -73,31 +51,54 @@ architecture behaviour of texture_ctrl is
     signal vsigned : signed(10 downto 0);
 begin
 
-    vis  <= "0000000000100100000000";   --(32+16)^2 2304
-    vis1 <= "0000000001100100000000";   --(32+16+32)^2 6400
+    --vis  <= "0000000000100100000000";   --(32+16)^2 2304
+    --vis1 <= "0000000001100100000000";   --(32+16+32)^2 6400
     -- Process: Combinatorial
     -- Takes the signals from the register and computes outputs: New value of counter.
 
     -- Start screen
-    process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, p1, p2, vis, vis1, timer1, timer2)
+    dimmer: process(hcount,vcount,xposition)
+   begin
+        hsigned <= signed('0' & hcount);
+        vsigned <= signed('0' & vcount);
+
+        xp1 <= signed("0000000" & unsigned(xplayer));
+        yp1 <= signed("0000000" & unsigned(yplayer));
+
+        xp <= shift_left(xp1,5) + 16;
+        yp <= shift_left(yp1,5) + 16;
+
+        
+        xr <= (xp - hsigned) * (xp - hsigned);
+        yr <= (yp - vsigned) * (yp - vsigned);
+
+        p1 <= unsigned(xr + yr);
+        p2 <= "0000000001100100000000" - p1;
+        if (xposition < "01111") then
+            if (p1 <= "0000000000100100000000") then
+                dim <= "0000";
+            elsif ("0000000000100100000000" < p1 and p1 <= "0000000001100100000000") then
+                if 	(p2 < "0000000000001001001001") then dim <= "1111";--585;
+                elsif 	(p2 < "0000000000010010010010") then dim <= "1011";--1170
+                elsif 	(p2 < "0000000000011011011011") then dim <= "0110";--3072	
+                elsif 	(p2 < "0000000000100100100100") then dim <= "0100";--3072	
+                elsif 	(p2 < "0000000000101101101101") then dim <= "0011";--3072
+                elsif 	(p2 < "0000000000110110110110") then dim <= "0010";--3072
+                elsif 	(p2 < "0000000000111111111111") then dim <= "0001";--3072
+                else dim <= "0000";
+                end if;
+            else 
+                dim <= "1111";
+            end if;
+        else
+            dim <= "0000";
+        end if;
+   end process dimmer;
+   
+    tile_select:process(clk, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
     begin
         case game_state is
             when "00" =>
-                hsigned <= (others => '0');
-                vsigned <= (others => '0');
-
-                xp1 <= (others => '0');
-                yp1 <= (others => '0');
-
-                xp <= (others => '0');
-                yp <= (others => '0');
-
-                xr <= (others => '0');
-                yr <= (others => '0');
-
-                p1  <= (others => '0');
-                p2  <= (others => '0');
-                dim <= "0000";
                 if (xposition = 3) then
                     if (yposition = 4) then
                         tile_address <= "111111"; --Player
@@ -138,44 +139,6 @@ begin
 
             -- In game
             when "01" =>
-                hsigned <= signed('0' & hcount);
-                vsigned <= signed('0' & vcount);
-
-                xp1 <= signed("0000000" & unsigned(xplayer));
-                yp1 <= signed("0000000" & unsigned(yplayer));
-
-                xp <= shift_left(xp1, 5) + 16;
-                yp <= shift_left(yp1, 5) + 16;
-
-                xr <= (xp - hsigned) * (xp - hsigned);
-                yr <= (yp - vsigned) * (yp - vsigned);
-
-                p1 <= unsigned(xr + yr);
-                p2 <= vis1 - p1;
-                if (p1 <= vis) then
-                    dim <= "0000";
-                elsif (vis < p1 and p1 <= vis1) then
-                    if (p2 < "0000000000001001001001") then
-                        dim <= "1111";  --585;
-                    elsif (p2 < "0000000000010010010010") then
-                        dim <= "1011";  --1170
-                    elsif (p2 < "0000000000011011011011") then
-                        dim <= "0110";  --3072	
-                    elsif (p2 < "0000000000100100100100") then
-                        dim <= "0100";  --3072	
-                    elsif (p2 < "0000000000101101101101") then
-                        dim <= "0011";  --3072
-                    elsif (p2 < "0000000000110110110110") then
-                        dim <= "0010";  --3072
-                    elsif (p2 < "0000000000111111111111") then
-                        dim <= "0001";  --3072
-                    else
-                        dim <= "0000";
-                    end if;
-                else
-                    dim <= "1111";
-                end if;
-
                 --Tile Type selector
                 if (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 3) then
                     tile_address <= "000" & map_data(71 downto 69); --1
@@ -308,23 +271,6 @@ begin
 
             -- End screen
             when "10" =>
-                hsigned <= (others => '0');
-                vsigned <= (others => '0');
-
-                xp1 <= (others => '0');
-                yp1 <= (others => '0');
-
-                xp <= (others => '0');
-                yp <= (others => '0');
-
-                xr <= (others => '0');
-                yr <= (others => '0');
-
-                p1  <= (others => '0');
-                p2  <= (others => '0');
-                
-                dim <= "0000";
-                
                 if (xposition = 3) then
                     if (yposition = 3) then
                         tile_address <= "011011"; --R
@@ -410,50 +356,26 @@ begin
                 end if;
 
             when "11" => tile_address <= "000110";
-                hsigned      <= (others => '0');
-                vsigned      <= (others => '0');
-
-                xp1 <= (others => '0');
-                yp1 <= (others => '0');
-
-                xp <= (others => '0');
-                yp <= (others => '0');
-
-                xr <= (others => '0');
-                yr <= (others => '0');
-
-                p1  <= (others => '0');
-                p2  <= (others => '0');
-                dim <= "0000";
 
             when others => tile_address <= "000110"; --black
-                hsigned      <= (others => '0');
-                vsigned      <= (others => '0');
-
-                xp1 <= (others => '0');
-                yp1 <= (others => '0');
-
-                xp <= (others => '0');
-                yp <= (others => '0');
-
-                xr <= (others => '0');
-                yr <= (others => '0');
-
-                p1  <= (others => '0');
-                p2  <= (others => '0');
-                dim <= "0000";
         end case;
+    end process;
 
-        if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
-            new_xposition <= (others => '0');
-        else
-            if (hcount(4 downto 0) = pixel_num) then
-                new_xposition <= xposition + 1;
+    xposition_procces: process(hcount,xposition)
+    begin
+            if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+                new_xposition <= (others => '0');
             else
-                new_xposition <= xposition;
+                if (hcount(4 downto 0) = pixel_num) then
+                    new_xposition <= xposition + 1;
+                else
+                    new_xposition <= xposition;
+                end if;
             end if;
-        end if;
-
+    end process xposition_procces;
+        
+    yposition_procces: process(hcount,vcount,yposition)
+    begin
         if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
             new_yposition <= (others => '0');
         else
@@ -463,46 +385,56 @@ begin
                 new_yposition <= yposition;
             end if;
         end if;
-
-        --Colum selector
-        if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
-            new_column <= (others => '0');
-        else
-            if (hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
+    end process yposition_procces;
+    
+--Colum selector   
+    column_procces: process(hcount,column)
+    begin
+            if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
                 new_column <= (others => '0');
-            elsif (hcount(1 downto 0) = pixel_tile) then -- when hcount mod 4 is 3 add column
-                new_column <= column + 1;
-            else
-                new_column <= column;
-            end if;
-        end if;
-
-        --Row selector
-
-        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-
-            if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-                if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
-
-                    new_row <= (others => '0');
-                elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
-                    new_row <= row + 1;
                 else
-                    new_row <= row;
+                    if (hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
+                        new_column <= (others => '0');
+                    elsif (hcount(1 downto 0) = pixel_tile) then -- when hcount mod 4 is 3 add column
+                        new_column <= column + 1;
+                    else
+                        new_column <= column;
                 end if;
             end if;
-        else
-            new_row <= (others => '0');
-        end if;
+    end process column_procces;
+        
+--Row selector
+    row_procces: process(vcount,hcount,row)
+    begin
+        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+                if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+                    if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
 
-        --hcounter COM
+                        new_row <= (others => '0');
+                    elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
+                        new_row <= row + 1;
+                    else
+                        new_row <= row;
+                    end if;
+                end if;
+            else
+                new_row <= (others => '0');
+            end if;
+    end process row_procces;
+
+--hcounter COM
+    hcounter_procces: process(hcount)
+    begin
         if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
             new_hcount <= hcount + 1;
         else
             new_hcount <= (others => '0');
         end if;
-
-        --Vcounter COM
+    end process hcounter_procces;
+        
+--Vcounter COM      
+    vcounter_procces: process(hcount,vcount)
+    begin
         if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
             if (hcount = h_display + h_fp + H_MARGIN - 1) then
                 new_Vcount <= Vcount + 1;
@@ -516,16 +448,18 @@ begin
                 new_Vcount <= Vcount;
             end if;
         end if;
-
-        -- VGA done signal
-        if (Vcount > V_DISPLAY - 1) then
+    end process vcounter_procces;
+        
+-- VGA done signal     
+    vga_done_procces: process(vcount)
+    begin
+        if (vcount > V_DISPLAY - 1) then
             vga_done <= '1';
         else
             vga_done <= '0';
         end if;
-
-    end process;
-
+    end process vga_done_procces;
+    
     process(level)
     begin
         if (level = "00000000") then
@@ -584,26 +518,27 @@ begin
         case game_state is
             -- Start screen
             when "00" =>
-                if (frame_count = 9) then new_frame_count <= 8;
+                if (frame_count = "1001") then new_frame_count <= "1000";
                 else new_frame_count <= frame_count + 1;
                 end if;
                 
             -- In game        
             when "01" =>
-                if (frame_count = 9) then new_frame_count <= 8;
+                if (frame_count = "1001") then new_frame_count <= "1000";
                 else new_frame_count <= frame_count + 1;
                 end if;
                 
             -- End screen        
             when "10" =>
-                if (frame_count = 9) then new_frame_count <= 8;
+                if (frame_count = "1001") then new_frame_count <= "1000";
                 else new_frame_count <= frame_count + 1;
                 end if;
                     
             when "11" =>
-                if (frame_count = 9) then new_frame_count <= 8;
+                if (frame_count = "1001") then new_frame_count <= "1000";
                 else new_frame_count <= frame_count + 1;
                 end if;
+	    when others => new_frame_count <= frame_count;
         end case;
     end process;
     
@@ -611,9 +546,9 @@ begin
     process(reset, timer1)
     begin
         if (reset = '1') then
-            frame_count <= 0;
+            frame_count <= "0000";
         else
-            if (rising_edge(timer(5))) then
+            if (rising_edge(timer1(5))) then
                 frame_count <= new_frame_count;
             end if;
         end if;
@@ -634,7 +569,7 @@ begin
                 column <= (others => '0');
                 row    <= (others => '0');
                 
-                frame_count <= 0;
+                frame_count <= "0000";
             else
                 --Assign to internal signal
                 hcount <= new_hcount;
