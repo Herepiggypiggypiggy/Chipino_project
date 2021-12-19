@@ -5,8 +5,6 @@ use work.parameter_def.all;
 
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
-
-    -- Signals
     signal hcount : unsigned(9 downto 0);
     signal Vcount : unsigned(9 downto 0);
 
@@ -35,67 +33,49 @@ architecture behaviour of texture_ctrl is
 
     signal vga_done : std_logic;
 
-    signal p1 : unsigned(21 downto 0);
-    signal p2 : unsigned(21 downto 0);
+    signal hvis     : unsigned(7 downto 0);
+    signal new_hvis : unsigned(7 downto 0);
 
-    signal xr : signed(21 downto 0);
-    signal yr : signed(21 downto 0);
+    signal vvis     : unsigned(7 downto 0);
+    signal new_vvis : unsigned(7 downto 0);
 
-    signal xp  : signed(10 downto 0);
-    signal xp1 : signed(10 downto 0);
+    signal p1 : unsigned(17 downto 0);
 
-    signal yp  : signed(10 downto 0);
-    signal yp1 : signed(10 downto 0);
+    signal xr : signed(17 downto 0);
+    signal yr : signed(17 downto 0);
 
-    signal hsigned : signed(10 downto 0);
-    signal vsigned : signed(10 downto 0);
+    signal xp  : signed(7 downto 0);
+    signal yp  : signed(7 downto 0);
+
 begin
-
-    --vis  <= "0000000000100100000000";   --(32+16)^2 2304
-    --vis1 <= "0000000001100100000000";   --(32+16+32)^2 6400
     -- Process: Combinatorial
     -- Takes the signals from the register and computes outputs: New value of counter.
 
     -- Start screen
-    dimmer: process(hcount,vcount,xposition)
+xp <= "01110000";--112
+yp <= "01110000";--112
+
+xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
+yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
+
+p1 <= unsigned(xr + yr);
+
+dimmer: process(xposition,yposition,p1)
    begin
-        hsigned <= signed('0' & hcount);
-        vsigned <= signed('0' & vcount);
-
-        xp1 <= signed("0000000" & unsigned(xplayer));
-        yp1 <= signed("0000000" & unsigned(yplayer));
-
-        xp <= shift_left(xp1,5) + 16;
-        yp <= shift_left(yp1,5) + 16;
-
-        
-        xr <= (xp - hsigned) * (xp - hsigned);
-        yr <= (yp - vsigned) * (yp - vsigned);
-
-        p1 <= unsigned(xr + yr);
-        p2 <= "0000000001100100000000" - p1;
-        if (xposition < "01111") then
-            if (p1 <= "0000000000100100000000") then
-                dim <= "0000";
-            elsif ("0000000000100100000000" < p1 and p1 <= "0000000001100100000000") then
-                if 	(p2 < "0000000000001001001001") then dim <= "1111";--585;
-                elsif 	(p2 < "0000000000010010010010") then dim <= "1011";--1170
-                elsif 	(p2 < "0000000000011011011011") then dim <= "0110";--3072	
-                elsif 	(p2 < "0000000000100100100100") then dim <= "0100";--3072	
-                elsif 	(p2 < "0000000000101101101101") then dim <= "0011";--3072
-                elsif 	(p2 < "0000000000110110110110") then dim <= "0010";--3072
-                elsif 	(p2 < "0000000000111111111111") then dim <= "0001";--3072
-                else dim <= "0000";
-                end if;
-            else 
-                dim <= "1111";
+        if (xposition > unsigned(xplayer) - 4 and xposition < "01111"  and yposition > unsigned(yplayer) - 4) then
+            if      (p1 > "000001100100000000") then dim <= "1111";--6400
+            elsif   (p1 > "000001010101111100") then dim <= "1011";--5500
+            elsif 	(p1 > "000001001110001000") then dim <= "0111";--5000
+            elsif 	(p1 > "000000111110100000") then dim <= "0011";--4000
+            elsif 	(p1 > "000000101010001100") then dim <= "0001";--2304	
+            else                                 dim <= "0000";
             end if;
         else
             dim <= "0000";
         end if;
    end process dimmer;
    
-    tile_select:process(clk, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
+    tile_select:process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
     begin
         case game_state is
             when "00" =>
@@ -433,7 +413,7 @@ begin
     end process hcounter_procces;
         
 --Vcounter COM      
-    vcounter_procces: process(hcount,vcount)
+    vcounter_procces: process(vcount,hcount)
     begin
         if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
             if (hcount = h_display + h_fp + H_MARGIN - 1) then
@@ -483,11 +463,32 @@ begin
         end if;
     end process;
 
+    -- Process: visibility counter H
+    process(hcount,xposition,xplayer)
+    begin
+        if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
+            new_hvis <= hvis + 1;
+        else
+            new_hvis <= (others => '0');
+        end if;
+    end process;
+
+    -- Process: visibility counter V
+    process(vcount,yposition,yplayer)
+    begin
+        if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
+            new_vvis <= vvis + 1;
+        else
+            new_vvis <= (others => '0');
+        end if;
+    end process;
+
     -- Process: Timer
     process(timer1, timer2)
     begin
         if (timer1 < 63) then
             new_timer1 <= timer1 + 1;
+            new_timer2 <= timer2;
         else
             new_timer1 <= (others => '0');
             if (timer2 < 63) then
@@ -563,6 +564,9 @@ begin
                 hcount <= (others => '0');
                 Vcount <= (others => '0');
 
+                hvis <= (others => '0');
+                vvis <= (others => '0');
+
                 xposition <= (others => '0');
                 yposition <= (others => '0');
 
@@ -574,6 +578,9 @@ begin
                 --Assign to internal signal
                 hcount <= new_hcount;
                 Vcount <= new_Vcount;
+                
+                hvis <= new_hvis;
+                vvis <= new_vvis;
 
                 column <= new_column;
                 row    <= new_row;
@@ -594,3 +601,4 @@ begin
     column_out   <= std_logic_vector(column);
     row_out      <= std_logic_vector(row);
 end architecture behaviour;
+

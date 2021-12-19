@@ -29,12 +29,12 @@ port (
 );
 end component;
 
-signal  map_data			:std_logic_vector(71 downto 0);
-signal	Xplayer		: std_logic_vector(3 downto 0);
-signal	Yplayer		: std_logic_vector(3 downto 0);
-signal	score 		: std_logic_vector(15 downto 0);
-signal	energy		: std_logic_vector(11 downto 0);
-signal	level 	: std_logic_vector(7 downto 0);
+	signal  map_data			:std_logic_vector(71 downto 0);
+	signal	Xplayer		: std_logic_vector(3 downto 0);
+	signal	Yplayer		: std_logic_vector(3 downto 0);
+	signal	score 		: std_logic_vector(15 downto 0);
+	signal	energy		: std_logic_vector(11 downto 0);
+	signal	level 	: std_logic_vector(7 downto 0);
 	signal game_state      : std_logic_vector(1 downto 0);
 	signal timer1_out		: unsigned(5 downto 0);
 	signal timer2_out		: unsigned(5 downto 0);
@@ -57,8 +57,8 @@ case input is
 	when "001" => 
 		map_data <= "011011010011011100000001011011000000000000011011000111000011011000011011";
 		game_state <= "01";
-		Xplayer <= "0101";
-		Yplayer <= "0011";
+		Xplayer <= "0111";
+		Yplayer <= "0111";
 		score 		<= "0000000000100000";
 		energy		<= "000000000001";
 		level 		<= "00000001";
@@ -66,7 +66,7 @@ case input is
 		map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
         		game_state <= "01";
 		Xplayer <= "0111";
-		Yplayer <= "0110";
+		Yplayer <= "1000";
 		score 		<= "0000000000100000";
 		energy		<= "000000000001";
 		level 		<= "00000001";
