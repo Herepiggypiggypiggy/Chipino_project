@@ -5,596 +5,633 @@ use work.parameter_def.all;
 
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
-    signal hcount : unsigned(9 downto 0);
-    signal Vcount : unsigned(9 downto 0);
+	signal hcount : unsigned(9 downto 0);
+	signal Vcount : unsigned(9 downto 0);
 
-    signal new_hcount : unsigned(9 downto 0);
-    signal new_Vcount : unsigned(9 downto 0);
+	signal new_hcount : unsigned(9 downto 0);
+	signal new_Vcount : unsigned(9 downto 0);
 
-    signal new_column : unsigned(2 downto 0);
-    signal new_row    : unsigned(2 downto 0);
+	signal new_column : unsigned(2 downto 0);
+	signal new_row    : unsigned(2 downto 0);
 
-    signal column : unsigned(2 downto 0);
-    signal row    : unsigned(2 downto 0);
+	signal column : unsigned(2 downto 0);
+	signal row    : unsigned(2 downto 0);
 
-    signal new_xposition : unsigned(4 downto 0);
-    signal new_yposition : unsigned(4 downto 0);
+	signal new_xposition : unsigned(4 downto 0);
+	signal new_yposition : unsigned(4 downto 0);
 
-    signal xposition : unsigned(4 downto 0);
-    signal yposition : unsigned(4 downto 0);
-    
-    signal frame_count     : unsigned(3 downto 0);
-    signal new_frame_count : unsigned(3 downto 0);
+	signal xposition : unsigned(4 downto 0);
+	signal yposition : unsigned(4 downto 0);
 
-    signal timer1     : unsigned(5 downto 0);
-    signal timer2     : unsigned(5 downto 0);
-    signal new_timer1 : unsigned(5 downto 0);
-    signal new_timer2 : unsigned(5 downto 0);
+	signal frame_count     : unsigned(3 downto 0);
+	signal new_frame_count : unsigned(3 downto 0);
 
-    signal vga_done : std_logic;
+	signal timer1     : unsigned(5 downto 0);
+	signal timer2     : unsigned(5 downto 0);
+	signal new_timer1 : unsigned(5 downto 0);
+	signal new_timer2 : unsigned(5 downto 0);
 
-    signal hvis     : unsigned(7 downto 0);
-    signal new_hvis : unsigned(7 downto 0);
+	signal vga_done : std_logic;
 
-    signal vvis     : unsigned(7 downto 0);
-    signal new_vvis : unsigned(7 downto 0);
+	signal hvis     : unsigned(7 downto 0);
+	signal new_hvis : unsigned(7 downto 0);
 
-    signal p1 : unsigned(17 downto 0);
+	signal vvis     : unsigned(7 downto 0);
+	signal new_vvis : unsigned(7 downto 0);
 
-    signal xr : signed(17 downto 0);
-    signal yr : signed(17 downto 0);
+	signal p1 : unsigned(17 downto 0);
 
-    signal xp  : signed(7 downto 0);
-    signal yp  : signed(7 downto 0);
+	signal xr : signed(17 downto 0);
+	signal yr : signed(17 downto 0);
+
+	signal xp : signed(7 downto 0);
+	signal yp : signed(7 downto 0);
 
 begin
-    -- Process: Combinatorial
-    -- Takes the signals from the register and computes outputs: New value of counter.
+	-- Process: Combinatorial
+	-- Takes the signals from the register and computes outputs: New value of counter.
 
-    -- Start screen
-    xp <= "01110000";--112
-    yp <= "01110000";--112
+	-- Start screen
+	xp <= "01110000";                   --112
+	yp <= "01110000";                   --112
 
-    xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
-    yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
+	xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
+	yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
 
-    p1 <= unsigned(xr + yr);
+	p1 <= unsigned(xr + yr);
 
-    dimmer: process(xposition,yposition,p1)
-    begin
-        if (xposition > unsigned(xplayer) - 4 and xposition < "01111"  and yposition > unsigned(yplayer) - 4) then
-            if      (p1 > "000001100100000000") then dim <= "1111";--6400
-            elsif   (p1 > "000001010101111100") then dim <= "1011";--5500
-            elsif 	(p1 > "000001001110001000") then dim <= "0111";--5000
-            elsif 	(p1 > "000000111110100000") then dim <= "0011";--4000
-            elsif 	(p1 > "000000101010001100") then dim <= "0001";--2304	
-            else                                     dim <= "0000";
-            end if;
-        else
-            dim <= "0000";
-        end if;
-    end process dimmer;
-   
-    tile_select:process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
-    begin
-        case game_state is
-            when "00" =>
-                if (xposition = 3) then
-                    if (yposition = 4) then
-                        tile_address <= "111111"; --Player
-                    elsif (yposition = 7) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 8) then
-                        tile_address <= "001110"; --L
-                    elsif (yposition = 9) then
-                        tile_address <= "011010"; --O
-                    elsif (yposition = 10) then
-                        tile_address <= "100000"; --M
+	dimmer : process(xposition, yposition, p1)
+	begin
+		if (xposition > unsigned(xplayer) - 4 and xposition < "01111" and yposition > unsigned(yplayer) - 4) then
+			if (p1 > "000001100100000000") then
+				dim <= "1111";          --6400
+			elsif (p1 > "000001010101111100") then
+				dim <= "1011";          --5500
+			elsif (p1 > "000001001110001000") then
+				dim <= "0111";          --5000
+			elsif (p1 > "000000111110100000") then
+				dim <= "0011";          --4000
+			elsif (p1 > "000000101010001100") then
+				dim <= "0001";          --2304	
+			else
+				dim <= "0000";
+			end if;
+		else
+			dim <= "0000";
+		end if;
+	end process dimmer;
 
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
+	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
+	begin
+		case game_state is
+			when "00" =>
+				if (xposition = 3) then
+					if (yposition = 4) then
+						tile_address <= "111111"; --Player
+					elsif (yposition = 7) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 8) then
+						tile_address <= "001110"; --L
+					elsif (yposition = 9) then
+						tile_address <= "011010"; --O
+					elsif (yposition = 10) then
+						tile_address <= "100000"; --M
 
-                elsif (xposition = 4) then
-                    if (yposition = 4) then
-                        tile_address <= "011011"; --R
-                    elsif (yposition = 5) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 6) then
-                        tile_address <= "001111"; --N
-                    elsif (yposition = 7) then
-                        tile_address <= "100001"; --I
-                    elsif (yposition = 8) then
-                        tile_address <= "100000"; --M
-                    elsif (yposition = 10) then
-                        tile_address <= "000001"; --Rock
+					else
+						tile_address <= "001010"; --black
+					end if;
 
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
+				elsif (xposition = 4) then
+					if (yposition = 4) then
+						tile_address <= "011011"; --R
+					elsif (yposition = 5) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 6) then
+						tile_address <= "001111"; --N
+					elsif (yposition = 7) then
+						tile_address <= "100001"; --I
+					elsif (yposition = 8) then
+						tile_address <= "100000"; --M
+					elsif (yposition = 10) then
+						tile_address <= "000001"; --Rock
 
-                else
-                    tile_address <= "001010"; --black
-                end if;
+					else
+						tile_address <= "001010"; --black
+					end if;
 
-            -- In game
-            when "01" =>
-                --Tile Type selector
-                if (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 3) then
-                    tile_address <= "000" & map_data(71 downto 69); --1
-                elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 2) then
-                    tile_address <= "000" & map_data(68 downto 66); --2
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 2) then
-                    tile_address <= "000" & map_data(65 downto 63); --3
-                elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 2) then
-                    tile_address <= "000" & map_data(62 downto 60); --4
+				else
+					tile_address <= "001010"; --black
+				end if;
 
-                elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) + 1) then
-                    tile_address <= "000" & map_data(59 downto 57); --5
-                elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 1) then
-                    tile_address <= "000" & map_data(56 downto 54); --6
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 1) then
-                    tile_address <= "000" & map_data(53 downto 51); --7
-                elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 1) then
-                    tile_address <= "000" & map_data(50 downto 48); --8
-                elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) + 1) then
-                    tile_address <= "000" & map_data(47 downto 45); --9
+			-- In game
+			when "01" =>
+				--Tile Type selector
+				if (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 3) then
+					tile_address <= "000" & map_data(71 downto 69); --1
+				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 2) then
+					tile_address <= "000" & map_data(68 downto 66); --2
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 2) then
+					tile_address <= "000" & map_data(65 downto 63); --3
+				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 2) then
+					tile_address <= "000" & map_data(62 downto 60); --4
 
-                elsif (xposition = unsigned(xplayer) - 3 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(44 downto 42); --10
-                elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(41 downto 39); --11
-                elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(38 downto 36); --12
-                elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(35 downto 33); --13
-                elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(32 downto 30); --14
-                elsif (xposition = unsigned(xplayer) + 3 and yposition = unsigned(yplayer)) then
-                    tile_address <= "000" & map_data(29 downto 27); --15
+				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) + 1) then
+					tile_address <= "000" & map_data(59 downto 57); --5
+				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 1) then
+					tile_address <= "000" & map_data(56 downto 54); --6
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 1) then
+					tile_address <= "000" & map_data(53 downto 51); --7
+				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 1) then
+					tile_address <= "000" & map_data(50 downto 48); --8
+				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) + 1) then
+					tile_address <= "000" & map_data(47 downto 45); --9
 
-                elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) - 1) then
-                    tile_address <= "000" & map_data(26 downto 24); --16
-                elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 1) then
-                    tile_address <= "000" & map_data(23 downto 21); --17
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 1) then
-                    tile_address <= "000" & map_data(20 downto 18); --18
-                elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 1) then
-                    tile_address <= "000" & map_data(17 downto 15); --19
-                elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) - 1) then
-                    tile_address <= "000" & map_data(14 downto 12); --20
+				elsif (xposition = unsigned(xplayer) - 3 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(44 downto 42); --10
+				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(41 downto 39); --11
+				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(38 downto 36); --12
+				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(35 downto 33); --13
+				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(32 downto 30); --14
+				elsif (xposition = unsigned(xplayer) + 3 and yposition = unsigned(yplayer)) then
+					tile_address <= "000" & map_data(29 downto 27); --15
 
-                elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 2) then
-                    tile_address <= "000" & map_data(11 downto 9); --21
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 2) then
-                    tile_address <= "000" & map_data(8 downto 6); --22
-                elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 2) then
-                    tile_address <= "000" & map_data(5 downto 3); --23
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 3) then
-                    tile_address <= "000" & map_data(2 downto 0); --24
-                elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer)) then
-                    tile_address <= "111111"; --player
+				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) - 1) then
+					tile_address <= "000" & map_data(26 downto 24); --16
+				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 1) then
+					tile_address <= "000" & map_data(23 downto 21); --17
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 1) then
+					tile_address <= "000" & map_data(20 downto 18); --18
+				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 1) then
+					tile_address <= "000" & map_data(17 downto 15); --19
+				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) - 1) then
+					tile_address <= "000" & map_data(14 downto 12); --20
 
-                --Energy display--
-                elsif (xposition = 14 + info_lv) then
-                    if (yposition = 2) then
-                        tile_address <= "01" & score(3 downto 0); --energy(0)
-                    elsif (yposition = 3) then
-                        tile_address <= "01" & score(7 downto 4); --energy(1)
-                    elsif (yposition = 4) then
-                        tile_address <= "01" & score(11 downto 8); --energy(2)
-                    elsif (yposition = 7) then
-                        tile_address <= "011110"; --Y
-                    elsif (yposition = 8) then
-                        tile_address <= "001101"; --G
-                    elsif (yposition = 9) then
-                        tile_address <= "011011"; --R
-                    elsif (yposition = 10) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 11) then
-                        tile_address <= "001111"; --N
-                    elsif (yposition = 12) then
-                        tile_address <= "001100"; --E
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
+				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 2) then
+					tile_address <= "000" & map_data(11 downto 9); --21
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 2) then
+					tile_address <= "000" & map_data(8 downto 6); --22
+				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 2) then
+					tile_address <= "000" & map_data(5 downto 3); --23
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 3) then
+					tile_address <= "000" & map_data(2 downto 0); --24
+				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer)) then
+					tile_address <= "111111"; --player
 
-                --Score display--
-                elsif (xposition = 16 + info_lv) then
-                    if (yposition = 2) then
-                        tile_address <= "01" & score(3 downto 0); --score(0)
-                    elsif (yposition = 3) then
-                        tile_address <= "01" & score(7 downto 4); --score(1)
-                    elsif (yposition = 4) then
-                        tile_address <= "01" & score(11 downto 8); --score(2)
-                    elsif (yposition = 5) then
-                        tile_address <= "01" & score(15 downto 12); --score(3)
-                    elsif (yposition = 8) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 9) then
-                        tile_address <= "011011"; --R
-                    elsif (yposition = 10) then
-                        tile_address <= "011010"; --O
-                    elsif (yposition = 11) then
-                        tile_address <= "001011"; --C
-                    elsif (yposition = 12) then
-                        tile_address <= "011100"; --S
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
+				--Energy display--
+				elsif (xposition = 14 + info_lv) then
+					if (yposition = 2) then
+						tile_address <= "01" & score(3 downto 0); --energy(0)
+					elsif (yposition = 3) then
+						tile_address <= "01" & score(7 downto 4); --energy(1)
+					elsif (yposition = 4) then
+						tile_address <= "01" & score(11 downto 8); --energy(2)
+					elsif (yposition = 7) then
+						tile_address <= "011110"; --Y
+					elsif (yposition = 8) then
+						tile_address <= "001101"; --G
+					elsif (yposition = 9) then
+						tile_address <= "011011"; --R
+					elsif (yposition = 10) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 11) then
+						tile_address <= "001111"; --N
+					elsif (yposition = 12) then
+						tile_address <= "001100"; --E
+					else
+						tile_address <= "001010"; --black
+					end if;
 
-                --Level display--
-                elsif (xposition = 18 + info_lv) then
-                    if (yposition = 2) then
-                        tile_address <= "01" & level(3 downto 0); --level(0)
-                    elsif (yposition = 3) then
-                        tile_address <= "01" & level(7 downto 4); --level(1)
-                    elsif (yposition = 8) then
-                        tile_address <= "001110"; --L
-                    elsif (yposition = 9) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 10) then
-                        tile_address <= "011101"; --V
-                    elsif (yposition = 11) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 12) then
-                        tile_address <= "001110"; --L
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
-                else
-                    tile_address <= "001010"; --BLACK
-                end if;
+				--Score display--
+				elsif (xposition = 16 + info_lv) then
+					if (yposition = 2) then
+						tile_address <= "01" & score(3 downto 0); --score(0)
+					elsif (yposition = 3) then
+						tile_address <= "01" & score(7 downto 4); --score(1)
+					elsif (yposition = 4) then
+						tile_address <= "01" & score(11 downto 8); --score(2)
+					elsif (yposition = 5) then
+						tile_address <= "01" & score(15 downto 12); --score(3)
+					elsif (yposition = 8) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 9) then
+						tile_address <= "011011"; --R
+					elsif (yposition = 10) then
+						tile_address <= "011010"; --O
+					elsif (yposition = 11) then
+						tile_address <= "001011"; --C
+					elsif (yposition = 12) then
+						tile_address <= "011100"; --S
+					else
+						tile_address <= "001010"; --black
+					end if;
 
-            -- End screen
-            when "10" =>
-                if (xposition = 3) then
-                    if (yposition = 3) then
-                        tile_address <= "011011"; --R
-                    elsif (yposition = 4) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 5) then
-                        tile_address <= "011101"; --V
-                    elsif (yposition = 6) then
-                        tile_address <= "011010"; --O
-                    elsif (yposition = 8) then
-                        tile_address <= "001100"; --E
-                    elsif (yposition = 9) then
-                        tile_address <= "100000"; --M
-                    elsif (yposition = 10) then
-                        tile_address <= "011111"; --A
-                    elsif (yposition = 11) then
-                        tile_address <= "001101"; --G
-                    else
-                        tile_address <= "001010"; --black
-                    end if;
-                    
-                -- Death animation
-                elsif (xposition = 6 or xposition = 7) then
-                    if (frame_count = 0) then
-                        if (xposition = 7) then tile_address <= "111111"; -- Player (main tile)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 1) then
-                        if (xposition = 7) then tile_address <= "100010"; -- Player (first death frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 2) then
-                        if (xposition = 7) then tile_address <= "100011"; -- Player (second death frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 3) then
-                        if (xposition = 7) then tile_address <= "100100"; -- Player (third death frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 4) then
-                        if (xposition = 7) then tile_address <= "100101"; -- Poof (first frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 5) then
-                        if (xposition = 7) then tile_address <= "100110"; -- Poof (second frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 6) then
-                        if (xposition = 7) then tile_address <= "100111"; -- Poof (third frame)
-                        else                    tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 7) then
-                        if    (xposition = 6) then tile_address <= "101001"; -- Soul (first frame)
-                        elsif (xposition = 7) then tile_address <= "101000"; -- Poof (fourth frame)
-                        else                       tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 8) then
-                        if    (xposition = 6) then tile_address <= "101010"; -- Soul (second frame)
-                        elsif (xposition = 7) then tile_address <= "100110"; -- Poof (second frame)
-                        else                       tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    elsif (frame_count = 9) then
-                        if    (xposition = 6) then tile_address <= "101100"; -- Soul (third frame)
-                        elsif (xposition = 7) then tile_address <= "101011"; -- Poof (fifth frame)
-                        else                       tile_address <= "001010"; -- Black
-                        end if;
-                        
-                    else
-                        tile_address <= "001010"; -- Black
-                    end if;
-                else
-                    tile_address <= "001010"; --black
-                end if;
+				--Level display--
+				elsif (xposition = 18 + info_lv) then
+					if (yposition = 2) then
+						tile_address <= "01" & level(3 downto 0); --level(0)
+					elsif (yposition = 3) then
+						tile_address <= "01" & level(7 downto 4); --level(1)
+					elsif (yposition = 8) then
+						tile_address <= "001110"; --L
+					elsif (yposition = 9) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 10) then
+						tile_address <= "011101"; --V
+					elsif (yposition = 11) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 12) then
+						tile_address <= "001110"; --L
+					else
+						tile_address <= "001010"; --black
+					end if;
+				else
+					tile_address <= "001010"; --BLACK
+				end if;
 
-            when "11" => tile_address <= "000110";
+			-- End screen
+			when "10" =>
+				if (xposition = 3) then
+					if (yposition = 3) then
+						tile_address <= "011011"; --R
+					elsif (yposition = 4) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 5) then
+						tile_address <= "011101"; --V
+					elsif (yposition = 6) then
+						tile_address <= "011010"; --O
+					elsif (yposition = 8) then
+						tile_address <= "001100"; --E
+					elsif (yposition = 9) then
+						tile_address <= "100000"; --M
+					elsif (yposition = 10) then
+						tile_address <= "011111"; --A
+					elsif (yposition = 11) then
+						tile_address <= "001101"; --G
+					else
+						tile_address <= "001010"; --black
+					end if;
 
-            when others => tile_address <= "000110"; --black
-        end case;
-    end process;
+				-- Death animation
+				elsif (xposition = 6 or xposition = 7) then
+					if (frame_count = 0) then
+						if (xposition = 7) then
+							tile_address <= "111111"; -- Player (main tile)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    xposition_process: process(hcount,xposition)
-    begin
-            if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
-                new_xposition <= (others => '0');
-            else
-                if (hcount(4 downto 0) = pixel_num) then
-                    new_xposition <= xposition + 1;
-                else
-                    new_xposition <= xposition;
-                end if;
-            end if;
-    end process xposition_process;
-        
-    yposition_process: process(hcount,vcount,yposition)
-    begin
-        if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
-            new_yposition <= (others => '0');
-        else
-            if (Vcount(4 downto 0) = pixel_num and Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then
-                new_yposition <= yposition + 1;
-            else
-                new_yposition <= yposition;
-            end if;
-        end if;
-    end process yposition_process;
-    
-    --Column selector   
-    column_process: process(hcount,column)
-    begin
-            if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
-                new_column <= (others => '0');
-                else
-                    if (hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
-                        new_column <= (others => '0');
-                    elsif (hcount(1 downto 0) = pixel_tile) then -- when hcount mod 4 is 3 add column
-                        new_column <= column + 1;
-                    else
-                        new_column <= column;
-                end if;
-            end if;
-    end process column_process;
-        
-    --Row selector
-    row_process: process(vcount,hcount,row)
-    begin
-        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-                if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-                    if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+					elsif (frame_count = 1) then
+						if (xposition = 7) then
+							tile_address <= "100010"; -- Player (first death frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-                        new_row <= (others => '0');
-                    elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
-                        new_row <= row + 1;
-                    else
-                        new_row <= row;
-                    end if;
-                end if;
-            else
-                new_row <= (others => '0');
-            end if;
-    end process row_procces;
+					elsif (frame_count = 2) then
+						if (xposition = 7) then
+							tile_address <= "100011"; -- Player (second death frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    --hcounter COM
-    hcounter_process: process(hcount)
-    begin
-        if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
-            new_hcount <= hcount + 1;
-        else
-            new_hcount <= (others => '0');
-        end if;
-    end process hcounter_process;
-        
-    --Vcounter COM      
-    vcounter_process: process(vcount,hcount)
-    begin
-        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
-            if (hcount = h_display + h_fp + H_MARGIN - 1) then
-                new_Vcount <= Vcount + 1;
-            else
-                new_Vcount <= Vcount;
-            end if;
-        else
-            if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
-                new_Vcount <= (others => '0');
-            else
-                new_Vcount <= Vcount;
-            end if;
-        end if;
-    end process vcounter_process;
-        
-    -- VGA done signal     
-    vga_done_process: process(vcount)
-    begin
-        if (vcount > V_DISPLAY - 1) then
-            vga_done <= '1';
-        else
-            vga_done <= '0';
-        end if;
-    end process vga_done_process;
-    
-    process(level)
-    begin
-        if (level = "00000000") then
-            bg_select <= "000";
-        elsif (level = "00000001" or level(7 downto 1) = "0000001") then
-            bg_select <= "001";         -- levels 1 to 3
-        elsif (level(7 downto 1) = "0000010" or level = "00000110") then
-            bg_select <= "010";         -- levels 4 to 6
-        elsif (level = "00000111" or level(7 downto 1) = "0000100") then
-            bg_select <= "011";         -- levels 7 to 9
-        elsif (level(7 downto 1) = "0001000" or level = "00010010") then
-            bg_select <= "100";         -- levels 10 to 12
-        elsif (level(7 downto 1) = "0001010" or level = "00010011") then
-            bg_select <= "101";         -- levels 13 to 15
-        elsif (level(7 downto 1) = "0001011" or level = "00011000") then
-            bg_select <= "110";         -- levels 16 to 18
-        elsif (level(7 downto 5) = "001" or level = "00011001") then
-            bg_select <= "111";         -- levels 19 to 22
-        else
-            bg_select <= "111";
-        end if;
-    end process;
+					elsif (frame_count = 3) then
+						if (xposition = 7) then
+							tile_address <= "100100"; -- Player (third death frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    -- Process: visibility counter H
-    process(hcount,xposition,xplayer)
-    begin
-        if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
-            new_hvis <= hvis + 1;
-        else
-            new_hvis <= (others => '0');
-        end if;
-    end process;
+					elsif (frame_count = 4) then
+						if (xposition = 7) then
+							tile_address <= "100101"; -- Poof (first frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    -- Process: visibility counter V
-    process(vcount,yposition,yplayer)
-    begin
-        if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
-            new_vvis <= vvis + 1;
-        else
-            new_vvis <= (others => '0');
-        end if;
-    end process;
+					elsif (frame_count = 5) then
+						if (xposition = 7) then
+							tile_address <= "100110"; -- Poof (second frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    -- Process: Timer
-    process(timer1, timer2)
-    begin
-        if (timer1 < 63) then
-            new_timer1 <= timer1 + 1;
-            new_timer2 <= timer2;
-        else
-            new_timer1 <= (others => '0');
-            if (timer2 < 63) then
-                new_timer2 <= timer2 + 1;
-            else
-                new_timer2 <= (others => '0');
-            end if;
-        end if;
-    end process;
+					elsif (frame_count = 6) then
+						if (xposition = 7) then
+							tile_address <= "100111"; -- Poof (third frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    -- Process: Sequential
-    process(vga_done, reset)
-    begin
-        if (reset = '1') then
-            timer1 <= (others => '0');
-            timer2 <= (others => '0');
-        else
-            if (rising_edge(vga_done)) then
-                timer1 <= new_timer1;
-                timer2 <= new_timer2;
-            end if;
-        end if;
-    end process;
-    
-    -- Process: Frame Count
-    process(frame_count, game_state)
-    begin
-        case game_state is
-            -- Start screen
-            when "00" =>
-                if (frame_count = "1001") then new_frame_count <= "1000";
-                else new_frame_count <= frame_count + 1;
-                end if;
-                
-            -- In game        
-            when "01" =>
-                if (frame_count = "1001") then new_frame_count <= "1000";
-                else new_frame_count <= frame_count + 1;
-                end if;
-                
-            -- End screen        
-            when "10" =>
-                if (frame_count = "1001") then new_frame_count <= "1000";
-                else new_frame_count <= frame_count + 1;
-                end if;
-                    
-            when "11" =>
-                if (frame_count = "1001") then new_frame_count <= "1000";
-                else new_frame_count <= frame_count + 1;
-                end if;
-	    when others => new_frame_count <= frame_count;
-        end case;
-    end process;
-    
-    -- Process: Sequential
-    process(reset, timer1)
-    begin
-        if (reset = '1') then
-            frame_count <= "0000";
-        else
-            if (rising_edge(timer1(5))) then
-                frame_count <= new_frame_count;
-            end if;
-        end if;
-    end process;
+					elsif (frame_count = 7) then
+						if (xposition = 6) then
+							tile_address <= "101001"; -- Soul (first frame)
+						elsif (xposition = 7) then
+							tile_address <= "101000"; -- Poof (fourth frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-    -- Stores new values of hcount and Vcount in the register.
-    process(clk)
-    begin
-        if (rising_edge(clk)) then
-            if (reset = '1') then
-                --Assign to internal signal
-                hcount <= (others => '0');
-                Vcount <= (others => '0');
+					elsif (frame_count = 8) then
+						if (xposition = 6) then
+							tile_address <= "101010"; -- Soul (second frame)
+						elsif (xposition = 7) then
+							tile_address <= "100110"; -- Poof (second frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-                hvis <= (others => '0');
-                vvis <= (others => '0');
+					elsif (frame_count = 9) then
+						if (xposition = 6) then
+							tile_address <= "101100"; -- Soul (third frame)
+						elsif (xposition = 7) then
+							tile_address <= "101011"; -- Poof (fifth frame)
+						else
+							tile_address <= "001010"; -- Black
+						end if;
 
-                xposition <= (others => '0');
-                yposition <= (others => '0');
+					else
+						tile_address <= "001010"; -- Black
+					end if;
+				else
+					tile_address <= "001010"; --black
+				end if;
 
-                column <= (others => '0');
-                row    <= (others => '0');
-                
-                frame_count <= "0000";
-            else
-                --Assign to internal signal
-                hcount <= new_hcount;
-                Vcount <= new_Vcount;
-                
-                hvis <= new_hvis;
-                vvis <= new_vvis;
+			when "11" => tile_address <= "000110";
 
-                column <= new_column;
-                row    <= new_row;
+			when others => tile_address <= "000110"; --black
+		end case;
+	end process;
 
-                xposition <= new_xposition;
-                yposition <= new_yposition;
-            end if;
-        end if;
-    end process;
+	xposition_process : process(hcount, xposition)
+	begin
+		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+			new_xposition <= (others => '0');
+		else
+			if (hcount(4 downto 0) = pixel_num) then
+				new_xposition <= xposition + 1;
+			else
+				new_xposition <= xposition;
+			end if;
+		end if;
+	end process xposition_process;
 
-    --Assign to output signals
-    hcount_out <= hcount;
-    Vcount_out <= Vcount;
+	yposition_process : process(hcount, vcount, yposition)
+	begin
+		if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
+			new_yposition <= (others => '0');
+		else
+			if (Vcount(4 downto 0) = pixel_num and Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then
+				new_yposition <= yposition + 1;
+			else
+				new_yposition <= yposition;
+			end if;
+		end if;
+	end process yposition_process;
 
-    vga_done_out <= vga_done;
-    timer1_out   <= timer1;
-    timer2_out   <= timer2;
-    column_out   <= std_logic_vector(column);
-    row_out      <= std_logic_vector(row);
+	--Column selector   
+	column_process : process(hcount, column)
+	begin
+		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
+			new_column <= (others => '0');
+		else
+			if (hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
+				new_column <= (others => '0');
+			elsif (hcount(1 downto 0) = pixel_tile) then -- when hcount mod 4 is 3 add column
+				new_column <= column + 1;
+			else
+				new_column <= column;
+			end if;
+		end if;
+	end process column_process;
+
+	--Row selector
+	row_process : process(vcount, hcount, row)
+	begin
+		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+			if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+				if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+
+					new_row <= (others => '0');
+				elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
+					new_row <= row + 1;
+				else
+					new_row <= row;
+				end if;
+			end if;
+		else
+			new_row <= (others => '0');
+		end if;
+	end process row_procces;
+
+	--hcounter COM
+	hcounter_process : process(hcount)
+	begin
+		if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
+			new_hcount <= hcount + 1;
+		else
+			new_hcount <= (others => '0');
+		end if;
+	end process hcounter_process;
+
+	--Vcounter COM      
+	vcounter_process : process(vcount, hcount)
+	begin
+		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
+			if (hcount = h_display + h_fp + H_MARGIN - 1) then
+				new_Vcount <= Vcount + 1;
+			else
+				new_Vcount <= Vcount;
+			end if;
+		else
+			if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+				new_Vcount <= (others => '0');
+			else
+				new_Vcount <= Vcount;
+			end if;
+		end if;
+	end process vcounter_process;
+
+	-- VGA done signal     
+	vga_done_process : process(vcount)
+	begin
+		if (vcount > V_DISPLAY - 1) then
+			vga_done <= '1';
+		else
+			vga_done <= '0';
+		end if;
+	end process vga_done_process;
+
+	process(level)
+	begin
+		if (level = "00000000") then
+			bg_select <= "000";
+		elsif (level = "00000001" or level(7 downto 1) = "0000001") then
+			bg_select <= "001";         -- levels 1 to 3
+		elsif (level(7 downto 1) = "0000010" or level = "00000110") then
+			bg_select <= "010";         -- levels 4 to 6
+		elsif (level = "00000111" or level(7 downto 1) = "0000100") then
+			bg_select <= "011";         -- levels 7 to 9
+		elsif (level(7 downto 1) = "0001000" or level = "00010010") then
+			bg_select <= "100";         -- levels 10 to 12
+		elsif (level(7 downto 1) = "0001010" or level = "00010011") then
+			bg_select <= "101";         -- levels 13 to 15
+		elsif (level(7 downto 1) = "0001011" or level = "00011000") then
+			bg_select <= "110";         -- levels 16 to 18
+		elsif (level(7 downto 5) = "001" or level = "00011001") then
+			bg_select <= "111";         -- levels 19 to 22
+		else
+			bg_select <= "111";
+		end if;
+	end process;
+
+	-- Process: visibility counter H
+	process(hcount, xposition, xplayer)
+	begin
+		if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
+			new_hvis <= hvis + 1;
+		else
+			new_hvis <= (others => '0');
+		end if;
+	end process;
+
+	-- Process: visibility counter V
+	process(vcount, yposition, yplayer)
+	begin
+		if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
+			new_vvis <= vvis + 1;
+		else
+			new_vvis <= (others => '0');
+		end if;
+	end process;
+
+	-- Process: Timer
+	process(timer1, timer2)
+	begin
+		if (timer1 < 63) then
+			new_timer1 <= timer1 + 1;
+			new_timer2 <= timer2;
+		else
+			new_timer1 <= (others => '0');
+			if (timer2 < 63) then
+				new_timer2 <= timer2 + 1;
+			else
+				new_timer2 <= (others => '0');
+			end if;
+		end if;
+	end process;
+
+	-- Process: Sequential
+	process(vga_done, reset)
+	begin
+		if (reset = '1') then
+			timer1 <= (others => '0');
+			timer2 <= (others => '0');
+		else
+			if (rising_edge(vga_done)) then
+				timer1 <= new_timer1;
+				timer2 <= new_timer2;
+			end if;
+		end if;
+	end process;
+
+	-- Process: Frame Count
+	process(frame_count, game_state)
+	begin
+		case game_state is
+			-- Start screen
+			when "00" =>
+				if (frame_count = "1001") then
+					new_frame_count <= "1000";
+				else
+					new_frame_count <= frame_count + 1;
+				end if;
+
+			-- In game        
+			when "01" =>
+				if (frame_count = "1001") then
+					new_frame_count <= "1000";
+				else
+					new_frame_count <= frame_count + 1;
+				end if;
+
+			-- End screen        
+			when "10" =>
+				if (frame_count = "1001") then
+					new_frame_count <= "1000";
+				else
+					new_frame_count <= frame_count + 1;
+				end if;
+
+			when "11" =>
+				if (frame_count = "1001") then
+					new_frame_count <= "1000";
+				else
+					new_frame_count <= frame_count + 1;
+				end if;
+			when others => new_frame_count <= frame_count;
+		end case;
+	end process;
+
+	-- Process: Sequential
+	process(reset, timer1)
+	begin
+		if (reset = '1') then
+			frame_count <= "0000";
+		else
+			if (rising_edge(timer1(5))) then
+				frame_count <= new_frame_count;
+			end if;
+		end if;
+	end process;
+
+	-- Stores new values of hcount and Vcount in the register.
+	process(clk)
+	begin
+		if (rising_edge(clk)) then
+			if (reset = '1') then
+				--Assign to internal signal
+				hcount <= (others => '0');
+				Vcount <= (others => '0');
+
+				hvis <= (others => '0');
+				vvis <= (others => '0');
+
+				xposition <= (others => '0');
+				yposition <= (others => '0');
+
+				column <= (others => '0');
+				row    <= (others => '0');
+
+				frame_count <= "0000";
+			else
+				--Assign to internal signal
+				hcount <= new_hcount;
+				Vcount <= new_Vcount;
+
+				hvis <= new_hvis;
+				vvis <= new_vvis;
+
+				column <= new_column;
+				row    <= new_row;
+
+				xposition <= new_xposition;
+				yposition <= new_yposition;
+			end if;
+		end if;
+	end process;
+
+	--Assign to output signals
+	hcount_out <= hcount;
+	Vcount_out <= Vcount;
+
+	vga_done_out <= vga_done;
+	timer1_out   <= timer1;
+	timer2_out   <= timer2;
+	column_out   <= std_logic_vector(column);
+	row_out      <= std_logic_vector(row);
 end architecture behaviour;
 
