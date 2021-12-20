@@ -58,8 +58,8 @@
 10 10 11	-> 	Death animation: fifth poof frame
 
 10 11 00	->	Death animation: third soul frame
-10 11 01	
-10 11 10	
+10 11 01	->	Footsteps: first frame
+10 11 10	->	Footsteps: second frame
 10 11 11
 
 --------
