@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.parameter_def.all;
-
+  ---((((make unsigned position values fixed if the compiler it dumb)))--- can be optimized
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
 	signal hcount : unsigned(9 downto 0);
@@ -33,45 +33,46 @@ architecture behaviour of texture_ctrl is
 
 	signal vga_done : std_logic;
 
-	signal hvis     : unsigned(7 downto 0);
-	signal new_hvis : unsigned(7 downto 0);
+	signal hvis     : unsigned(6 downto 0);
+	signal new_hvis : unsigned(6 downto 0);
 
-	signal vvis     : unsigned(7 downto 0);
-	signal new_vvis : unsigned(7 downto 0);
+	signal vvis     : unsigned(6 downto 0);
+	signal new_vvis : unsigned(6 downto 0);
 
-	signal p1 : unsigned(17 downto 0);
+	signal p1 : unsigned(13 downto 0);
 
-	signal xr : signed(17 downto 0);
-	signal yr : signed(17 downto 0);
+	signal xr : unsigned(13 downto 0);
+	signal yr : unsigned(13 downto 0);
 
-	signal xp : signed(7 downto 0);
-	signal yp : signed(7 downto 0);
+	signal xp : unsigned(6 downto 0);
+	signal yp : unsigned(6 downto 0);
 
 begin
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
-
+    --changed:
+    --reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
 	-- Start screen
-	xp <= "01110000";                   --112
-	yp <= "01110000";                   --112
+	xp <= "1110000";                   --112
+	yp <= "1110000";                   --112
 
-	xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
-	yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
+	xr <= (xp -  hvis) * (xp - hvis);
+	yr <= (yp -  vvis) * (yp - vvis);
 
-	p1 <= unsigned(xr + yr);
+	p1 <= xr + yr;
 
 	dimmer : process(xposition, yposition, p1)
 	begin
 		if (xposition > unsigned(xplayer) - 4 and xposition < "01111" and yposition > unsigned(yplayer) - 4) then
-			if (p1 > "000001100100000000") then
+			if (p1 > "001100100000000") then
 				dim <= "1111";          --6400
-			elsif (p1 > "000001010101111100") then
+			elsif (p1 > "001010101111100") then
 				dim <= "1011";          --5500
-			elsif (p1 > "000001001110001000") then
+			elsif (p1 > "001001110001000") then
 				dim <= "0111";          --5000
-			elsif (p1 > "000000111110100000") then
+			elsif (p1 > "000111110100000") then
 				dim <= "0011";          --4000
-			elsif (p1 > "000000101010001100") then
+			elsif (p1 > "000101010001100") then
 				dim <= "0001";          --2304	
 			else
 				dim <= "0000";
@@ -365,7 +366,7 @@ begin
 			when others => tile_address <= "000110"; --black
 		end case;
 	end process;
-
+      ---((((mabey make signle constant)))--- can be optimized
 	xposition_process : process(hcount, xposition)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -378,7 +379,7 @@ begin
 			end if;
 		end if;
 	end process xposition_process;
-
+      ---((((mabey make signle constant)))--- can be optimized
 	yposition_process : process(hcount, vcount, yposition)
 	begin
 		if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -393,6 +394,7 @@ begin
 	end process yposition_process;
 
 	--Column selector   
+      ---((((mabey make signle constant)))--- can be optimized
 	column_process : process(hcount, column)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
@@ -409,25 +411,24 @@ begin
 	end process column_process;
 
 	--Row selector
+      ---((((mabey make signle constant)))--- can be optimized
 	row_process : process(vcount, hcount, row)
 	begin
-		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-			if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-				if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
-
-					new_row <= (others => '0');
-				elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
-					new_row <= row + 1;
-				else
-					new_row <= row;
-				end if;
-			end if;
+        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
+            if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+                new_row <= (others => '0');
+            elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
+                new_row <= row + 1;
+            else
+                new_row <= row;
+            end if;
 		else
 			new_row <= (others => '0');
 		end if;
-	end process row_procces;
+	end process row_process;
 
 	--hcounter COM
+      ---((((mabey make signle constant)))--- can be optimized
 	hcounter_process : process(hcount)
 	begin
 		if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
@@ -438,21 +439,18 @@ begin
 	end process hcounter_process;
 
 	--Vcounter COM      
+      ---((((mabey make signle constant)))--- can be optimized
 	vcounter_process : process(vcount, hcount)
 	begin
-		if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
-			if (hcount = h_display + h_fp + H_MARGIN - 1) then
+        if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+			if(Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
 				new_Vcount <= Vcount + 1;
 			else
-				new_Vcount <= Vcount;
+				new_Vcount <= (others => '0');
 			end if;
 		else
-			if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
-				new_Vcount <= (others => '0');
-			else
 				new_Vcount <= Vcount;
 			end if;
-		end if;
 	end process vcounter_process;
 
 	-- VGA done signal     
@@ -465,6 +463,7 @@ begin
 		end if;
 	end process vga_done_process;
 
+    ---(((USE ABSOLUTE VALUE OF LEVEL)))---
 	process(level)
 	begin
 		if (level = "00000000") then
@@ -489,22 +488,32 @@ begin
 	end process;
 
 	-- Process: visibility counter H
+      ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
 	process(hcount, xposition, xplayer)
 	begin
 		if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
-			new_hvis <= hvis + 1;
+            if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+			   	new_hvis <= hvis + 1;
+           	else
+                new_hvis <= hvis - 1;
+			end if;
 		else
-			new_hvis <= (others => '0');
+			new_hvis <= (others => '0');---mabey not necissery
 		end if;
 	end process;
 
 	-- Process: visibility counter V
+    ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
 	process(vcount, yposition, yplayer)
 	begin
 		if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
-			new_vvis <= vvis + 1;
+			if (vcount < unsigned('0'&yplayer&"10000")) then--vcoumt > yplayer * 32 + 16
+			    new_vvis <= vvis + 1;
+            		else
+                		new_vvis <= vvis - 1;
+            		end if;
 		else
-			new_vvis <= (others => '0');
+			new_vvis <= (others => '0');---mabey not necissery 12544
 		end if;
 	end process;
 
