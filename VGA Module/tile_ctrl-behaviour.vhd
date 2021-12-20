@@ -691,13 +691,13 @@ else
 			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
 			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
 
-			else						color_address <= magenta;
+			else						                    color_address <= magenta;
 	
 			end if;
 
 		-- E --
 		when "001100" =>
-			if 	(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
+			if 	(row = "000" and column = "000") then	    color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
 			elsif	(row = "000" and column = "011") then	color_address <= black;		-- row 0, column 3

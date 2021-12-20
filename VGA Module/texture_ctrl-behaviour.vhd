@@ -23,7 +23,7 @@ architecture behaviour of texture_ctrl is
     signal xposition : unsigned(4 downto 0);
     signal yposition : unsigned(4 downto 0);
     
-    signal frame_count : unsigned(3 downto 0);
+    signal frame_count     : unsigned(3 downto 0);
     signal new_frame_count : unsigned(3 downto 0);
 
     signal timer1     : unsigned(5 downto 0);
@@ -52,28 +52,28 @@ begin
     -- Takes the signals from the register and computes outputs: New value of counter.
 
     -- Start screen
-xp <= "01110000";--112
-yp <= "01110000";--112
+    xp <= "01110000";--112
+    yp <= "01110000";--112
 
-xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
-yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
+    xr <= (xp - signed('0' & hvis)) * (xp - signed('0' & hvis));
+    yr <= (yp - signed('0' & vvis)) * (yp - signed('0' & vvis));
 
-p1 <= unsigned(xr + yr);
+    p1 <= unsigned(xr + yr);
 
-dimmer: process(xposition,yposition,p1)
-   begin
+    dimmer: process(xposition,yposition,p1)
+    begin
         if (xposition > unsigned(xplayer) - 4 and xposition < "01111"  and yposition > unsigned(yplayer) - 4) then
             if      (p1 > "000001100100000000") then dim <= "1111";--6400
             elsif   (p1 > "000001010101111100") then dim <= "1011";--5500
             elsif 	(p1 > "000001001110001000") then dim <= "0111";--5000
             elsif 	(p1 > "000000111110100000") then dim <= "0011";--4000
             elsif 	(p1 > "000000101010001100") then dim <= "0001";--2304	
-            else                                 dim <= "0000";
+            else                                     dim <= "0000";
             end if;
         else
             dim <= "0000";
         end if;
-   end process dimmer;
+    end process dimmer;
    
     tile_select:process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
     begin
@@ -195,7 +195,6 @@ dimmer: process(xposition,yposition,p1)
                         tile_address <= "001111"; --N
                     elsif (yposition = 12) then
                         tile_address <= "001100"; --E
-
                     else
                         tile_address <= "001010"; --black
                     end if;
@@ -220,7 +219,6 @@ dimmer: process(xposition,yposition,p1)
                         tile_address <= "001011"; --C
                     elsif (yposition = 12) then
                         tile_address <= "011100"; --S
-
                     else
                         tile_address <= "001010"; --black
                     end if;
@@ -241,7 +239,6 @@ dimmer: process(xposition,yposition,p1)
                         tile_address <= "001100"; --E
                     elsif (yposition = 12) then
                         tile_address <= "001110"; --L
-
                     else
                         tile_address <= "001010"; --black
                     end if;
@@ -268,7 +265,6 @@ dimmer: process(xposition,yposition,p1)
                         tile_address <= "011111"; --A
                     elsif (yposition = 11) then
                         tile_address <= "001101"; --G
-
                     else
                         tile_address <= "001010"; --black
                     end if;
@@ -341,7 +337,7 @@ dimmer: process(xposition,yposition,p1)
         end case;
     end process;
 
-    xposition_procces: process(hcount,xposition)
+    xposition_process: process(hcount,xposition)
     begin
             if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
                 new_xposition <= (others => '0');
@@ -352,9 +348,9 @@ dimmer: process(xposition,yposition,p1)
                     new_xposition <= xposition;
                 end if;
             end if;
-    end process xposition_procces;
+    end process xposition_process;
         
-    yposition_procces: process(hcount,vcount,yposition)
+    yposition_process: process(hcount,vcount,yposition)
     begin
         if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
             new_yposition <= (others => '0');
@@ -365,10 +361,10 @@ dimmer: process(xposition,yposition,p1)
                 new_yposition <= yposition;
             end if;
         end if;
-    end process yposition_procces;
+    end process yposition_process;
     
---Colum selector   
-    column_procces: process(hcount,column)
+    --Column selector   
+    column_process: process(hcount,column)
     begin
             if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
                 new_column <= (others => '0');
@@ -381,10 +377,10 @@ dimmer: process(xposition,yposition,p1)
                         new_column <= column;
                 end if;
             end if;
-    end process column_procces;
+    end process column_process;
         
---Row selector
-    row_procces: process(vcount,hcount,row)
+    --Row selector
+    row_process: process(vcount,hcount,row)
     begin
         if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
                 if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
@@ -402,18 +398,18 @@ dimmer: process(xposition,yposition,p1)
             end if;
     end process row_procces;
 
---hcounter COM
-    hcounter_procces: process(hcount)
+    --hcounter COM
+    hcounter_process: process(hcount)
     begin
         if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
             new_hcount <= hcount + 1;
         else
             new_hcount <= (others => '0');
         end if;
-    end process hcounter_procces;
+    end process hcounter_process;
         
---Vcounter COM      
-    vcounter_procces: process(vcount,hcount)
+    --Vcounter COM      
+    vcounter_process: process(vcount,hcount)
     begin
         if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
             if (hcount = h_display + h_fp + H_MARGIN - 1) then
@@ -428,17 +424,17 @@ dimmer: process(xposition,yposition,p1)
                 new_Vcount <= Vcount;
             end if;
         end if;
-    end process vcounter_procces;
+    end process vcounter_process;
         
--- VGA done signal     
-    vga_done_procces: process(vcount)
+    -- VGA done signal     
+    vga_done_process: process(vcount)
     begin
         if (vcount > V_DISPLAY - 1) then
             vga_done <= '1';
         else
             vga_done <= '0';
         end if;
-    end process vga_done_procces;
+    end process vga_done_process;
     
     process(level)
     begin
