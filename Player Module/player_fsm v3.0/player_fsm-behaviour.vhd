@@ -173,7 +173,7 @@ begin
 			new_state <= central_state;
 			score_next <= (others => '0');		-- reset score to 0
 			energy_next <= "011001000";		-- reset energy to 200
- 			level_next <= "00000"; --game over back to level 0
+ 			level_next <= "00001"; --game over back to level 0
 			
 
 			score_add <=  (others => '0');
