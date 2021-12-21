@@ -5,11 +5,11 @@
 
 00 01 00	->	Diamond Ore	
 00 01 01	->	Ladder
-00 01 10	->	
-00 01 11	->
+00 01 10	->	Letter: R - Light Blue
+00 01 11	->	Letter: O - Light Blue
 
-00 10 00	->	
-00 10 01	->
+00 10 00	->	Letter: N - Light Blue
+00 10 01	->	Letter: L - Light Blue
 00 10 10	->	Black Tile
 00 10 11	->	Letter: C
 
@@ -43,7 +43,7 @@
 --------
 
 10 00 00	->	Letter: M
-10 00 01	->	Letter: I
+10 00 01	->	Letter: I - Light Blue
 10 00 10	->	Death animation: second player frame
 10 00 11	-> 	Death animation: third player frame
 
@@ -59,27 +59,27 @@
 
 10 11 00	->	Death animation: third soul frame
 10 11 01	->	Footsteps: first frame
-10 11 10	->	Footsteps: second frame
-10 11 11
+10 11 10	->	Sky
+10 11 11	->	Grass
 
 --------
 
-11 00 00	
-11 00 01	
-11 00 10	
-11 00 11
+11 00 00	->	Start 1_1
+11 00 01	->	Start 1_2
+11 00 10	->	Start 2_2
+11 00 11	->	Start 3_2
 
-11 01 00	
-11 01 01	
-11 01 10	
-11 01 11
+11 01 00	->	Start 4_1
+11 01 01	->	Start 4_2
+11 01 10	->	Start 5_1
+11 01 11	->	Start 5_2
 
-11 10 00	
-11 10 01	
-11 10 10	
-11 10 11
+11 10 00	->	Start 6_1
+11 10 01	->	Start 6_2
+11 10 10	->	Start 7_1
+11 10 11	->	Start 7_2
 
-11 11 00	
-11 11 01	
-11 11 10	
+11 11 00	-> 	Start 8_2	
+11 11 01	->	Letter: E - Light Blue
+11 11 10	->	Letter: M - Light blue
 11 11 11	->	Player
