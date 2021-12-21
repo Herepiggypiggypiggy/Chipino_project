@@ -139,15 +139,15 @@ begin
 				red   <= "111";
 				green <= "110";
 				blue  <= "100";
-			-- *Placeholder* --
+			-- Green --
 			when "11000" =>
 				red   <= "000";
-				green <= "000";
+				green <= "100";
 				blue  <= "000";
-			-- *Placeholder* --
+			-- Dark Green --
 			when "11001" =>
 				red   <= "000";
-				green <= "000";
+				green <= "011";
 				blue  <= "000";
 			-- *Placeholder* --
 			when "11010" =>
