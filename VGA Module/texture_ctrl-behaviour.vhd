@@ -90,13 +90,13 @@ begin
 					if (yposition = 4) then
 						tile_address <= "111111"; --Player
 					elsif (yposition = 7) then
-						tile_address <= "001100"; --E
+						tile_address <= "111101"; --E - Light Blue
 					elsif (yposition = 8) then
-						tile_address <= "001110"; --L
+						tile_address <= "001001"; --L - Light Blue
 					elsif (yposition = 9) then
-						tile_address <= "011010"; --O
+						tile_address <= "000111"; --O - Light Blue
 					elsif (yposition = 10) then
-						tile_address <= "100000"; --M
+						tile_address <= "111110"; --M - Light Blue
 
 					else
 						tile_address <= "001010"; --black
@@ -104,15 +104,15 @@ begin
 
 				elsif (xposition = 4) then
 					if (yposition = 4) then
-						tile_address <= "011011"; --R
+						tile_address <= "000110"; --R - Light Blue
 					elsif (yposition = 5) then
-						tile_address <= "001100"; --E
+						tile_address <= "111101"; --E - Light Blue
 					elsif (yposition = 6) then
-						tile_address <= "001111"; --N
+						tile_address <= "001000"; --N - Light Blue
 					elsif (yposition = 7) then
-						tile_address <= "100001"; --I
+						tile_address <= "100001"; --I - Light Blue
 					elsif (yposition = 8) then
-						tile_address <= "100000"; --M
+						tile_address <= "111110"; --M - Light Blue
 					elsif (yposition = 10) then
 						tile_address <= "000001"; --Rock
 
@@ -177,6 +177,12 @@ begin
 
 					else	tile_address <= "001010"; --black
 					end if;
+
+				elsif (xposition < 6) then
+					tile_address <= "101110"; --Sky
+
+				elsif (xposition > 5) then
+					tile_address <= "101111"; -- Grass
 
 				else
 					tile_address <= "001010"; --black
