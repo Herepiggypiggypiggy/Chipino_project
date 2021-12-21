@@ -379,7 +379,7 @@ begin
 			end if;
 		end if;
 	end process xposition_process;
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((maybe make signal constant)))--- can be optimized
 	yposition_process : process(hcount, vcount, yposition)
 	begin
 		if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -394,7 +394,7 @@ begin
 	end process yposition_process;
 
 	--Column selector   
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((maybe make signal constant)))--- can be optimized
 	column_process : process(hcount, column)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
@@ -411,7 +411,7 @@ begin
 	end process column_process;
 
 	--Row selector
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((maybe make signal constant)))--- can be optimized
 	row_process : process(vcount, hcount, row)
 	begin
         if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
@@ -428,7 +428,7 @@ begin
 	end process row_process;
 
 	--hcounter COM
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((maybe make signal constant)))--- can be optimized
 	hcounter_process : process(hcount)
 	begin
 		if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
@@ -439,7 +439,7 @@ begin
 	end process hcounter_process;
 
 	--Vcounter COM      
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((maybe make signal constant)))--- can be optimized
 	vcounter_process : process(vcount, hcount)
 	begin
         if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
