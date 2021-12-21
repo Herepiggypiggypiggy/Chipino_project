@@ -17,7 +17,6 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 
 	signal score_add: unsigned(1 downto 0);
 	signal energy_remove: unsigned(1 downto 0);
-	signal level_add: std_logic;
 
 
 	signal new_score_d: unsigned(15 downto 0);
@@ -26,7 +25,7 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 	signal energy_d: unsigned(11 downto 0);
 	signal new_level_d: unsigned(7 downto 0);
 	signal level_d: unsigned(7 downto 0);
-	signal reached_high: unsigned(1 downto 0);
+	signal reached_high, reached_high_next: unsigned(1 downto 0);
 	constant mine_cost : unsigned(1 downto 0) := "11";
 	--constant energy_bonus : unsigned(5 downto 0) := "110010";
 	--constant energy_begin : unsigned(8 downto 0) := "011001000";
@@ -63,6 +62,14 @@ begin
 				score_d <= (others => '0');
 				level_d <= (others => '0');
 				
+				score <= (others => '0');
+				energy <= "011001000";
+				level <= "00001";
+				
+				x_pos <= "0100";			-- the spawn location for the player is (8,3)
+				y_pos <= "0011";
+				
+				reached_high <= (others => '0');
 			else
 				state <= new_state;
 				
@@ -86,6 +93,9 @@ begin
 				level <= level_next;
 				x_pos <= x_pos_next;
 				y_pos <= y_pos_next;
+				
+				reached_high <= reached_high_next;
+				
 			end if;
 			
 		end if;
@@ -97,7 +107,9 @@ begin
 	-- combinatiorial process with all the states
 	process (state, reset, button_x_left, button_x_right, button_y_up,
 	button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
-		map_data_u, rise_left, rise_right,rise_up,rise_down,level_add,score_add)
+		map_data_u, rise_left, rise_right,rise_up,rise_down,score_add,
+		score_d, level_d, energy_d, energy_remove, x_pos, y_pos,
+		score, energy, level, reached_high)
     	begin
 	if (state = lvl_up_state) then
 		new_energy_d <= "001000000000";
@@ -178,16 +190,15 @@ begin
 
 			score_add <=  (others => '0');
 			energy_remove <= (others => '0');
-			level_add <= '0';
 			moved <= '0';
 			game_state <= "00";
+			reached_high_next <= "00";
 		when central_state => --central state where we read the inputs of the player
 
 			-- define all outputs
 
 			score_add <= "00";
 			energy_remove <= "00";
-			level_add <= '0';
 			game_state <= "01";
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
@@ -196,6 +207,7 @@ begin
 			energy_next <= energy;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- check energy for game over and go to different states depending on input, 
 			-- also don't enter mine state if energy is less than the energy it costs to mine
 			if(energy = "000000000") then
@@ -210,6 +222,8 @@ begin
 				new_state <= up_state;
 			elsif(rise_down = '1') then
 				new_state <= down_state;
+			else
+				new_state <= central_state;
 			end if;
 
 		
@@ -218,7 +232,6 @@ begin
 			-- define all outputs
 			score_add <= "00";
 			energy_remove <= "00";
-			level_add <= '0';
 			game_state <= "01";
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
@@ -227,6 +240,7 @@ begin
 			energy_next <= energy;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- check in which direction the player is mining
 			if(button_mining = '1' and button_x_left = '1') then
 				new_state <= mine_left_state;
@@ -243,7 +257,6 @@ begin
 		when mine_left_state => --player mining to the left
 
 			-- define all outputs
-			level_add <= '0';
 
 			game_state <= "01";
 			new_state <= central_state;
@@ -251,6 +264,7 @@ begin
 			y_pos_next <= y_pos;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- depending on what tile is to the left of the player do the following:
 			-- send the left mined command (dir_mined <= "100") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -275,11 +289,13 @@ begin
 				score_next <= score + 2;
 			elsif(map_data_l = "111") then -- mine rock with ladder
 				dir_mined <= "100"; --left mined (00)
+				energy_next <= energy - mine_cost;
 				energy_remove <= mine_cost;
 				score_add <= "00";
 				score_next <= score;
 			else -- don't mine
 				dir_mined <= "000";
+				energy_next <= energy;
 				energy_remove <= "00";
 				score_add <= "00";
 				score_next <= score;	
@@ -290,7 +306,6 @@ begin
 
 			-- define all outputs
 
-			level_add <= '0';
 			game_state <= "01";
 
 			new_state <= central_state;
@@ -298,6 +313,7 @@ begin
 			y_pos_next <= y_pos;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- depending on what tile is to the right of the player do the following:
 			-- send the right mined command (dir_mined <= "101") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -338,7 +354,6 @@ begin
 		when mine_up_state => --player mining up 
 
 			-- define all outputs
-			level_add <= '0';
 
 			game_state <= "01";
 
@@ -347,6 +362,7 @@ begin
 			y_pos_next <= y_pos;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- depending on what tile is above the player do the following:
 			-- send the up mined command (dir_mined <= "110") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -387,13 +403,13 @@ begin
 		when mine_down_state => --player mining down
 
 			-- define all outputs
-			level_add <= '0';
 			game_state <= "01";
 			new_state <= central_state;
 			x_pos_next <= x_pos; 
 			y_pos_next <= y_pos;
 			level_next <= level;
 			moved <= '0';
+			reached_high_next <= reached_high;
 			-- depending on what tile is below the player do the following:
 			-- send the down mined command (dir_mined <= "111") or don't mine (dir_mined <= "000")
 			-- decrease energy by mine_cost (3) or keep energy constant
@@ -435,13 +451,16 @@ begin
 		when left_state => --move to the left
 
 			-- define all outputs
-			level_add <= '0';
 			game_state <= "01";
+			
+			score_add <=  (others => '0');
 
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			score_next <= score;
 			level_next <= level;
+			
+			reached_high_next <= reached_high;
 			
 				-- if map data left is ground then change position and decrease energy by one
 				-- if map data left is ladder go to lvl_up_state
@@ -471,14 +490,16 @@ begin
 		when right_state => --move to the right
 
 			-- define all outputs
-
-			level_add <= '0';
 			game_state <= "01";
+			
+			score_add <=  (others => '0');
 
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			score_next <= score;
 			level_next <= level;
+			
+			reached_high_next <= reached_high;
 
 				-- if map data right is ground then change position and decrease energy by one
 				-- if map data right is ladder go to lvl_up_state
@@ -507,11 +528,16 @@ begin
 		when up_state => --move up
 
 			-- define all outputs
+			game_state <= "01";
+			score_add <=  (others => '0');
+			
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
 			level_next <= level;
-			game_state <= "01";
+			
+			reached_high_next <= reached_high;
+			
 				-- if map data up is ground then change position and decrease energy by one
 				-- if map data up is ladder go to lvl_up_state
 				-- in all other cases don't move the player
@@ -525,27 +551,29 @@ begin
 					energy_next <= energy;
 					energy_remove <= "00";
 					new_state <= lvl_up_state;
-					x_pos_next <= x_pos;
+					y_pos_next <= x_pos;
 					moved <= '1';
 
 				else
 					energy_next <= energy;
 					energy_remove <= "00";
 					new_state <= central_state;
-					x_pos_next <= x_pos;
+					y_pos_next <= x_pos;
 					moved <= '0';
 				end if;	
 
 		when down_state => --move down
 
 			--define all outputs
-			level_add <= '0';
-
 			game_state <= "01";
+			score_add <=  (others => '0');
+			
 			dir_mined <= "000";
 			x_pos_next <= x_pos;
 			score_next <= score;
 			level_next <= level;
+			
+			reached_high_next <= reached_high;
 
 				-- if map data down is ground then change position and decrease energy by one
 				-- if map data down is ladder go to lvl_up_state
@@ -561,14 +589,14 @@ begin
 					energy_next <= energy;
 					energy_remove <= "00";
 					new_state <= lvl_up_state;
-					x_pos_next <= x_pos;
+					y_pos_next <= x_pos;
 					moved <= '1';
 
 				else
 					energy_next <= energy;
 					energy_remove <= "00";
 					new_state <= central_state;
-					x_pos_next <= x_pos;
+					y_pos_next <= x_pos;
 					moved <= '0';
 				end if;
 
@@ -578,6 +606,7 @@ begin
 			y_pos_next <= "0011";
 			new_state <= central_state;
 			game_state <= "01";
+			score_add <=  (others => '0');
 			energy_remove <= "00";
 			new_energy_d <= "001000000000";
 			
@@ -592,8 +621,8 @@ begin
 			end if;
 			score_next <= score;
 			level_next <= level + 1;
-			level_add <= '1';
 			moved <= '0';
+			reached_high_next <= reached_high;
 
 		when game_over_state =>
 			dir_mined <= "000";				-- the first bit detirmines if a mining action took place, the last two bits determine the direction
@@ -603,23 +632,23 @@ begin
 			game_state <= "10";
 			score_next <= (others => '0');		-- reset score to 0
 			level_next <= "00000"; --game over back to level 0
-			if(level > 4 and level <= 9) then
+			if(level > 4 and level <= 9 and reached_high = 0) then
 				energy_next <= "011111010";	
-				reached_high <= "01";
-			elsif(level > 9 and level <= 14) then
+				reached_high_next <= "01";
+			elsif(level > 9 and level <= 14 and reached_high <= 1) then
 				energy_next <= "100101100";
-				reached_high <= "10";	
-			elsif(level > 14) then
+				reached_high_next <= "10";	
+			elsif(level > 14 and reached_high <= 2) then
 				energy_next <= "101011110";
-				reached_high <= "11";
+				reached_high_next <= "11";
 			else
 				energy_next <= "011001000";
+				reached_high_next <= reached_high;
 			end if;
 			
 			
 			score_add <=  (others => '0');
 			energy_remove <= (others => '0');
-			level_add <= '0';
 			moved <= '0';
 
 		when others => -- in the event of an error don't change anything and go to the central state
@@ -627,13 +656,14 @@ begin
 			dir_mined <= "000";
 			y_pos_next <= y_pos;
 			x_pos_next <= x_pos;
+			score_add <=  (others => '0');
 			energy_remove <= "00";
 			energy_next <= energy;
 			score_next <= score;
 			level_next <= level;
-			level_add <= '0';
 			moved <= '0';
 			game_state <= "01";
+			reached_high_next <= reached_high;
 	end case;
 	end process;
 end behaviour;
