@@ -29,6 +29,9 @@ architecture behavioural of tile_ctrl is
 	constant lightest_grey	: std_logic_vector(4 downto 0) := "10110";
 	constant beige			: std_logic_vector(4 downto 0) := "10111";
 
+	constant light_green	: std_logic_vector(4 downto 0) := "11000";
+	constant light_green	: std_logic_vector(4 downto 0) := "11001";
+
 	signal bg : std_logic_vector(4 downto 0);
 
 begin 
