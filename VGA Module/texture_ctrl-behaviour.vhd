@@ -120,6 +120,64 @@ begin
 						tile_address <= "001010"; --black
 					end if;
 
+				elsif ((xposition = 6 or xposition = 7) and yposition = 7) then
+					if (frame_count = 1) then
+						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
+						elsif (xposition = 7) then tile_address <= "110001"; -- Start 1_2
+						else			   tile_address <= "001010"; --black
+						end if;
+						
+					elsif (frame_count = 2) then
+						if    (xposition = 6) then tile_address <= "110000"; --Start 1_1
+						elsif (xposition = 7) then tile_address <= "110010"; --Start 2_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 3) then
+						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
+						elsif (xposition = 7) then tile_address <= "110011"; -- Start 3_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 4) then
+						if    (xposition = 6) then tile_address <= "110100"; -- Start 4_1
+						elsif (xposition = 7) then tile_address <= "110101"; -- Start 4_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 5) then
+						if    (xposition = 6) then tile_address <= "110110"; -- Start 5_1
+						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 6) then
+						if    (xposition = 6) then tile_address <= "111000"; -- Start 6_1
+						elsif (xposition = 7) then tile_address <= "111001"; -- Start 6_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 7) then
+						if    (xposition = 6) then tile_address <= "111010"; -- Start 7_1
+						elsif (xposition = 7) then tile_address <= "111011"; -- Start 7_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 8) then
+						if    (xposition = 6) then tile_address <= "101111"; -- Grass
+						elsif (xposition = 7) then tile_address <= "111100"; -- Start 8_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 9) then
+						if    (xposition = 6) then tile_address <= "101111"; -- Grass
+						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					else	tile_address <= "001010"; --black
+					end if;
+
 				else
 					tile_address <= "001010"; --black
 				end if;
