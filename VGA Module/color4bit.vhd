@@ -142,6 +142,18 @@ begin
      		       green <= "1100";
      		       blue <= "1000";
 
+		-- Green --
+   		when "11000" =>
+   		       red <= "0000";
+     		       green <= "1000";
+     		       blue <= "0000";
+
+		-- Green --
+   		when "11001" =>
+   		       red <= "0000";
+     		       green <= "0100";
+     		       blue <= "0000";
+
 		-- Exception: use black
 		when others =>
 			red <= "0000";
