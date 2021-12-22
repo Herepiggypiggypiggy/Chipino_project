@@ -4,27 +4,28 @@ use IEEE.numeric_std.all;
 
 architecture behaviour of module_test is
 component player_fsm
-port(   button_x_left   : IN  std_logic;
-        button_x_right  : IN  std_logic;
-        button_y_up     : IN  std_logic;
-        button_y_down   : IN  std_logic;
-        button_mining   : IN  std_logic;
-        map_data_l      : IN  std_logic_vector(2 downto 0);
-        map_data_r      : IN  std_logic_vector(2 downto 0);
-        map_data_u      : IN  std_logic_vector(2 downto 0);
-        map_data_d      : IN  std_logic_vector(2 downto 0);
-        CLK             : IN  std_logic;
-        reset           : IN  std_logic;
-        dir_mined       : OUT std_logic_vector(2 downto 0);
-        energy_lvl_out  : OUT std_logic_vector(7 downto 0);
-        score_out       : OUT std_logic_vector(9 downto 0);
-        level_out       : OUT std_logic_vector(4 downto 0);
-        level_d_out     : OUT unsigned(7 downto 0);
-        score_d_out     : OUT unsigned(15 downto 0);
-        energy_d_out    : OUT unsigned(11 downto 0);
-        y_pos_out       : OUT unsigned(3 downto 0);
-        x_pos_out       : OUT unsigned(3 downto 0);
-        moved	        : OUT std_logic);
+port(button_x_left  : IN  std_logic;
+        button_x_right : IN  std_logic;
+        button_y_up    : IN  std_logic;
+        button_y_down  : IN  std_logic;
+        button_mining  : IN  std_logic;
+        map_data_l     : IN  std_logic_vector(2 downto 0);
+        map_data_r     : IN  std_logic_vector(2 downto 0);
+        map_data_u     : IN  std_logic_vector(2 downto 0);
+        map_data_d     : IN  std_logic_vector(2 downto 0);
+        CLK            : IN  std_logic;
+        reset          : IN  std_logic;
+        dir_mined      : OUT std_logic_vector(2 downto 0);
+        energy_lvl_out   : OUT std_logic_vector(8 downto 0);
+	score_out    : OUT std_logic_vector(9 downto 0);
+	level_out    : OUT std_logic_vector(4 downto 0);
+	level_d_out    : OUT std_logic_vector(7 downto 0);
+	score_d_out    : OUT std_logic_vector(15 downto 0);
+	energy_d_out   : OUT std_logic_vector(11 downto 0);
+        y_pos_out    : OUT std_logic_vector(3 downto 0);
+        x_pos_out    : OUT std_logic_vector(3 downto 0);
+	moved	: OUT std_logic;
+	game_state : OUT std_logic_vector(1 downto 0));
 end component;
 
 component VGA
@@ -59,7 +60,7 @@ signal  map_data_d      : std_logic_vector(2 downto 0);
 
 
 signal  dir_mined       : std_logic_vector(2 downto 0);
-signal  energy_lvl_out  : std_logic_vector(7 downto 0);
+signal  energy_lvl_out  : std_logic_vector(8 downto 0);
 signal  score_out       : std_logic_vector(9 downto 0);
 signal  level_out       : std_logic_vector(4 downto 0);
 signal  moved	        : std_logic;
@@ -68,8 +69,8 @@ signal  map_data	: std_logic_vector(71 downto 0);
 signal	Xplayer		: std_logic_vector(3 downto 0);
 signal	Yplayer		: std_logic_vector(3 downto 0);
 
-signal  y_pos_out       : unsigned(3 downto 0);
-signal  x_pos_out       : unsigned(3 downto 0);
+signal  y_pos_out       : std_logic_vector(3 downto 0);
+signal  x_pos_out       : std_logic_vector(3 downto 0);
 
 signal	score 		: std_logic_vector(15 downto 0);
 signal	energy		: std_logic_vector(11 downto 0);
@@ -77,9 +78,9 @@ signal	level 	    : std_logic_vector(7 downto 0);
 signal  game_state  : std_logic_vector(1 downto 0);
 signal  timer1		: unsigned(5 downto 0);
 signal	timer2		: unsigned(5 downto 0);
-signal  level_d_out     : unsigned(7 downto 0);
-signal  score_d_out     : unsigned(15 downto 0);
-signal  energy_d_out    : unsigned(11 downto 0);
+signal  level_d_out     : std_logic_vector(7 downto 0);
+signal  score_d_out     : std_logic_vector(15 downto 0);
+signal  energy_d_out    : std_logic_vector(11 downto 0);
 
 
 begin
@@ -110,7 +111,8 @@ port map(   button_x_left,  --input
             energy_d_out,         --input
             y_pos_out,        --set
             x_pos_out,        --set
-            moved);         --not interesting
+            moved,
+	    game_state);         --not interesting
 
 vga_com: VGA 
 port map(   clk,        --set
@@ -146,36 +148,18 @@ map_data_d <= map_data(38 downto 36);
 
 case input is
 	when "000" => 
-        map_data <= "011011010011011100000001011011000000000000011011000111000011011000011110";
-		game_state <= "00";
+        map_data <= "011011010011011100000001011011000000000000011011000101000011011000011011";
 	when "001" => 
-        map_data <= "011011010011011100000001011011000000000000011011000111000011011000011110";
-		game_state <= "01";
-    when "010" => 
-        map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
-        game_state <= "01";
-    when "011" =>
-        map_data <= "011011010011011100000000010011000000000000011011000111000011011000011011"; 
-        game_state <= "01";
-    when "100" => 
-        map_data <= "011011010011011100000000010011000000000000011011000111000011011000011011";
-        game_state <= "01";
-	when "101" => 
-        map_data <= "011011010011011100000000010011000000000000011011000111000011011000011011";
-		Xplayer <= "0111";
-		Yplayer <= "0110";
-		game_state <= "10";
-		score 		<= "1111011111111111";
-		energy		<= "010001100000";
-		level 		<= "00000001";
+        map_data <= "011011011011011011010011011011011100001011011000000000000000000101000000";
 	when others => 
-        map_data <= "011011010011011100000000010011000000000000011011000111000011011000011011";
-        game_state <= "10";
+        map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
 end case;
 
 
 
 end process;
 end architecture;
+
+
 
 

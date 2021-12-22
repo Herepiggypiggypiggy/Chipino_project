@@ -2,9 +2,32 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.parameter_def.all;
+
   ---((((make unsigned position values fixed if the compiler it dumb)))--- can be optimized
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
+	constant h_display : unsigned(9 downto 0) := "1010000000";--640
+	constant h_fp      : unsigned(9 downto 0) := "0000010000";--16
+    	constant h_sp      : unsigned(9 downto 0) := "0001100000";--96
+    	constant h_bp      : unsigned(9 downto 0) := "0000110000";--48
+
+    	constant V_DISPLAY : unsigned(9 downto 0) := "0111100000";--480
+    	constant V_FP      : unsigned(9 downto 0) := "0000001010";--10
+    	constant V_SP      : unsigned(9 downto 0) := "0000000010";--2
+    	constant V_BP      : unsigned(9 downto 0) := "0000100001";--33
+
+    	constant h_margin  : unsigned(9 downto 0) := "0000101000";--40
+
+    	constant pixel_num       : unsigned(4 downto 0) := "11111"; --31
+    	constant pixel_tile_data : unsigned(2 downto 0) := "111";   --7
+    	constant pixel_tile      : unsigned(1 downto 0) := "11";    --3
+
+    	constant info_lv       : unsigned(4 downto 0) := "00001";--1
+    	constant info_lv_SPACE : unsigned(4 downto 0) := "00001";--1
+
+    	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";--2304
+    	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";--6400
+	
 	signal hcount : unsigned(9 downto 0);
 	signal Vcount : unsigned(9 downto 0);
 
@@ -61,9 +84,9 @@ begin
 
 	p1 <= xr + yr;
 
-	dimmer : process(xposition, yposition, p1)
+	dimmer : process(xposition, yposition, p1, xplayer, yplayer, game_state)
 	begin
-		if (xposition > unsigned(xplayer) - 4 and xposition < "01111" and yposition > unsigned(yplayer) - 4) then
+		if (xposition > unsigned(xplayer) - 4 and xposition < "01111" and yposition > unsigned(yplayer) - 4 and game_state = "01") then
 			if (p1 > "001100100000000") then
 				dim <= "1111";          --6400
 			elsif (p1 > "001010101111100") then
@@ -82,7 +105,7 @@ begin
 		end if;
 	end process dimmer;
 
-	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy)
+	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy,game_state,frame_count)
 	begin
 		case game_state is
 			when "00" =>
@@ -90,13 +113,13 @@ begin
 					if (yposition = 4) then
 						tile_address <= "111111"; --Player
 					elsif (yposition = 7) then
-						tile_address <= "111101"; --E - Light Blue
+						tile_address <= "001100"; --E
 					elsif (yposition = 8) then
-						tile_address <= "001001"; --L - Light Blue
+						tile_address <= "001110"; --L
 					elsif (yposition = 9) then
-						tile_address <= "000111"; --O - Light Blue
+						tile_address <= "011010"; --O
 					elsif (yposition = 10) then
-						tile_address <= "111110"; --M - Light Blue
+						tile_address <= "100000"; --M
 
 					else
 						tile_address <= "001010"; --black
@@ -104,85 +127,21 @@ begin
 
 				elsif (xposition = 4) then
 					if (yposition = 4) then
-						tile_address <= "000110"; --R - Light Blue
+						tile_address <= "011011"; --R
 					elsif (yposition = 5) then
-						tile_address <= "111101"; --E - Light Blue
+						tile_address <= "001100"; --E
 					elsif (yposition = 6) then
-						tile_address <= "001000"; --N - Light Blue
+						tile_address <= "001111"; --N
 					elsif (yposition = 7) then
-						tile_address <= "100001"; --I - Light Blue
+						tile_address <= "100001"; --I
 					elsif (yposition = 8) then
-						tile_address <= "111110"; --M - Light Blue
+						tile_address <= "100000"; --M
 					elsif (yposition = 10) then
 						tile_address <= "000001"; --Rock
 
 					else
 						tile_address <= "001010"; --black
 					end if;
-
-				elsif ((xposition = 6 or xposition = 7) and yposition = 7) then
-					if (frame_count = 1) then
-						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
-						elsif (xposition = 7) then tile_address <= "110001"; -- Start 1_2
-						else			   tile_address <= "001010"; --black
-						end if;
-						
-					elsif (frame_count = 2) then
-						if    (xposition = 6) then tile_address <= "110000"; --Start 1_1
-						elsif (xposition = 7) then tile_address <= "110010"; --Start 2_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 3) then
-						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
-						elsif (xposition = 7) then tile_address <= "110011"; -- Start 3_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 4) then
-						if    (xposition = 6) then tile_address <= "110100"; -- Start 4_1
-						elsif (xposition = 7) then tile_address <= "110101"; -- Start 4_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 5) then
-						if    (xposition = 6) then tile_address <= "110110"; -- Start 5_1
-						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 6) then
-						if    (xposition = 6) then tile_address <= "111000"; -- Start 6_1
-						elsif (xposition = 7) then tile_address <= "111001"; -- Start 6_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 7) then
-						if    (xposition = 6) then tile_address <= "111010"; -- Start 7_1
-						elsif (xposition = 7) then tile_address <= "111011"; -- Start 7_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 8) then
-						if    (xposition = 6) then tile_address <= "101111"; -- Grass
-						elsif (xposition = 7) then tile_address <= "111100"; -- Start 8_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 9) then
-						if    (xposition = 6) then tile_address <= "101111"; -- Grass
-						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					else	tile_address <= "001010"; --black
-					end if;
-
-				elsif (xposition < 6) then
-					tile_address <= "101110"; --Sky
-
-				elsif (xposition > 5) then
-					tile_address <= "101111"; -- Grass
 
 				else
 					tile_address <= "001010"; --black
@@ -341,7 +300,7 @@ begin
 					end if;
 
 				-- Death animation
-				elsif (xposition = 6 or xposition = 7) then
+				elsif ((xposition = 6 or xposition = 7) and yposition = "0111") then
 					if (frame_count = 0) then
 						if (xposition = 7) then
 							tile_address <= "111111"; -- Player (main tile)
@@ -553,31 +512,60 @@ begin
 
 	-- Process: visibility counter H
       ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
-	process(hcount, xposition, xplayer)
+	process(hcount, xposition, xplayer,hvis)
 	begin
-		if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
-            if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
-			   	new_hvis <= hvis + 1;
-           	else
-                new_hvis <= hvis - 1;
+		if (unsigned(xplayer) < 4 ) then
+			if (hcount(3 downto 0) = "1111") then
+				new_hvis <= (4 - unsigned(xplayer))&"00000";
+			else
+				if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+			   		new_hvis <= hvis + 1;
+           			else
+               				new_hvis <= hvis - 1;
+				end if;
 			end if;
 		else
-			new_hvis <= (others => '0');---mabey not necissery
+			if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
+            			if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+			   		new_hvis <= hvis + 1;
+           			else
+               				new_hvis <= hvis - 1;
+				end if;
+			else
+				new_hvis <= (others => '0');---mabey not necissery
+			end if;
 		end if;
 	end process;
 
 	-- Process: visibility counter V
     ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
-	process(vcount, yposition, yplayer)
+	process(vcount, yposition, yplayer, vvis,hcount)
 	begin
-		if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
-			if (vcount < unsigned('0'&yplayer&"10000")) then--vcoumt > yplayer * 32 + 16
-			    new_vvis <= vvis + 1;
-            		else
-                		new_vvis <= vvis - 1;
-            		end if;
+	
+		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+			if (unsigned(yplayer) < 4 ) then
+				if (vcount(3 downto 0) = "1111") then
+					--new_vvis <= ((4 - unsigned(yplayer))&"00000")(6 downto 0);---still needs to be fixed
+				else
+					if (vcount < unsigned('0'&yplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+			   			new_vvis <= vvis + 1;
+           				else
+               					new_vvis <= vvis - 1;
+					end if;
+				end if;
+			else
+				if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
+					if (vcount < unsigned('0'&yplayer&"10000")) then--vcoumt > yplayer * 32 + 16
+			   			new_vvis <= vvis + 1;
+            				else
+                				new_vvis <= vvis - 1;
+            				end if;
+				else
+					new_vvis <= (others => '0');---mabey not necissery 12544
+				end if;
+			end if;
 		else
-			new_vvis <= (others => '0');---mabey not necissery 12544
+			new_vvis <= vvis;
 		end if;
 	end process;
 
@@ -614,39 +602,21 @@ begin
 	-- Process: Frame Count
 	process(frame_count, game_state)
 	begin
-		case game_state is
-			-- Start screen
-			when "00" =>
-				if (frame_count = "1001") then
-					new_frame_count <= "1000";
-				else
+		if (game_state="10") then
+			if (frame_count = "1001") then
+					new_frame_count <= frame_count - 1;
+			else
 					new_frame_count <= frame_count + 1;
-				end if;
-
-			-- In game        
-			when "01" =>
-				if (frame_count = "1001") then
-					new_frame_count <= "1000";
-				else
+			end if;
+		elsif (game_state="00") then
+			if (frame_count = "1001") then
+					new_frame_count <= frame_count - 1;
+			else
 					new_frame_count <= frame_count + 1;
-				end if;
-
-			-- End screen        
-			when "10" =>
-				if (frame_count = "1001") then
-					new_frame_count <= "1000";
-				else
-					new_frame_count <= frame_count + 1;
-				end if;
-
-			when "11" =>
-				if (frame_count = "1001") then
-					new_frame_count <= "1000";
-				else
-					new_frame_count <= frame_count + 1;
-				end if;
-			when others => new_frame_count <= frame_count;
-		end case;
+			end if;
+		else
+			new_frame_count <= (others => '0');
+		end if;
 	end process;
 
 	-- Process: Sequential
@@ -655,7 +625,7 @@ begin
 		if (reset = '1') then
 			frame_count <= "0000";
 		else
-			if (rising_edge(timer1(5))) then
+			if (rising_edge(timer1(4))) then
 				frame_count <= new_frame_count;
 			end if;
 		end if;
@@ -679,7 +649,6 @@ begin
 				column <= (others => '0');
 				row    <= (others => '0');
 
-				frame_count <= "0000";
 			else
 				--Assign to internal signal
 				hcount <= new_hcount;
@@ -707,4 +676,7 @@ begin
 	column_out   <= std_logic_vector(column);
 	row_out      <= std_logic_vector(row);
 end architecture behaviour;
+
+
+
 

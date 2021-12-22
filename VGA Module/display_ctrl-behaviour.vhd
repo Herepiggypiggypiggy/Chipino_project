@@ -5,7 +5,6 @@ use work.parameter_def.all;
 
 -- Architecture of VGA
 architecture behavioural of display_ctrl is 
-
 	-- Signals
 	signal new_hsync : std_logic;
 	signal new_vsync : std_logic;
@@ -126,3 +125,6 @@ architecture behavioural of display_ctrl is
 		end if;
 	end process;
 end architecture behavioural;
+
+
+
