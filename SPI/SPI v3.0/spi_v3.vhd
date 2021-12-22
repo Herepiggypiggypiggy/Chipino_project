@@ -10,5 +10,5 @@ entity spi_v3 is
         clk       : in  std_logic;
         reset     : in  std_logic;
         MISO      : in  std_logic;
-        map_data  : out std_logic_vector(71 downto 0));
+        map_data_volitile  : out std_logic_vector(71 downto 0));
 end spi_v3;
