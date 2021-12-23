@@ -62,6 +62,9 @@ architecture behaviour of texture_ctrl is
 	signal vvis     : unsigned(6 downto 0);
 	signal new_vvis : unsigned(6 downto 0);
 
+	signal hvis_start     : unsigned(8 downto 0);
+	signal vvis_start     : unsigned(8 downto 0);
+
 	signal p1 : unsigned(13 downto 0);
 
 	signal xr : unsigned(13 downto 0);
@@ -76,6 +79,9 @@ begin
     --changed:
     --reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
 	-- Start screen
+	vvis_start <= ((3 - unsigned(yplayer))&"00000");
+	hvis_start <= ((3 - unsigned(xplayer))&"00000");
+
 	xp <= "1110000";                   --112
 	yp <= "1110000";                   --112
 
@@ -86,7 +92,7 @@ begin
 
 	dimmer : process(xposition, yposition, p1, xplayer, yplayer, game_state)
 	begin
-		if (xposition > unsigned(xplayer) - 4 and xposition < "01111" and yposition > unsigned(yplayer) - 4 and game_state = "01") then
+		if (xposition < "01111" and game_state = "01") then
 			if (p1 > "001100100000000") then
 				dim <= "1111";          --6400
 			elsif (p1 > "001010101111100") then
@@ -623,8 +629,8 @@ begin
 	process(hcount, xposition, xplayer,hvis)
 	begin
 		if (unsigned(xplayer) < 4 ) then
-			if (hcount(3 downto 0) = "1111") then
-				new_hvis <= (4 - unsigned(xplayer))&"00000";
+			if (hcount = 0) then
+				new_hvis <= hvis_start(6 downto 0);
 			else
 				if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
 			   		new_hvis <= hvis + 1;
@@ -652,8 +658,8 @@ begin
 	
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
 			if (unsigned(yplayer) < 4 ) then
-				if (vcount(3 downto 0) = "1111") then
-					--new_vvis <= ((4 - unsigned(yplayer))&"00000")(6 downto 0);---still needs to be fixed
+				if (vcount = 0) then
+					new_vvis <= vvis_start(6 downto 0);---still needs to be fixed
 				else
 					if (vcount < unsigned('0'&yplayer&"10000")) then--hcoumt > xplayer * 32 + 16
 			   			new_vvis <= vvis + 1;
@@ -733,18 +739,18 @@ begin
 		-- Begin screen
 		if (game_state="00") then
 			if (frame_count = "1001") then
-				animation_done <= "1";
+				animation_done <= '1';
 			else
-				animation_done <= "0";
+				animation_done <= '0';
 			end if;
 		elsif (game_state = "10") then
 			if (frame_count = "1001") then
-				animation_done <= "1";
+				animation_done <= '1';
 			else
-				animation_done <= "0";
+				animation_done <= '0';
 			end if;
 		else
-			animation_done <= "0";
+			animation_done <= '0';
 		end if;
 	end process;
 
@@ -800,8 +806,8 @@ begin
 	Vcount_out <= Vcount;
 
 	vga_done_out <= vga_done;
-	timer1_out   <= timer1;
-	timer2_out   <= timer2;
+	timer1_out   <= std_logic_vector(timer1);
+	timer2_out   <= std_logic_vector(timer2);
 	column_out   <= std_logic_vector(column);
 	row_out      <= std_logic_vector(row);
 end architecture behaviour;

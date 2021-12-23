@@ -3875,7 +3875,7 @@ when "110000" =>
 			elsif 	(row = "111" and column = "100") then	color_address <= green;		-- row 7, column 4
 			elsif 	(row = "111" and column = "101") then	color_address <= dark_green;	-- row 7, column 5
 			elsif	(row = "111" and column = "110") then	color_address <= green;		-- row 7, column 6
-			elsif 	(row = "111" and column = "111") then	color_address <= molebrown;		-- row 7, column 7  
+			elsif 	(row = "111" and column = "111") then	color_address <= mole_brown;		-- row 7, column 7  
 
 			else											color_address <= magenta;
 				
@@ -4901,7 +4901,7 @@ when "111100" =>
 			end if;
 				
 	-- M Light Blue --
-		when "111110=>
+		when "111110"=>
 				if 	    (row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2

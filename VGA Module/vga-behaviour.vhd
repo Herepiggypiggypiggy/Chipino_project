@@ -21,8 +21,8 @@ component texture_ctrl
 		dim		: out unsigned(3 downto 0);
 		column_out	: out std_logic_vector(2 downto 0);
 		row_out		: out std_logic_vector(2 downto 0);
-		timer1_out		: out  unsigned(5 downto 0);
-		timer2_out		: out  unsigned(5 downto 0);
+		timer1_out		: out  std_logic_vector(5 downto 0);
+		timer2_out		: out  std_logic_vector(5 downto 0);
 		bg_select 	: out std_logic_vector(2 downto 0);
 		
 		tile_address	: out std_logic_vector(5 downto 0);
@@ -44,8 +44,8 @@ port (	clk 		: in std_logic;
 	row 		: in std_logic_vector(2 downto 0);
 	column		: in std_logic_vector(2 downto 0);
 	bg_select	: in  std_logic_vector(2 downto 0);
-	timer1		: in  unsigned(5 downto 0);
-	timer2		: in  unsigned(5 downto 0);
+	timer1		: in  std_logic_vector(5 downto 0);
+	timer2		: in  std_logic_vector(5 downto 0);
 	color_address   : out std_logic_vector(4 downto 0));
 end component;
 --color_driver
@@ -100,8 +100,8 @@ signal in_blue		: std_logic_vector(3 downto 0);
 signal tile_address: std_logic_vector(5 downto 0);
 signal bg_select	:  std_logic_vector(2 downto 0);
 signal dim		: unsigned(3 downto 0);
-signal timer1		: unsigned(5 downto 0);
-signal timer2		: unsigned(5 downto 0);
+signal timer1		: std_logic_vector(5 downto 0);
+signal timer2		: std_logic_vector(5 downto 0);
 
 begin
 
