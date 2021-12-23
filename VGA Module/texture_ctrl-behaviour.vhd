@@ -116,393 +116,412 @@ begin
 		case game_state is
 			-- Begin screen
 			when "00" =>
-				if (xposition = 3) then
-					if (yposition = 7) then
-						tile_address <= "111101"; --E - Light Blue
-					elsif (yposition = 8) then
-						tile_address <= "001001"; --L - Light Blue
-					elsif (yposition = 9) then
-						tile_address <= "000111"; --O - Light Blue
-					elsif (yposition = 10) then
-						tile_address <= "111110"; --M - Light Blue
-					else
-						tile_address <= "001010"; --black
-					end if;
-
-				elsif (xposition = 4) then
-					if (yposition = 4) then
-						tile_address <= "000110"; --R - Light Blue
-					elsif (yposition = 5) then
-						tile_address <= "111101"; --E - Light Blue
-					elsif (yposition = 6) then
-						tile_address <= "001000"; --N - Light Blue
-					elsif (yposition = 7) then
-						tile_address <= "100001"; --I - Light Blue
-					elsif (yposition = 8) then
-						tile_address <= "111110"; --M - Light Blue
-					elsif (yposition = 10) then
-						tile_address <= "000001"; --Rock
-					else
-						tile_address <= "001010"; --black
-					end if;
+				case xposition is
+					when "00000" | "00001" | "00010" =>			-- X = 0, 1 or 2
+						tile_address <= "101110"; 				-- Sky
 					
-				elsif (xposition = 6 and yposition = 7) then
-					tile_address <= "111111";
-
-				elsif (xposition < 6) then
-					tile_address <= "101110"; --Sky
-
-				elsif (xposition > 5) then
-					tile_address <= "101111"; -- Grass
-				
-
-				else
-					tile_address <= "001010"; --black
-				end if;
+					when "00011" =>								-- X = 3
+						case yposition is
+							when "00111" =>						-- Y = 7
+								tile_address <= "111101"; 		-- E - Light Blue
+							when "01000" =>						-- Y = 8
+								tile_address <= "001001"; 		-- L - Light Blue
+							when "01001" =>						-- Y = 9
+								tile_address <= "000111"; 		-- O - Light Blue
+							when "01010" =>						-- Y = 10
+								tile_address <= "111110"; 		-- M - Light Blue
+							when others =>
+								tile_address <= "101110"; 		-- Sky
+						end case;
+						
+					when "00100" =>								-- X = 4	
+						case yposition is					
+							when "00100" =>						-- Y = 4
+								tile_address <= "000110"; 		-- R - Light Blue
+							when "00101" =>						-- Y = 5
+								tile_address <= "111101"; 		-- E - Light Blue
+							when "00110" =>						-- Y = 6
+								tile_address <= "001000"; 		-- N - Light Blue
+							when "00111" =>						-- Y = 7
+								tile_address <= "100001"; 		-- I - Light Blue
+							when "01000" =>						-- Y = 8
+								tile_address <= "111110"; 		-- M - Light Blue
+							when "01010" =>						-- Y = 10
+								tile_address <= "000001"; 		-- Rock
+							when others =>
+								tile_address <= "101110"; 		-- Sky
+						end case;
+						
+					when "00101" | "00110" | "00111" | "01000" | "01001" =>		-- X = 5, 6, 7, 8 or 9
+						tile_address <= "101110"; 								-- Sky
+						
+					when "01010" =>								-- X = 10
+						case yposition is
+							when "00111" =>						-- Y = 7
+								tile_address <= "111111";		-- Player
+							when others =>
+								tile_address <= "101110"; 		-- Sky
+						end case;
+						
+					when "01011" | "01100" | "01101" | "01110" =>				-- X = 11, 12, 13 or 14
+						tile_address <= "101111"; 								-- Grass
+						
+					when others =>
+						tile_address <= "001010"; 				-- Black
+				end case;
 
 			-- In game
 			when "01" =>
 				--Tile Type selector
-				if (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 3) then
-					tile_address <= "000" & map_data(71 downto 69); --1
-				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 2) then
-					tile_address <= "000" & map_data(68 downto 66); --2
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 2) then
-					tile_address <= "000" & map_data(65 downto 63); --3
-				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 2) then
-					tile_address <= "000" & map_data(62 downto 60); --4
+				case xposition is
+					when unsigned(xplayer) - 3 =>
+						case yposition is
+							when unsigned(yplayer) =>							-- Tile 10
+								tile_address <= "000" & map_data(44 downto 42); 
+							when others =>
+								tile_address <= "001010"; 						-- Black
+						end case;
+						
+					when unsigned(xplayer) - 2 =>
+						case yposition is
+							when unsigned(yplayer) - 1 =>						-- Tile 16
+								tile_address <= "000" & map_data(26 downto 24);
+							when unsigned(yplayer) =>							-- Tile 11
+								tile_address <= "000" & map_data(41 downto 39);
+							when unsigned(yplayer) + 1 =>						-- Tile 5
+								tile_address <= "000" & map_data(59 downto 57);
+							when others =>
+								tile_address <= "001010"; 						-- Black
+						end case;
+						
+					when unsigned(xplayer) - 1 =>
+						case yposition is
+							when unsigned(yplayer) - 2 =>						-- Tile 21
+								tile_address <= "000" & map_data(11 downto 9);
+							when unsigned(yplayer) - 1 =>						-- Tile 17
+								tile_address <= "000" & map_data(23 downto 21);
+							when unsigned(yplayer) =>							-- Tile 12
+								tile_address <= "000" & map_data(38 downto 36);
+							when unsigned(yplayer) + 1 =>						-- Tile 6
+								tile_address <= "000" & map_data(56 downto 54);
+							when unsigned(yplayer) + 2 =>						-- Tile 2
+								tile_address <= "000" & map_data(68 downto 66);
+							when others =>
+								tile_address <= "001010"; 						-- Black
+						end case;
+				
+					when unsigned(xplayer) =>
+						case yposition is
+							when unsigned(yplayer) - 3 =>						-- Tile 24
+								tile_address <= "000" & map_data(2 downto 0);
+							when unsigned(yplayer) - 2 =>						-- Tile 22
+								tile_address <= "000" & map_data(8 downto 6);
+							when unsigned(yplayer) - 1 =>						-- Tile 18
+								tile_address <= "000" & map_data(20 downto 18);
+							when unsigned(yplayer) =>							-- Player
+								tile_address <= "111111";
+							when unsigned(yplayer) + 1 =>						-- Tile 7
+								tile_address <= "000" & map_data(53 downto 51);
+							when unsigned(yplayer) + 2 =>						-- Tile 3
+								tile_address <= "000" & map_data(65 downto 63); 
+							when unsigned(yplayer) + 3 =>						-- Tile 1
+								tile_address <= "000" & map_data(71 downto 69); 
+							when others =>
+								tile_address <= "001010"; 						-- Black
+						end case;
+						
+					when unsigned(xplayer) + 1 =>
+						case yposition is
+							when unsigned(yplayer) - 2 =>						-- Tile 23
+								tile_address <= "000" & map_data(5 downto 3);		
+							when unsigned(yplayer) - 1 =>						-- Tile 19
+								tile_address <= "000" & map_data(17 downto 15);
+							when unsigned(yplayer) =>							-- Tile 13
+								tile_address <= "000" & map_data(35 downto 33);
+							when unsigned(yplayer) + 1 =>						-- Tile 8
+								tile_address <= "000" & map_data(50 downto 48);
+							when unsigned(yplayer) + 2 =>						-- Tile 4
+								tile_address <= "000" & map_data(62 downto 60);
+							when others =>
+									tile_address <= "001010"; 					-- Black
+						end case;
+						
+					when unsigned(xplayer) + 2 =>
+						case yposition is
+							when unsigned(yplayer) - 1 =>						-- Tile 20
+								tile_address <= "000" & map_data(14 downto 12);
+							when unsigned(yplayer) =>							-- Tile 14
+								tile_address <= "000" & map_data(32 downto 30);
+							when unsigned(yplayer) + 1 =>						-- Tile 9
+								tile_address <= "000" & map_data(47 downto 45); 
+							when others =>
+									tile_address <= "001010"; 					-- Black
+						end case;
+					
+					when unsigned(xplayer) + 3 =>
+						case yposition is
+							when unsigned(yplayer) =>							-- Tile 15	
+								tile_address <= "000" & map_data(29 downto 27);
+							when others =>
+								tile_address <= "001010"; 						-- Black
+						end case;
+						
+					-- Energy display
+					when info_lv + 14 =>
+						case yposition is
+							when "00010" =>									-- 2		
+								tile_address <= "01" & score(3 downto 0); 	-- Energy(0)
+							when "00011" =>									-- 3
+								tile_address <= "01" & score(7 downto 4); 	-- Energy(1)
+							when "00100" =>									-- 4
+								tile_address <= "01" & score(11 downto 8); 	-- Energy(2)
+							when "00111" =>									-- 7
+								tile_address <= "011110"; 					-- Y
+							when "01000" =>									-- 8
+								tile_address <= "001101"; 					-- G
+							when "01001" =>									-- 9
+								tile_address <= "011011"; 					-- R
+							when "01010" =>									-- 10
+								tile_address <= "001100"; 					-- E
+							when "01011" =>									-- 11
+								tile_address <= "001111"; 					-- N
+							when "01100" =>									-- 12
+								tile_address <= "001100"; 					-- E
+							when others =>
+								tile_address <= "001010"; 					-- Black
+						end case;
+						
+					-- Score display
+					when info_lv + 16  =>
+						case yposition is
+							when "00010" =>									-- 2
+								tile_address <= "01" & score(3 downto 0); 	-- Score(0)
+							when "00011" =>									-- 3
+								tile_address <= "01" & score(7 downto 4); 	-- Score(1)
+							when "00100" =>									-- 4
+								tile_address <= "01" & score(11 downto 8); 	-- Score(2)
+							when "00101" =>									-- 5
+								tile_address <= "01" & score(15 downto 12); -- Score(3)
+							when "01000" =>									-- 8
+								tile_address <= "001100"; 					-- E
+							when "01001" =>									-- 9
+								tile_address <= "011011"; 					-- R
+							when "01010" =>									-- 10
+								tile_address <= "011010"; 					-- O
+							when "01011" =>									-- 11
+								tile_address <= "001011"; 					-- C
+							when "01100" =>									-- 12
+								tile_address <= "011100"; 					-- S
+							when others =>
+								tile_address <= "001010"; 					-- Black
+						end case;
 
-				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) + 1) then
-					tile_address <= "000" & map_data(59 downto 57); --5
-				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) + 1) then
-					tile_address <= "000" & map_data(56 downto 54); --6
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) + 1) then
-					tile_address <= "000" & map_data(53 downto 51); --7
-				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) + 1) then
-					tile_address <= "000" & map_data(50 downto 48); --8
-				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) + 1) then
-					tile_address <= "000" & map_data(47 downto 45); --9
-
-				elsif (xposition = unsigned(xplayer) - 3 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(44 downto 42); --10
-				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(41 downto 39); --11
-				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(38 downto 36); --12
-				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(35 downto 33); --13
-				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(32 downto 30); --14
-				elsif (xposition = unsigned(xplayer) + 3 and yposition = unsigned(yplayer)) then
-					tile_address <= "000" & map_data(29 downto 27); --15
-
-				elsif (xposition = unsigned(xplayer) - 2 and yposition = unsigned(yplayer) - 1) then
-					tile_address <= "000" & map_data(26 downto 24); --16
-				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 1) then
-					tile_address <= "000" & map_data(23 downto 21); --17
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 1) then
-					tile_address <= "000" & map_data(20 downto 18); --18
-				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 1) then
-					tile_address <= "000" & map_data(17 downto 15); --19
-				elsif (xposition = unsigned(xplayer) + 2 and yposition = unsigned(yplayer) - 1) then
-					tile_address <= "000" & map_data(14 downto 12); --20
-
-				elsif (xposition = unsigned(xplayer) - 1 and yposition = unsigned(yplayer) - 2) then
-					tile_address <= "000" & map_data(11 downto 9); --21
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 2) then
-					tile_address <= "000" & map_data(8 downto 6); --22
-				elsif (xposition = unsigned(xplayer) + 1 and yposition = unsigned(yplayer) - 2) then
-					tile_address <= "000" & map_data(5 downto 3); --23
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer) - 3) then
-					tile_address <= "000" & map_data(2 downto 0); --24
-				elsif (xposition = unsigned(xplayer) and yposition = unsigned(yplayer)) then
-					tile_address <= "111111"; --player
-
-				--Energy display--
-				elsif (xposition = 14 + info_lv) then
-					if (yposition = 2) then
-						tile_address <= "01" & score(3 downto 0); --energy(0)
-					elsif (yposition = 3) then
-						tile_address <= "01" & score(7 downto 4); --energy(1)
-					elsif (yposition = 4) then
-						tile_address <= "01" & score(11 downto 8); --energy(2)
-					elsif (yposition = 7) then
-						tile_address <= "011110"; --Y
-					elsif (yposition = 8) then
-						tile_address <= "001101"; --G
-					elsif (yposition = 9) then
-						tile_address <= "011011"; --R
-					elsif (yposition = 10) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 11) then
-						tile_address <= "001111"; --N
-					elsif (yposition = 12) then
-						tile_address <= "001100"; --E
-					else
-						tile_address <= "001010"; --black
-					end if;
-
-				--Score display--
-				elsif (xposition = 16 + info_lv) then
-					if (yposition = 2) then
-						tile_address <= "01" & score(3 downto 0); --score(0)
-					elsif (yposition = 3) then
-						tile_address <= "01" & score(7 downto 4); --score(1)
-					elsif (yposition = 4) then
-						tile_address <= "01" & score(11 downto 8); --score(2)
-					elsif (yposition = 5) then
-						tile_address <= "01" & score(15 downto 12); --score(3)
-					elsif (yposition = 8) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 9) then
-						tile_address <= "011011"; --R
-					elsif (yposition = 10) then
-						tile_address <= "011010"; --O
-					elsif (yposition = 11) then
-						tile_address <= "001011"; --C
-					elsif (yposition = 12) then
-						tile_address <= "011100"; --S
-					else
-						tile_address <= "001010"; --black
-					end if;
-
-				--Level display--
-				elsif (xposition = 18 + info_lv) then
-					if (yposition = 2) then
-						tile_address <= "01" & level(3 downto 0); --level(0)
-					elsif (yposition = 3) then
-						tile_address <= "01" & level(7 downto 4); --level(1)
-					elsif (yposition = 8) then
-						tile_address <= "001110"; --L
-					elsif (yposition = 9) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 10) then
-						tile_address <= "011101"; --V
-					elsif (yposition = 11) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 12) then
-						tile_address <= "001110"; --L
-					else
-						tile_address <= "001010"; --black
-					end if;
-				else
-					tile_address <= "001010"; --BLACK
-				end if;
+					-- Level display
+					when info_lv + 18 =>
+						case yposition is
+							when "00010" =>									-- 2
+								tile_address <= "01" & level(3 downto 0);  	-- Level(0)
+							when "00011" =>									-- 3
+								tile_address <= "01" & level(7 downto 4); 	-- Level(1)
+							when "01000" =>									-- 8
+								tile_address <= "001110"; 					-- L
+							when "01001" =>									-- 9
+								tile_address <= "001100"; 					-- E
+							when "01010" =>									-- 10
+								tile_address <= "011101"; 					-- V
+							when "01011" =>									-- 11
+								tile_address <= "001100"; 					-- E
+							when "01100" =>									-- 12
+								tile_address <= "001110"; 					-- L
+							when others =>
+								tile_address <= "001010"; 					-- Black
+						end case;
+						
+					when others =>
+						tile_address <= "001010"; 					-- Black
+				end case;
 
 			-- End screen
 			when "10" =>
-				if (xposition = 3) then
-					if (yposition = 3) then
-						tile_address <= "011011"; --R
-					elsif (yposition = 4) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 5) then
-						tile_address <= "011101"; --V
-					elsif (yposition = 6) then
-						tile_address <= "011010"; --O
-					elsif (yposition = 8) then
-						tile_address <= "001100"; --E
-					elsif (yposition = 9) then
-						tile_address <= "100000"; --M
-					elsif (yposition = 10) then
-						tile_address <= "011111"; --A
-					elsif (yposition = 11) then
-						tile_address <= "001101"; --G
-					else
-						tile_address <= "001010"; --black
-					end if;
-
-				-- Death animation
-				elsif ((xposition = 6 or xposition = 7) and yposition = "0111") then
-					if (frame_count = 0) then
-						if (xposition = 7) then
-							tile_address <= "111111"; -- Player (main tile)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 1) then
-						if (xposition = 7) then
-							tile_address <= "100010"; -- Player (first death frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 2) then
-						if (xposition = 7) then
-							tile_address <= "100011"; -- Player (second death frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 3) then
-						if (xposition = 7) then
-							tile_address <= "100100"; -- Player (third death frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 4) then
-						if (xposition = 7) then
-							tile_address <= "100101"; -- Poof (first frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 5) then
-						if (xposition = 7) then
-							tile_address <= "100110"; -- Poof (second frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 6) then
-						if (xposition = 7) then
-							tile_address <= "100111"; -- Poof (third frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 7) then
-						if (xposition = 6) then
-							tile_address <= "101001"; -- Soul (first frame)
-						elsif (xposition = 7) then
-							tile_address <= "101000"; -- Poof (fourth frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 8) then
-						if (xposition = 6) then
-							tile_address <= "101010"; -- Soul (second frame)
-						elsif (xposition = 7) then
-							tile_address <= "100110"; -- Poof (second frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					elsif (frame_count = 9) then
-						if (xposition = 6) then
-							tile_address <= "101100"; -- Soul (third frame)
-						elsif (xposition = 7) then
-							tile_address <= "101011"; -- Poof (fifth frame)
-						else
-							tile_address <= "001010"; -- Black
-						end if;
-
-					else
-						tile_address <= "001010"; -- Black
-					end if;
-				else
-					tile_address <= "001010"; --black
-				end if;
+				case xposition is
+					when "00011" =>							-- 3
+						case yposition is
+							when "00011" =>					-- 3
+								tile_address <= "011011"; 	-- R
+							when "00100" =>					-- 4
+								tile_address <= "001100"; 	-- E
+							when "00101" =>					-- 5
+								tile_address <= "011101"; 	-- V
+							when "00110" =>					-- 6
+								tile_address <= "011010"; 	-- O
+							when "01000" =>					-- 8
+								tile_address <= "001100"; 	-- E
+							when "01001" =>					-- 9
+								tile_address <= "100000"; 	-- M
+							when "01010" =>					-- 10
+								tile_address <= "011111"; 	-- A
+							when "01011" =>					-- 11
+								tile_address <= "001101"; 	-- G
+							when others =>
+								tile_address <= "001010"; 	-- Black
+						end case;
+								
+					when "00110" =>									-- X = 6
+						case yposition is
+							when "00111" =>							-- Y = 7
+								case frame_count is
+									when "0111" =>					-- Frame count = 7
+										tile_address <= "101001"; 	-- Soul (first frame)
+									when "1000" =>					-- Frame count = 8
+										tile_address <= "101010"; 	-- Soul (second frame)
+									when "1001" =>					-- Frame count = 9
+										tile_address <= "101100"; 	-- Soul (third frame)
+									when others =>
+										tile_address <= "001010"; 	-- Black
+								end case;
+							when others =>
+								tile_address <= "001010"; 			-- Black
+						end case;
+							
+					when "00111" =>									-- X = 7
+						case yposition is
+							when "00111" =>							-- Y = 7
+								case frame_count is
+									when "0000"	=>					-- Frame count = 0
+										tile_address <= "111111"; 	-- Player
+									when "0001" =>					-- Frame count = 1
+										tile_address <= "100010"; 	-- Dying player (first frame)
+									when "0010" =>					-- Frame count = 2
+										tile_address <= "100011"; 	-- Dying player (second frame)
+									when "0011" =>					-- Frame count = 3
+										tile_address <= "100100"; 	-- Dying player (third frame)
+									when "0100" =>					-- Frame count = 4
+										tile_address <= "100101"; 	-- Poof (first frame)
+									when "0101" =>					-- Frame count = 5
+										tile_address <= "100110"; 	-- Poof (second frame)
+									when "0110" =>					-- Frame count = 6
+										tile_address <= "100111"; 	-- Poof (third frame)
+									when "0111" =>					-- Frame count = 7
+										tile_address <= "101000"; 	-- Poof (fourth frame)
+									when "1000" =>					-- Frame count = 8
+										tile_address <= "100110"; 	-- Poof (second frame)
+									when "1001" =>					-- Frame count = 9
+										tile_address <= "101011"; 	-- Poof (fifth frame)
+									when others =>
+										tile_address <= "001010"; 	-- Black
+								end case;
+							when others =>
+								tile_address <= "001010"; 			-- Black
+						end case;
+					
+					when others =>
+						tile_address <= "001010"; 			-- Black
+				end case;
 
 			-- Start animation
 			when "11" =>
-				if (xposition = 3) then
-					if (yposition = 4) then
-						tile_address <= "111111"; --Player
-					elsif (yposition = 7) then
-						tile_address <= "111101"; --E - Light Blue
-					elsif (yposition = 8) then
-						tile_address <= "001001"; --L - Light Blue
-					elsif (yposition = 9) then
-						tile_address <= "000111"; --O - Light Blue
-					elsif (yposition = 10) then
-						tile_address <= "111110"; --M - Light Blue
-					else
-						tile_address <= "001010"; --black
-					end if;
-
-				elsif (xposition = 4) then
-					if (yposition = 4) then
-						tile_address <= "000110"; --R - Light Blue
-					elsif (yposition = 5) then
-						tile_address <= "111101"; --E - Light Blue
-					elsif (yposition = 6) then
-						tile_address <= "001000"; --N - Light Blue
-					elsif (yposition = 7) then
-						tile_address <= "100001"; --I - Light Blue
-					elsif (yposition = 8) then
-						tile_address <= "111110"; --M - Light Blue
-					elsif (yposition = 10) then
-						tile_address <= "000001"; --Rock
-					else
-						tile_address <= "001010"; --black
-					end if;
+				case xposition is
+					when "00000" | "00001" | "00010" =>			-- X = 0, 1 or 2
+						tile_address <= "101110"; 				-- Sky
 					
-				elsif ((xposition = 6 or xposition = 7) and yposition = 7) then
-					if (frame_count = 1) then
-						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
-						elsif (xposition = 7) then tile_address <= "110001"; -- Start 1_2
-						else			   tile_address <= "001010"; --black
-						end if;
+					when "00011" =>								-- X = 3
+						case yposition is
+							when "00111" =>						-- Y = 7
+								tile_address <= "111101"; 		-- E - Light Blue
+							when "01000" =>						-- Y = 8
+								tile_address <= "001001"; 		-- L - Light Blue
+							when "01001" =>						-- Y = 9
+								tile_address <= "000111"; 		-- O - Light Blue
+							when "01010" =>						-- Y = 10
+								tile_address <= "111110"; 		-- M - Light Blue
+							when others =>
+								tile_address <= "101110"; 		-- Sky
+						end case;
 						
-					elsif (frame_count = 2) then
-						if    (xposition = 6) then tile_address <= "110000"; --Start 1_1
-						elsif (xposition = 7) then tile_address <= "110010"; --Start 2_2
-						else			   tile_address <= "001010"; --black
-						end if;
+					when "00100" =>								-- X = 4	
+						case yposition is					
+							when "00100" =>						-- Y = 4
+								tile_address <= "000110"; 		-- R - Light Blue
+							when "00101" =>						-- Y = 5
+								tile_address <= "111101"; 		-- E - Light Blue
+							when "00110" =>						-- Y = 6
+								tile_address <= "001000"; 		-- N - Light Blue
+							when "00111" =>						-- Y = 7
+								tile_address <= "100001"; 		-- I - Light Blue
+							when "01000" =>						-- Y = 8
+								tile_address <= "111110"; 		-- M - Light Blue
+							when "01010" =>						-- Y = 10
+								tile_address <= "000001"; 		-- Rock
+							when others =>
+								tile_address <= "101110"; 		-- Sky
+						end case;
+						
+					when "00101" | "00110" | "00111" | "01000" =>		-- X = 5, 6, 7 or 8
+						tile_address <= "101110"; 						-- Sky
+						
+					when "01001" =>										-- X = 9
+						case yposition is
+							when "00111" =>								-- Y = 7
+								case frame_count is
+									when "0000" | "0001" | "0010" =>	-- Frame count = 0, 1 or 2
+										tile_address <= "110000"; 		-- Start (first top frame)
+									when "0011" =>						-- Frame count = 3
+										tile_address <= "110100"; 		-- Start (second top frame)
+									when "0100" =>						-- Frame count = 4
+										tile_address <= "110110"; 		-- Start (third top frame)
+									when "0101" =>						-- Frame count = 5	
+										tile_address <= "111000"; 		-- Start (fourth top frame)
+									when "0110" =>						-- Frame count = 6
+										tile_address <= "111010"; 		-- Start (fifth top frame)
+									when others =>
+										tile_address <= "101111"; 		-- Grass
+								end case;
+							when others =>
+								tile_address <= "101111"; 				-- Grass
+						end case;
+						
+					when "01010" =>										-- X = 10
+						case yposition is
+							when "00111" =>								-- Y - 7
+								case frame_count is
+									when "0000" =>						-- Frame count = 0
+										tile_address <= "110001"; 		-- Start (first bottom frame)
+									when "0001" =>						-- Frame count = 1
+										tile_address <= "110010"; 		-- Start (second bottom frame)
+									when "0010" =>						-- Frame count = 2
+										tile_address <= "110011"; 		-- Start (third bottom frame)
+									when "0011" =>						-- Frame count = 3
+										tile_address <= "110101"; 		-- Start (fourth bottom frame)
+									when "0100" =>						-- Frame count = 4
+										tile_address <= "110111"; 		-- Start (fifth bottom frame)
+									when "0101" =>						-- Frame count = 5
+										tile_address <= "111001"; 		-- Start (sixth bottom frame)
+									when "0110" =>						-- Frame count = 6
+										tile_address <= "111011"; 		-- Start (seventh bottom frame)
+									when "0111" =>						-- Frame count = 7
+										tile_address <= "111100"; 		-- Start (eight bottom frame)
+									when "1000" =>						-- Frame count = 8
+										tile_address <= "110111"; 		-- Start (fifth bottom frame)
+									when others =>
+										tile_address <= "101110"; 		-- Sky
+								end case;
+							when others =>
+								tile_address <= "101110"; 				-- Sky
+						end case;										
+						
+						
+					when "01011" | "01100" | "01101" | "01110" =>		-- X = 11, 12, 13 or 14
+						tile_address <= "101111"; 						-- Grass
+						
+					when others =>
+						tile_address <= "001010"; 						-- Black
+				end case;	
 
-					elsif (frame_count = 3) then
-						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
-						elsif (xposition = 7) then tile_address <= "110011"; -- Start 3_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 4) then
-						if    (xposition = 6) then tile_address <= "110100"; -- Start 4_1
-						elsif (xposition = 7) then tile_address <= "110101"; -- Start 4_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 5) then
-						if    (xposition = 6) then tile_address <= "110110"; -- Start 5_1
-						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 6) then
-						if    (xposition = 6) then tile_address <= "111000"; -- Start 6_1
-						elsif (xposition = 7) then tile_address <= "111001"; -- Start 6_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 7) then
-						if    (xposition = 6) then tile_address <= "111010"; -- Start 7_1
-						elsif (xposition = 7) then tile_address <= "111011"; -- Start 7_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 8) then
-						if    (xposition = 6) then tile_address <= "101111"; -- Grass
-						elsif (xposition = 7) then tile_address <= "111100"; -- Start 8_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					elsif (frame_count = 9) then
-						if    (xposition = 6) then tile_address <= "101111"; -- Grass
-						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
-						else			   tile_address <= "001010"; --black
-						end if;
-
-					else	tile_address <= "001010"; --black
-					end if;
-
-				elsif (xposition < 6) then
-					tile_address <= "101110"; --Sky
-
-				elsif (xposition > 5) then
-					tile_address <= "101111"; -- Grass
-				
-
-				else
-					tile_address <= "001010"; --black
-				end if;
-
-			when others => tile_address <= "000110"; --black
+			when others =>
+				tile_address <= "000110"; --black
 		end case;
 	end process;
+	
       ---((((mabey make signle constant)))--- can be optimized
 	xposition_process : process(hcount, xposition)
 	begin
