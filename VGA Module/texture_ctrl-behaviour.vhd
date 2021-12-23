@@ -739,17 +739,17 @@ begin
 			when "10" =>										-- End animation
 				case frame_count is
 					when "1001" =>								-- Frame count = 9
-						new_frame_count <= frame_count - '1';
+						new_frame_count <= frame_count - 1;
 					when others =>
-						new_frame_count <= frame_count + '1';
+						new_frame_count <= frame_count + 1;
 				end case;
 				
 			when "11" =>										-- Begin animation
 				case frame_count is
 					when "1000" =>								-- Frame count = 8
-						new_frame_count <= frame_count - '1';
+						new_frame_count <= frame_count - 1;
 					when others =>
-						new_frame_count <= frame_count + '1';
+						new_frame_count <= frame_count + 1;
 				end case;
 			
 			when others =>
