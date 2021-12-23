@@ -25,5 +25,6 @@ entity player_fsm is
         x_pos_out      : OUT std_logic_vector(3 downto 0);
 	moved	       : OUT std_logic;
 	game_state     : OUT std_logic_vector(1 downto 0);
-	vga_done_out   : IN  std_logic);
+	vga_done_out   : IN  std_logic;
+	animate_done   : IN  std_logic);
 end player_fsm;

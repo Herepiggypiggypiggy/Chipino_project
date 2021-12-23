@@ -6,12 +6,13 @@ architecture behaviour of player_fsm is
 
 type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 				up_state, reset_state, central_state,
-				mine_up_state, mine_down_state, mine_right_state					, mine_left_state, lvl_up_state, game_over_state);
+				mine_up_state, mine_down_state, mine_right_state, 
+				mine_left_state, lvl_up_state, game_over_state, start_state, animate_state);
 	signal x_pos, y_pos, x_pos_next, y_pos_next: unsigned(3 downto 0);
 	signal energy, energy_next: unsigned(8 downto 0);
 	signal score, score_next: unsigned(9 downto 0);
 	signal edge_detec3, edge_detec2, edge_detec1, edge_detec0: std_logic_vector(3 downto 0);
-	signal rise_left, rise_right, rise_up, rise_down: std_logic;
+	signal rise_left, rise_right, rise_up, rise_down, input: std_logic;
 	signal level, level_next : unsigned(4 downto 0);
 	signal state, new_state:	player_fsm_state;
 
@@ -37,6 +38,9 @@ begin
 	rise_right <= (not edge_detec3(1)) and edge_detec2(1) and edge_detec1(1) and edge_detec0(1);
 	rise_up    <= (not edge_detec3(2)) and edge_detec2(2) and edge_detec1(2) and edge_detec0(2);
 	rise_down  <= (not edge_detec3(3)) and edge_detec2(3) and edge_detec1(3) and edge_detec0(3);
+
+	-- determine of a button has been pressed
+	input <= button_x_left or button_x_right or button_y_up or button_y_down or button_mining;
 
 	-- setting outputs to internal signals
 	y_pos_out <= std_logic_vector(y_pos);
@@ -181,22 +185,71 @@ begin
 		end if;
 	end if;
 
+	-- *******
+	-- * FSM *
+	-- *******
+
         	case state is 
             		when reset_state => 	-- we go to the reset state when we start the chip and when there is a game over
 			dir_mined <= "000";				-- the first bit detirmines if a mining action took place, the last two bits determine the direction
 			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
-			new_state <= central_state;
 			score_next <= (others => '0');		-- reset score to 0
 			energy_next <= "011001000";		-- reset energy to 200
  			level_next <= "00001"; --game over back to level 0
-			
+
+			new_state <= start_state;
 
 			score_add <=  (others => '0');
 			energy_remove <= (others => '0');
 			moved <= '0';
 			game_state <= "00";
 			reached_high_next <= "00";
+
+		when start_state =>
+			dir_mined <= "000";
+			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
+			y_pos_next <= "0011";
+			score_next <= (others => '0');		-- reset score to 0
+			energy_next <= energy;
+ 			level_next <= "00001"; --game over back to level 0
+
+			-- keep start screen untill a button is pressed.
+			if (input = '1') then
+				new_state <= animate_state;
+			else
+				new_state <= start_state;
+			end if;
+			
+
+			score_add <=  (others => '0');
+			energy_remove <= (others => '0');
+			moved <= '0';
+			game_state <= "00";
+			reached_high_next <= reached_high;
+
+		when animate_state =>
+			dir_mined <= "000";
+			x_pos_next <= x_pos;
+			y_pos_next <= y_pos;
+			score_next <= (others => '0');
+			energy_next <= energy;
+ 			level_next <= level;
+
+			-- keep start screen untill a button is pressed.
+			if (animate_done = '1') then
+				new_state <= central_state;
+			else
+				new_state <= animate_state;
+			end if;
+			
+
+			score_add <=  (others => '0');
+			energy_remove <= (others => '0');
+			moved <= '0';
+			game_state <= "11"; -- game state 11 is used for the start animation.
+			reached_high_next <= "00";
+
 		when central_state => --central state where we read the inputs of the player
 
 			-- define all outputs
@@ -636,7 +689,6 @@ begin
 			dir_mined <= "000";				-- the first bit detirmines if a mining action took place, the last two bits determine the direction
 			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
-			new_state <= central_state;
 			game_state <= "10";
 			score_next <= (others => '0');		-- reset score to 0
 			level_next <= "00000"; --game over back to level 0
@@ -654,6 +706,11 @@ begin
 				reached_high_next <= reached_high;
 			end if;
 			
+			if (animate_done = '1' and input = '1') then
+				new_state <= start_state;
+			else
+				new_state <= game_over_state;
+			end if;
 			
 			score_add <=  (others => '0');
 			energy_remove <= (others => '0');
