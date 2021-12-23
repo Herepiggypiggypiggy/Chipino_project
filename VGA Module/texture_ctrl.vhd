@@ -27,7 +27,9 @@ port (
 	
 	Hcount_out	: out unsigned(9 downto 0);
 	Vcount_out	: out unsigned(9 downto 0);
-	vga_done_out 	: out std_logic
+	vga_done_out 	: out std_logic;
+	
+	animation_done : out std_logic
 );
 end texture_ctrl;
 

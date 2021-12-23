@@ -108,40 +108,104 @@ begin
 	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy,game_state,frame_count)
 	begin
 		case game_state is
+			-- Begin screen
 			when "00" =>
 				if (xposition = 3) then
 					if (yposition = 4) then
 						tile_address <= "111111"; --Player
 					elsif (yposition = 7) then
-						tile_address <= "001100"; --E
+						tile_address <= "111101"; --E - Light Blue
 					elsif (yposition = 8) then
-						tile_address <= "001110"; --L
+						tile_address <= "001001"; --L - Light Blue
 					elsif (yposition = 9) then
-						tile_address <= "011010"; --O
+						tile_address <= "000111"; --O - Light Blue
 					elsif (yposition = 10) then
-						tile_address <= "100000"; --M
-
+						tile_address <= "111110"; --M - Light Blue
 					else
 						tile_address <= "001010"; --black
 					end if;
 
 				elsif (xposition = 4) then
 					if (yposition = 4) then
-						tile_address <= "011011"; --R
+						tile_address <= "000110"; --R - Light Blue
 					elsif (yposition = 5) then
-						tile_address <= "001100"; --E
+						tile_address <= "111101"; --E - Light Blue
 					elsif (yposition = 6) then
-						tile_address <= "001111"; --N
+						tile_address <= "001000"; --N - Light Blue
 					elsif (yposition = 7) then
-						tile_address <= "100001"; --I
+						tile_address <= "100001"; --I - Light Blue
 					elsif (yposition = 8) then
-						tile_address <= "100000"; --M
+						tile_address <= "111110"; --M - Light Blue
 					elsif (yposition = 10) then
 						tile_address <= "000001"; --Rock
-
 					else
 						tile_address <= "001010"; --black
 					end if;
+					
+				elsif ((xposition = 6 or xposition = 7) and yposition = 7) then
+					if (frame_count = 1) then
+						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
+						elsif (xposition = 7) then tile_address <= "110001"; -- Start 1_2
+						else			   tile_address <= "001010"; --black
+						end if;
+						
+					elsif (frame_count = 2) then
+						if    (xposition = 6) then tile_address <= "110000"; --Start 1_1
+						elsif (xposition = 7) then tile_address <= "110010"; --Start 2_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 3) then
+						if    (xposition = 6) then tile_address <= "110000"; -- Start 1_1
+						elsif (xposition = 7) then tile_address <= "110011"; -- Start 3_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 4) then
+						if    (xposition = 6) then tile_address <= "110100"; -- Start 4_1
+						elsif (xposition = 7) then tile_address <= "110101"; -- Start 4_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 5) then
+						if    (xposition = 6) then tile_address <= "110110"; -- Start 5_1
+						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 6) then
+						if    (xposition = 6) then tile_address <= "111000"; -- Start 6_1
+						elsif (xposition = 7) then tile_address <= "111001"; -- Start 6_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 7) then
+						if    (xposition = 6) then tile_address <= "111010"; -- Start 7_1
+						elsif (xposition = 7) then tile_address <= "111011"; -- Start 7_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 8) then
+						if    (xposition = 6) then tile_address <= "101111"; -- Grass
+						elsif (xposition = 7) then tile_address <= "111100"; -- Start 8_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					elsif (frame_count = 9) then
+						if    (xposition = 6) then tile_address <= "101111"; -- Grass
+						elsif (xposition = 7) then tile_address <= "110111"; -- Start 5_2
+						else			   tile_address <= "001010"; --black
+						end if;
+
+					else	tile_address <= "001010"; --black
+					end if;
+
+				elsif (xposition < 6) then
+					tile_address <= "101110"; --Sky
+
+				elsif (xposition > 5) then
+					tile_address <= "101111"; -- Grass
+				
 
 				else
 					tile_address <= "001010"; --black
@@ -616,6 +680,27 @@ begin
 			end if;
 		else
 			new_frame_count <= (others => '0');
+		end if;
+	end process;
+	
+	-- Process: Animation Done Signal
+	process(frame_count, game_state)
+	begin
+		-- Begin screen
+		if (game_state="00") then
+			if (frame_count = "1001") then
+				animation_done <= "1";
+			else
+				animation_done <= "0";
+			end if;
+		elsif (game_state = "10") then
+			if (frame_count = "1001") then
+				animation_done <= "1";
+			else
+				animation_done <= "0";
+			end if;
+		else
+			animation_done <= "0";
 		end if;
 	end process;
 

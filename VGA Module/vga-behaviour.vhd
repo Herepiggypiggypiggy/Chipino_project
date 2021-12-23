@@ -29,7 +29,9 @@ component texture_ctrl
 		
 		Hcount_out	: out unsigned(9 downto 0);
 		Vcount_out	: out unsigned(9 downto 0);
-		vga_done_out 	: out std_logic
+		vga_done_out 	: out std_logic;
+		
+		animation_done : out std_logic
 	);
 
 end component;
@@ -125,7 +127,8 @@ texture_module : texture_ctrl port map(			clk,
 							tile_address,
 							Hcount,
 							Vcount,
-							vga_done_out); 
+							vga_done_out,
+							animation_done); 
 
 tile_module : tile_ctrl port map(				clk, 
 							reset, 

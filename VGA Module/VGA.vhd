@@ -27,7 +27,9 @@ port (
 	green		: out std_logic_vector(3 downto 0);
 	blue		: out std_logic_vector(3 downto 0);
 
-	vga_done_out	: out std_logic
+	vga_done_out	: out std_logic;
+	
+	animation_done : out std_logic
 );
 end VGA;
 
