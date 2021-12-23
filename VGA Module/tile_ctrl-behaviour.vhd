@@ -527,6 +527,7 @@ else
 			end if;
 
 		-- R - Light Blue --
+		when "000110" =>
 			if 		(row = "000" and column = "000") then	color_address <= spirit_blue;		-- row 0, column 0
 			elsif 	(row = "000" and column = "001") then	color_address <= spirit_blue;		-- row 0, column 1
 			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
