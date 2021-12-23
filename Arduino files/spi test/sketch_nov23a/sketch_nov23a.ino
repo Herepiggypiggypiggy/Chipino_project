@@ -1,37 +1,52 @@
-#include <SPI.h>
+#define SCK_PIN   13  // D13 = pin19 = PortB.5
+#define MISO_PIN  12  // D12 = pin18 = PortB.4
+#define MOSI_PIN  11  // D11 = pin17 = PortB.3
+#define SS_PIN    10  // D10 = pin16 = PortB.2
 
-#define SCK   15  // D13 = pin19 = PortB.5
-#define MISO  14  // D12 = pin18 = PortB.4
-#define MOSI  16  // D11 = pin17 = PortB.3
-#define SS    10  // D10 = pin16 = PortB.2
-volatile uint8_t byteCount = 0;
-volatile bool dataReady = false;
+#define UL unsigned long
+#define US unsigned short
 
-float data;
-uint8_t *ptr = (uint8_t *)&data;
-
-// SPI interrupt routine
-ISR (SPI_STC_vect) {
-  ptr[byteCount++] = SPDR;    //read one byte form SPI Data Regiser
-  if (byteCount == 3) {
-    dataReady = true;
-  }
+void SlaveInit(void) {
+  pinMode(SCK_PIN, INPUT);
+  pinMode(MOSI_PIN, INPUT);
+  pinMode(MISO_PIN, OUTPUT);
+  pinMode(SS_PIN, INPUT);
 }
 
-void setup (void) {
+unsigned short Read2Bytes(void) {
+    union {
+    unsigned short svar;
+    byte c[2];
+  } w;
+  
+  while(!(SPSR & (1<<SPIF))) ;
+  w.c[1] = SPDR;
+  while(!(SPSR & (1<<SPIF))) ;
+  w.c[0] = SPDR;             
+  return (w.svar);
+}
+
+void setup() {
   Serial.begin(115200);
-  Serial.println("\nSPI Slave");
-  SPCR |= bit(SPE);        // enable SPI slave mode
-  pinMode(MISO, OUTPUT);   // set MISO as OUTPUT
-  SPI.attachInterrupt();
+  SlaveInit();
+  delay(10);
+  Serial.println("SPI port reader v0.1"); 
 }
 
-void loop (void) {
-  if (dataReady) {
-    Serial.println(data, 4);
+void loop() {
+  unsigned short word1;
+  byte flag1;
 
+    while (digitalRead(SS_PIN)==1) {}
     
-    byteCount = 0;    // reset byteCount and dataReady flag
-    dataReady = false;
-  }
+    SPCR = (1<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); // SPI on
+    word1 = Read2Bytes(); 
+    SPCR = (0<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0);  // SPI off
+  
+    Serial.print(word1);
+    for(int k=0; k<24; k++)
+    {
+      SPDR= 011;
+    }
+
 }
