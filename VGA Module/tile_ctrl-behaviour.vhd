@@ -24,29 +24,31 @@ architecture behavioural of tile_ctrl is
 	constant spirit_blue	: std_logic_vector(4 downto 0) := "10001";
 	constant caustic_green	: std_logic_vector(4 downto 0) := "10010";
 	constant lavender		: std_logic_vector(4 downto 0) := "10011";
+	
 	constant ice			: std_logic_vector(4 downto 0) := "10100";
 	constant lava			: std_logic_vector(4 downto 0) := "10101";
 	constant lightest_grey	: std_logic_vector(4 downto 0) := "10110";
 	constant beige			: std_logic_vector(4 downto 0) := "10111";
 
-	constant green		: std_logic_vector(4 downto 0) := "11000";
-	constant dark_green	: std_logic_vector(4 downto 0) := "11001";
+	constant green			: std_logic_vector(4 downto 0) := "11000";
+	constant dark_green		: std_logic_vector(4 downto 0) := "11001";
 
 	signal bg : std_logic_vector(4 downto 0);
 
 begin 
 	process (bg_select)
 	begin
-		if    (bg_select = "000") then bg <= black;
-		elsif (bg_select = "001") then bg <= bg_red;
-		elsif (bg_select = "010") then bg <= swamp_green;
-		elsif (bg_select = "011") then bg <= ice;
-		elsif (bg_select = "100") then bg <= caustic_green;
-		elsif (bg_select = "101") then bg <= lava;
-		elsif (bg_select = "110") then bg <= lavender;
-		elsif (bg_select = "111") then bg <= magenta;
-		else                           bg <= magenta;
-		end if;
+		case bg_select is
+			when "000" => 	bg <= black;
+			when "001" => 	bg <= bg_red;
+			when "010" => 	bg <= swamp_green;
+			when "011" => 	bg <= ice;
+			when "100" => 	bg <= caustic_green;
+			when "101" => 	bg <= lava;
+			when "110" => 	bg <= lavender;
+			when "111" => 	bg <= magenta;
+			when others => 	bg <= magenta;
+		end case;
 	end process;
 	
 	
