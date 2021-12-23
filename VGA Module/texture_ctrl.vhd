@@ -16,7 +16,7 @@ port (
 
 	game_state      : in std_logic_vector(1 downto 0);
 
-	dim		: out unsigned(3 downto 0);
+	dim		: out std_logic_vector(3 downto 0);
 	column_out	: out std_logic_vector(2 downto 0);
 	row_out		: out std_logic_vector(2 downto 0);
 	timer1_out		: out  std_logic_vector(5 downto 0);
@@ -25,8 +25,8 @@ port (
 	
 	tile_address	: out std_logic_vector(5 downto 0);
 	
-	Hcount_out	: out unsigned(9 downto 0);
-	Vcount_out	: out unsigned(9 downto 0);
+	hcount_out	: out std_logic_vector(9 downto 0);
+	vcount_out	: out std_logic_vector(9 downto 0);
 	vga_done_out 	: out std_logic;
 	
 	animation_done : out std_logic

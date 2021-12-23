@@ -11,10 +11,10 @@ architecture behaviour of texture_ctrl is
     	constant h_sp      : unsigned(9 downto 0) := "0001100000";--96
     	constant h_bp      : unsigned(9 downto 0) := "0000110000";--48
 
-    	constant V_DISPLAY : unsigned(9 downto 0) := "0111100000";--480
-    	constant V_FP      : unsigned(9 downto 0) := "0000001010";--10
-    	constant V_SP      : unsigned(9 downto 0) := "0000000010";--2
-    	constant V_BP      : unsigned(9 downto 0) := "0000100001";--33
+    	constant v_display : unsigned(9 downto 0) := "0111100000";--480
+    	constant v_fp      : unsigned(9 downto 0) := "0000001010";--10
+    	constant v_sp      : unsigned(9 downto 0) := "0000000010";--2
+    	constant v_bp      : unsigned(9 downto 0) := "0000100001";--33
 
     	constant h_margin  : unsigned(9 downto 0) := "0000101000";--40
 
@@ -23,16 +23,16 @@ architecture behaviour of texture_ctrl is
     	constant pixel_tile      : unsigned(1 downto 0) := "11";    --3
 
     	constant info_lv       : unsigned(4 downto 0) := "00001";--1
-    	constant info_lv_SPACE : unsigned(4 downto 0) := "00001";--1
+    	constant info_lv_space : unsigned(4 downto 0) := "00001";--1
 
     	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";--2304
     	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";--6400
 	
 	signal hcount : unsigned(9 downto 0);
-	signal Vcount : unsigned(9 downto 0);
+	signal vcount : unsigned(9 downto 0);
 
 	signal new_hcount : unsigned(9 downto 0);
-	signal new_Vcount : unsigned(9 downto 0);
+	signal new_vcount : unsigned(9 downto 0);
 
 	signal new_column : unsigned(2 downto 0);
 	signal new_row    : unsigned(2 downto 0);
@@ -111,7 +111,7 @@ begin
 		end if;
 	end process dimmer;
 
-	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy,game_state,frame_count)
+	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, game_state, frame_count)
 	begin
 		case game_state is
 			-- Begin screen
@@ -522,7 +522,7 @@ begin
 		end case;
 	end process;
 	
-      ---((((mabey make signle constant)))--- can be optimized
+      ---((((mabey make single constant)))--- can be optimized
 	xposition_process : process(hcount, xposition)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -535,13 +535,14 @@ begin
 			end if;
 		end if;
 	end process xposition_process;
-      ---((((maybe make signal constant)))--- can be optimized
+	
+      ---((((maybe make single constant)))--- can be optimized
 	yposition_process : process(hcount, vcount, yposition)
 	begin
-		if (Vcount = V_DISPLAY + V_FP + V_SP + V_BP - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
+		if (vcount = v_display + v_fp + v_sp + v_bp - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
 			new_yposition <= (others => '0');
 		else
-			if (Vcount(4 downto 0) = pixel_num and Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then
+			if (vcount(4 downto 0) = pixel_num and vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then
 				new_yposition <= yposition + 1;
 			else
 				new_yposition <= yposition;
@@ -550,7 +551,7 @@ begin
 	end process yposition_process;
 
 	--Column selector   
-      ---((((maybe make signal constant)))--- can be optimized
+      ---((((maybe make single constant)))--- can be optimized
 	column_process : process(hcount, column)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
@@ -567,13 +568,13 @@ begin
 	end process column_process;
 
 	--Row selector
-      ---((((maybe make signal constant)))--- can be optimized
+      ---((((maybe make single constant)))--- can be optimized
 	row_process : process(vcount, hcount, row)
 	begin
-        if (Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then -- when not at the end of the total frame
-            if (Vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 32 is 31 add H is end of line start new tile
+        if (vcount < v_display + v_fp + v_sp + v_bp - 1) then -- when not at the end of the total frame
+            if (vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when vcount mod 32 is 31 add H is end of line start new tile
                 new_row <= (others => '0');
-            elsif (Vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when Vcount mod 4 is 3 and if H is end of line
+            elsif (vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when vcount mod 4 is 3 and if H is end of line
                 new_row <= row + 1;
             else
                 new_row <= row;
@@ -584,7 +585,7 @@ begin
 	end process row_process;
 
 	--hcounter COM
-      ---((((maybe make signal constant)))--- can be optimized
+      ---((((maybe make single constant)))--- can be optimized
 	hcounter_process : process(hcount)
 	begin
 		if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
@@ -594,25 +595,25 @@ begin
 		end if;
 	end process hcounter_process;
 
-	--Vcounter COM      
-      ---((((maybe make signal constant)))--- can be optimized
+	--vcounter COM      
+      ---((((maybe make single constant)))--- can be optimized
 	vcounter_process : process(vcount, hcount)
 	begin
         if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
-			if(Vcount < V_DISPLAY + V_FP + V_SP + V_BP - 1) then
-				new_Vcount <= Vcount + 1;
+			if(vcount < v_display + v_fp + v_sp + v_bp - 1) then
+				new_vcount <= vcount + 1;
 			else
-				new_Vcount <= (others => '0');
+				new_vcount <= (others => '0');
 			end if;
 		else
-				new_Vcount <= Vcount;
+				new_vcount <= vcount;
 			end if;
 	end process vcounter_process;
 
 	-- VGA done signal     
 	vga_done_process : process(vcount)
 	begin
-		if (vcount > V_DISPLAY - 1) then
+		if (vcount > v_display - 1) then
 			vga_done <= '1';
 		else
 			vga_done <= '0';
@@ -794,14 +795,14 @@ begin
 		end if;
 	end process;
 
-	-- Stores new values of hcount and Vcount in the register.
+	-- Stores new values of hcount and vcount in the register.
 	process(clk)
 	begin
 		if (rising_edge(clk)) then
 			if (reset = '1') then
 				--Assign to internal signal
 				hcount <= (others => '0');
-				Vcount <= (others => '0');
+				vcount <= (others => '0');
 
 				hvis <= (others => '0');
 				vvis <= (others => '0');
@@ -815,7 +816,7 @@ begin
 			else
 				--Assign to internal signal
 				hcount <= new_hcount;
-				Vcount <= new_Vcount;
+				vcount <= new_vcount;
 
 				hvis <= new_hvis;
 				vvis <= new_vvis;
@@ -830,8 +831,8 @@ begin
 	end process;
 
 	--Assign to output signals
-	hcount_out <= hcount;
-	Vcount_out <= Vcount;
+	hcount_out <= std_logic_vector(hcount);
+	vcount_out <= std_logic_vector(vcount);
 
 	vga_done_out <= vga_done;
 	timer1_out   <= std_logic_vector(timer1);
