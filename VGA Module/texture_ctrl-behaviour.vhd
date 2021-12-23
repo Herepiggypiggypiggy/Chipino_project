@@ -755,22 +755,26 @@ begin
 	-- Process: Animation Done Signal
 	process(frame_count, game_state)
 	begin
-		-- Begin screen
-		if (game_state="00") then
-			if (frame_count = "1001") then
-				animation_done <= '1';
-			else
+		case game_state is
+			when "10" =>						-- End animation
+				case frame_count is
+					when "1001" =>				-- Frame count = 9
+						animation_done <= '1';
+					when others =>
+						animation_done <= '0';
+				end case;
+			
+			when "11" =>						-- Begin animation
+				case frame_count is
+					when "1000" =>
+						animation_done <= '1';
+					when others =>
+						animation_done <= '0';
+				end case;
+			
+			when others =>
 				animation_done <= '0';
-			end if;
-		elsif (game_state = "10") then
-			if (frame_count = "1001") then
-				animation_done <= '1';
-			else
-				animation_done <= '0';
-			end if;
-		else
-			animation_done <= '0';
-		end if;
+		end case;				
 	end process;
 
 	-- Process: Sequential
