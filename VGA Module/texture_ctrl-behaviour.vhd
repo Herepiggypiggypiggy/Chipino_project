@@ -735,21 +735,26 @@ begin
 	-- Process: Frame Count
 	process(frame_count, game_state)
 	begin
-		if (game_state="10") then
-			if (frame_count = "1001") then
-					new_frame_count <= frame_count - 1;
-			else
-					new_frame_count <= frame_count + 1;
-			end if;
-		elsif (game_state="00") then
-			if (frame_count = "1001") then
-					new_frame_count <= frame_count - 1;
-			else
-					new_frame_count <= frame_count + 1;
-			end if;
-		else
-			new_frame_count <= (others => '0');
-		end if;
+		case game_state is
+			when "10" =>										-- End animation
+				case frame_count is
+					when "1001" =>								-- Frame count = 9
+						new_frame_count <= frame_count - '1';
+					when others =>
+						new_frame_count <= frame_count + '1';
+				end case;
+				
+			when "11" =>										-- Begin animation
+				case frame_count is
+					when "1000" =>								-- Frame count = 8
+						new_frame_count <= frame_count - '1';
+					when others =>
+						new_frame_count <= frame_count + '1';
+				end case;
+			
+			when others =>
+				new_frame_count <= frame_count;
+		end case;		
 	end process;
 	
 	-- Process: Animation Done Signal
@@ -766,7 +771,7 @@ begin
 			
 			when "11" =>						-- Begin animation
 				case frame_count is
-					when "1000" =>
+					when "1000" =>				-- Frame count = 8
 						animation_done <= '1';
 					when others =>
 						animation_done <= '0';
