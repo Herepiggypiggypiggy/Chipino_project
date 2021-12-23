@@ -10,7 +10,7 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 	signal x_pos, y_pos, x_pos_next, y_pos_next: unsigned(3 downto 0);
 	signal energy, energy_next: unsigned(8 downto 0);
 	signal score, score_next: unsigned(9 downto 0);
-	signal edge_detec1, edge_detec0: std_logic_vector(3 downto 0);
+	signal edge_detec3, edge_detec2, edge_detec1, edge_detec0: std_logic_vector(3 downto 0);
 	signal rise_left, rise_right, rise_up, rise_down: std_logic;
 	signal level, level_next : unsigned(4 downto 0);
 	signal state, new_state:	player_fsm_state;
@@ -33,10 +33,10 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 begin
 	
 	-- detecting a rising edge of a directional button press
-	rise_left <= not edge_detec1(0) and edge_detec0(0);
-	rise_right <= not edge_detec1(1) and edge_detec0(1);
-	rise_up <= not edge_detec1(2) and edge_detec0(2);
-	rise_down <= not edge_detec1(3) and edge_detec0(3);
+	rise_left  <= (not edge_detec3(0)) and edge_detec2(0) and edge_detec1(0) and edge_detec0(0);
+	rise_right <= (not edge_detec3(1)) and edge_detec2(1) and edge_detec1(1) and edge_detec0(1);
+	rise_up    <= (not edge_detec3(2)) and edge_detec2(2) and edge_detec1(2) and edge_detec0(2);
+	rise_down  <= (not edge_detec3(3)) and edge_detec2(3) and edge_detec1(3) and edge_detec0(3);
 
 	-- setting outputs to internal signals
 	y_pos_out <= std_logic_vector(y_pos);
@@ -51,6 +51,8 @@ begin
 		if (clk = '1' and clk'event) then
 			if (reset = '1') then
 				state <= reset_state;
+				edge_detec3 <= "0000";
+				edge_detec2 <= "0000";
 				edge_detec1 <= "0000";
 				edge_detec0 <= "0000";
 
@@ -79,6 +81,8 @@ begin
 				edge_detec0(3) <= button_y_down;
 
 				edge_detec1 <= edge_detec0;
+				edge_detec2 <= edge_detec1;
+				edge_detec3 <= edge_detec2;
 
 				energy_d_out <= std_logic_vector(new_energy_d);
 				score_d_out <= std_logic_vector(new_score_d);
@@ -109,7 +113,7 @@ begin
 	button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
 		map_data_u, rise_left, rise_right,rise_up,rise_down,score_add,
 		score_d, level_d, energy_d, energy_remove, x_pos, y_pos,
-		score, energy, level, reached_high)
+		score, energy, level, reached_high, vga_done_out)
     	begin
 	if (state = lvl_up_state) then
 		new_energy_d <= "001000000000";
@@ -242,16 +246,20 @@ begin
 			moved <= '0';
 			reached_high_next <= reached_high;
 			-- check in which direction the player is mining
-			if(button_mining = '1' and button_x_left = '1') then
-				new_state <= mine_left_state;
-			elsif(button_mining = '1' and button_x_right = '1') then
-				new_state <= mine_right_state;
-			elsif(button_mining = '1' and button_y_up = '1') then
-				new_state <= mine_up_state;
-			elsif(button_mining = '1' and button_y_down = '1') then
-				new_state <= mine_down_state;
+			if (vga_done_out = '1') then
+				if(button_mining = '1' and button_x_left = '1') then
+					new_state <= mine_left_state;
+				elsif(button_mining = '1' and button_x_right = '1') then
+					new_state <= mine_right_state;
+				elsif(button_mining = '1' and button_y_up = '1') then
+					new_state <= mine_up_state;
+				elsif(button_mining = '1' and button_y_down = '1') then
+					new_state <= mine_down_state;
+				else
+					new_state <= central_state;
+				end if;
 			else
-				new_state <= central_state;
+				new_state <= mine_state;
 			end if;
 		
 		when mine_left_state => --player mining to the left
