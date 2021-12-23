@@ -9,7 +9,7 @@ architecture behavioural of display_ctrl is
 	signal new_hsync : std_logic;
 	signal new_vsync : std_logic;
 
-	type state_type IS (hsync_on, hsync_off, vsync_on, vsync_off, display_on, display_off);
+	type state_type is (hsync_on, hsync_off, vsync_on, vsync_off, display_on, display_off);
 
 	signal hsync_state       : state_type;
 	signal new_hsync_state   : state_type;
@@ -31,7 +31,7 @@ architecture behavioural of display_ctrl is
 
 	hstate_process: process(hcount)
 	begin 
-		if (Hcount > h_display + h_fp - 1 and Hcount < h_display + h_fp + h_sp) then
+		if (unsigned(hcount) > h_display + h_fp - 1 and unsigned(hcount) < h_display + h_fp + h_sp) then
 			new_hsync_state <= hsync_off;
 		else
 			new_hsync_state <= hsync_on;
@@ -40,7 +40,7 @@ architecture behavioural of display_ctrl is
 
 	vstate_process: process(vcount)
 	begin
-		if (Vcount > v_display + v_fp - 1 and Vcount <  v_display + v_fp + v_sp) then
+		if (unsigned(vcount) > v_display + v_fp - 1 and unsigned(vcount) <  v_display + v_fp + v_sp) then
 			new_vsync_state <= vsync_off;
 		else	
 			new_vsync_state <= vsync_on;
@@ -66,39 +66,43 @@ architecture behavioural of display_ctrl is
 	end process;
 
 	
-	display: process(hcount,vcount,display_state)
+	display: process(hcount, vcount, display_state)
 	begin
-		if (Hcount > "1010000000" or Vcount > "111100000") then
+		if (unsigned(hcount) > "1010000000" or unsigned(vcount) > "111100000") then
 			new_display_state <= display_off;
 		else
 			new_display_state <= display_on;
 		end if;
 	end process display;
 
-	RGB: process(in_red,in_green,in_blue,dim)
+	RGB: process(in_red, in_green, in_blue, dim)
 	begin
 		if (display_state = display_on) then
 				if(dim > "0000") then	
-					if (unsigned(in_red) > dim) then
-						new_red 	<= 	std_logic_vector(unsigned(in_red) - dim);
+					if (unsigned(in_red) > unsigned(dim)) then
+						new_red 	<= 	std_logic_vector(unsigned(in_red) - unsigned(dim));
 					else
 						new_red 	<= 	(others => '0');
 					end if;
-					if (unsigned(in_green) > dim) then
-						new_green 	<= 	std_logic_vector(unsigned(in_green) - dim);
+					
+					if (unsigned(in_green) > unsigned(dim)) then
+						new_green 	<= 	std_logic_vector(unsigned(in_green) - unsigned(dim));
 					else
 						new_green 	<= 	(others => '0');
 					end if;
-					if (unsigned(in_blue) > dim) then
-						new_blue 	<= 	std_logic_vector(unsigned(in_blue) - dim);
+					
+					if (unsigned(in_blue) > unsigned(dim)) then
+						new_blue 	<= 	std_logic_vector(unsigned(in_blue) - unsigned(dim));
 					else
 						new_blue 	<= 	(others => '0');
 					end if;	
+					
 				else
 					new_red 	<= 	in_red;	
 					new_green 	<= 	in_green;	
 					new_blue 	<= 	in_blue;		
 				end if;
+				
 		else
 			new_red 	<= 	(others => '0');	
 			new_green 	<= 	(others => '0');	
@@ -106,7 +110,7 @@ architecture behavioural of display_ctrl is
 		end if;
 	end process RGB;
 
-	process (clk)
+	process(clk)
 	begin
 		if (rising_edge (clk)) then
 			if reset = '1' then
