@@ -1062,8 +1062,10 @@ else
 			
 				when "010" | "011" | "100" =>										-- Row 2, 3 and 4
 					case column is
-						when "000" | "011" | "101" => color_address <= black; -- Column 0, 3 and 5
-						when "001" | "010" | "100" | "110" | "111" => color_address <= white; -- Column 1, 2, 4, 6 and 7
+						when "000" | "011" | "101" 					=> color_address <= black; -- Column 0, 3 and 5
+						when "001" | "010" | "100" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7
+						when others									=> color_address <= magenta;			
+					end case;
 			
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
