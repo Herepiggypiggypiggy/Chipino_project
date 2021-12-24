@@ -8,8 +8,8 @@ port (
 	reset 		: in std_logic;
 
 	map_data	: in std_logic_vector(71 downto 0);
-	Xplayer		: in std_logic_vector(3 downto 0);
-	Yplayer		: in std_logic_vector(3 downto 0);
+	xplayer		: in std_logic_vector(3 downto 0);
+	yplayer		: in std_logic_vector(3 downto 0);
 	score 		: in std_logic_vector(15 downto 0);
 	energy		: in std_logic_vector(11 downto 0);
 	level 		: in std_logic_vector(7 downto 0);
