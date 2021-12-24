@@ -69,47 +69,42 @@ else
 		when "000001" =>
 			case row is
 				when "000" =>																		-- Row 0
-					case column is
-						when "000" | "001" | "010" | "011" |"111" 	=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7
+					case column is 
 						when "100" 									=> color_address <= light_grey; -- Column 4
 						when "101" | "110"		 					=> color_address <= grey; 		-- Column 5 and 6
-						when others 								=> color_address <= magenta;
+						when others 								=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7
 					end case;
 					
 				when "001" =>														-- Row 1
-					case column is
-						when "000" | "001" | "010" 	=> color_address <= bg; 		-- Column 0, 1 and 2
+					case column is 
 						when "011" | "100" 			=> color_address <= light_grey; -- Column 3 and 4
 						when "101" | "110" 			=> color_address <= grey; 		-- Column 5 and 6
 						when "111" 					=> color_address <= dark_grey; 	-- Column 7
-						when others 				=> color_address <= magenta;
+						when others 				=> color_address <= bg; 		-- Column 0, 1 and 2
 					end case;
 					
 				when "010" =>														-- Row 2
 					case column is
 						when "000" | "001" 			=> color_address <= bg; 		-- Column 0 and 1
-						when "010" | "011" | "100" 	=> color_address <= light_grey; -- Column 2, 3 and 4
 						when "101" 					=> color_address <= grey; 		-- Column 5
 						when "110" | "111" 			=> color_address <= dark_grey; 	-- Column 6 and 7
-						when others 				=> color_address <= magenta;
+						when others 				=> color_address <= light_grey; -- Column 2, 3 and 4
 					end case;
 					
 				when "011" =>														-- Row 3
 					case column is
-						when "000" 					=> color_address <= bg; 		-- Column 0
-						when "001" | "010" | "011" 	=> color_address <= light_grey; -- Column 1, 2 and 3
+						when "000" 					=> color_address <= bg; 		-- Column 0 
 						when "100" | "101" 			=> color_address <= grey;		-- Column 4 and 5
 						when "110" | "111" 			=> color_address <= dark_grey;	-- Column 6 and 7	
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= light_grey; -- Column 1, 2 and 3			
 					end case;	
 						
 				when "100" =>														-- Row 4
 					case column is
 						when "000" 					=> color_address <= bg; 		-- Column 0
 						when "001" | "010" 			=> color_address <= light_grey; -- Column 1 and 2
-						when "011" | "100" | "101" 	=> color_address <= grey; 		-- Column 3, 4 and 5
 						when "110" | "111" 			=> color_address <= dark_grey; 	-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= grey; 		-- Column 3, 4 and 5		
 					end case;
 					
 				when "101" =>														-- Row 5
@@ -117,23 +112,20 @@ else
 						when "000"					=> color_address <= bg; 		-- Column 0
 						when "001" 					=> color_address <= light_grey; -- Column 1
 						when "010" | "011" | "100" 	=> color_address <= grey; 		-- Column 2, 3 and 4
-						when "101" | "110" | "111" 	=> color_address <= dark_grey; 	-- Column 5, 6 and 7
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= dark_grey; 	-- Column 5, 6 and 7			
 					end case;
 	
 				when "110" =>														-- Row 6
 					case column is
-						when "000"											=> color_address <= bg; 		-- Column 0
-						when "001"											=> color_address <= grey; 		-- Column 1
-						when "010" | "011" | "100" | "101" | "110" | "111"	=> color_address <= dark_grey; 	-- Column 2, 3, 4, 5, 6 and 7
-						when others											=> color_address <= magenta;			
+						when "000"					=> color_address <= bg; 		-- Column 0
+						when "001"					=> color_address <= grey; 		-- Column 1
+						when others					=> color_address <= dark_grey; 	-- Column 2, 3, 4, 5, 6 and 7			
 					end case;
 
 				when "111" =>														-- Row 7
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7
-						when "100" | "101" | "110" 					=> color_address <= dark_grey;	-- Column 4, 5 and 6
-						when others									=> color_address <= magenta;			
+					case column is 
+						when "100" | "101" | "110" 	=> color_address <= dark_grey;	-- Column 4, 5 and 6
+						when others					=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7			
 					end case;
 			
 				when others => color_address <= magenta;			
@@ -143,32 +135,29 @@ else
 		when "000010" =>
 			case row is
 				when "000" => 														-- Row 0
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= bg; 			-- Column 0, 1, 2, 3 and 7
-						when "100" 									=> color_address <= light_grey; 	-- Column 4
-						when "101" | "110" 							=> color_address <= grey;		 	-- Column 5 and 6
-						when others									=> color_address <= magenta;			
+					case column is 
+						when "100" 				=> color_address <= light_grey; 	-- Column 4
+						when "101" | "110" 		=> color_address <= grey;		 	-- Column 5 and 6
+						when others				=> color_address <= bg; 			-- Column 0, 1, 2, 3 and 7			
 					end case;
 			
 			
 				when "001" =>														-- Row 1
-					case column is
-						when "000" | "001" | "010" 	=> color_address <= bg; 			-- Column 0, 1 and 2
-						when "011" 					=> color_address <= light_grey; 	-- Column 3
-						when "100" 					=> color_address <= light_yellow; 	-- Column 4
-						when "101" 					=> color_address <= yellow; 		-- Column 5
-						when "110" 					=> color_address <= grey; 			-- Column 6
-						when "111" 					=> color_address <= dark_grey; 		-- Column 7
-						when others					=> color_address <= magenta;			
+					case column is 
+						when "011" 				=> color_address <= light_grey; 	-- Column 3
+						when "100" 				=> color_address <= light_yellow; 	-- Column 4
+						when "101" 				=> color_address <= yellow; 		-- Column 5
+						when "110" 				=> color_address <= grey; 			-- Column 6
+						when "111" 				=> color_address <= dark_grey; 		-- Column 7
+						when others				=> color_address <= bg; 			-- Column 0, 1 and 2			
 					end case;
 					
 				when "010" =>														-- Row 2
 					case column is
-						when "000" | "001" 			=> color_address <= bg; 		-- Column 0 and 1
-						when "010" | "011" | "100" 	=> color_address <= light_grey; -- Column 2, 3 and 4
-						when "101" 					=> color_address <= orange; 	-- Column 5
-						when "110" | "111" 			=> color_address <= dark_grey; 	-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when "000" | "001" 		=> color_address <= bg; 			-- Column 0 and 1 
+						when "101" 				=> color_address <= orange; 		-- Column 5
+						when "110" | "111" 		=> color_address <= dark_grey; 		-- Column 6 and 7
+						when others				=> color_address <= light_grey; 	-- Column 2, 3 and 4			
 					end case;
 					
 				when "011" =>														-- Row 3
@@ -177,8 +166,7 @@ else
 						when "001" | "011" 		=> color_address <= light_grey; 	-- Column 1 and 3
 						when "010" 				=> color_address <= light_yellow; 	-- Column 2
 						when "100" | "101" 		=> color_address <= grey; 			-- Column 4 and 5
-						when "110" | "111" 		=> color_address <= dark_grey; 		-- Column 6 and 7
-						when others				=> color_address <= magenta;			
+						when others 			=> color_address <= dark_grey; 		-- Column 6 and 7			
 					end case;
 				
 				when "100" => 														-- Row 4
@@ -187,38 +175,34 @@ else
 						when "001" 				=> color_address <= light_grey; 	-- Column 1
 						when "010" | "011" 		=> color_address <= yellow; 		-- Column 2 and 3
 						when "100" | "101" 		=> color_address <= grey; 			-- Column 4 and 5
-						when "110" | "111" 		=> color_address <= dark_grey; 		-- Column 6 and 7
-						when others				=> color_address <= magenta;			
+						when others 			=> color_address <= dark_grey; 		-- Column 6 and 7			
 					end case;
 					
 				when "101" => 														-- Row 5
 					case column is
 						when "000" 				=> color_address <= bg; 			-- Column 0
-						when "001" 				=> color_address <= light_grey; 	-- Column 1
-						when "010" | "100" 		=> color_address <= grey; 			-- Column 2 and 4
+						when "001" 				=> color_address <= light_grey; 	-- Column 1 
 						when "011"				=> color_address <= orange; 		-- Column 3
 						when "101" 				=> color_address <= light_yellow; 	-- Column 5
 						when "110" 				=> color_address <= yellow; 		-- Column 6
 						when "111" 				=> color_address <= dark_grey; 		-- Column 7
-						when others				=> color_address <= magenta;			
+						when others				=> color_address <= grey; 			-- Column 2 and 4			
 					end case;
 					
 				when "110" => 														-- Row 6
 					case column is
-						when "000" 					=> color_address <= bg; 		-- Column 0
-						when "001" 					=> color_address <= grey; 		-- Column 1
-						when "010" | "011" | "100" 	=> color_address <= dark_grey; 	-- Column 2, 3 and 4
-						when "101" 					=> color_address <= yellow; 	-- Column 5
-						when "110" 					=> color_address <= orange; 	-- Column 6
-						when "111" 					=> color_address <= dark_grey; 	-- Column 7
-						when others					=> color_address <= magenta;			
+						when "000" 				=> color_address <= bg; 			-- Column 0
+						when "001" 				=> color_address <= grey; 			-- Column 1
+						when "101" 				=> color_address <= yellow; 		-- Column 5
+						when "110" 				=> color_address <= orange; 		-- Column 6
+						when "111" 				=> color_address <= dark_grey; 		-- Column 7
+						when others				=> color_address <= dark_grey; 		-- Column 2, 3 and 4			
 					end case;
 					
 				when "111" => 														-- Row 7
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= bg; 		-- Column 0, 1, 2 and 3
-						when "100" | "101" | "110" 					=> color_address <= dark_grey; 	-- Column 1
-						when others									=> color_address <= magenta;			
+					case column is 
+						when "100" | "101" | "110" 					=> color_address <= dark_grey; 	-- Column 4, 5 and 6
+						when others									=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7		
 					end case;
 					
 				when others					=> color_address <= magenta;			
@@ -229,65 +213,57 @@ else
 			case row is
 				when "000" =>														-- Row 0
 					case column is
-						when "000" | "011" | "100" | "101" | "110" 	=> color_address <= dark_grey; 	-- Column 0, 3, 4, 5 and 6
 						when "001" 									=> color_address <= light_grey; -- Column 1
 						when "010" | "111" 							=> color_address <= grey; 		-- Column 2 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= dark_grey; 	-- Column 0, 3, 4, 5 and 6			
 					end case;
 					
 				when "001" => 														-- Row 1
-					case column is
-						when "000" | "001" | "010" | "011" | "101" 	=> color_address <= light_grey; -- Column 0, 1, 2, 3 and 5
+					case column is 
 						when "100" 									=> color_address <= dark_grey; 	-- Column 4
 						when "110" | "111" 							=> color_address <= grey; 		-- Column 6 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= light_grey; -- Column 0, 1, 2, 3 and 5			
 					end case;
 					
 				when "010" => 														-- Row 2
-					case column is
-						when "000" | "001" | "010" | "100" | "101" 	=> color_address <= dark_grey; 	-- Column 0, 1, 2, 4 and 5
+					case column is 
 						when "011" | "110"							=> color_address <= black;		-- Column 3 and 6
 						when "111"									=> color_address <= grey;		-- Column 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= dark_grey; 	-- Column 0, 1, 2, 4 and 5			
 					end case;
 					
 				when "011" =>														-- Row 3
 					case column is
-						when "000" | "110" 							=> color_address <= light_grey; -- Column 0 and 6
-						when "001" | "011" | "100" | "101" | "111" 	=> color_address <= grey; 		-- Column 1, 3, 4, 5 and 7
+						when "000" | "110" 							=> color_address <= light_grey; -- Column 0 and 6 
 						when "010" 									=> color_address <= black; 		-- Column 3
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= grey; 		-- Column 1, 3, 4, 5 and 7			
 					end case;
 					
 				when "100" => 														-- Row 4
-					case column is
-						when "000" | "001" | "010" | "011" | "100" 	=> color_address <= dark_grey;	-- Column 0, 1, 2, 3 and 4
+					case column is 
 						when "101" | "110" 							=> color_address <= light_grey;	-- Column 5 and 6
 						when "111"									=> color_address <= grey;		-- Column 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= dark_grey;	-- Column 0, 1, 2, 3 and 4			
 					end case;
 					
 				when "101" =>														-- Row 5
-					case column is
-						when "000" | "001" | "010" | "110" | "111" => color_address <= dark_grey; 	-- Column 0, 1, 2, 6 and 7
+					case column is 
 						when "011" | "100" | "101" 					=> color_address <= grey;  		-- Column 3, 4 and 5
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= dark_grey; 	-- Column 0, 1, 2, 6 and 7			
 					end case;
 
 				when "110" =>														-- Row 6
-					case column is
-						when "000" | "001" | "100" | "110" | "111" 	=> color_address <= light_grey; -- Column 0, 1, 4, 6 and 7
+					case column is 
 						when "010" 									=> color_address <= dark_grey; 	-- Column 2
 						when "011" 									=> color_address <= grey; 		-- Column 3
 						when "101" 									=> color_address <= black; 		-- Column 5
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= light_grey; -- Column 0, 1, 4, 6 and 7			
 					end case;
 					
 				when "111" => 														-- Row 7
-					case column is
-						when "000" | "001" | "010" | "011" | "100" 	=> color_address <= dark_grey;	-- Column 0, 1, 2, 3 and 4
+					case column is 
 						when "101" | "110" | "111" 					=> color_address <= grey; 		-- Column 5, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= dark_grey;	-- Column 0, 1, 2, 3 and 4			
 					end case;
 					
 				when others									=> color_address <= magenta;			
@@ -297,30 +273,27 @@ else
 		when "000100" =>
 			case row is
 				when "000" => 														-- Row 0
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7
+					case column is 
 						when "100" 									=> color_address <= light_grey; -- Column 4
 						when "101" | "110" 							=> color_address <= grey; 		-- Column 5 and 6
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7			
 					end case;
 					
 				when "001" =>														-- Row 1
-					case column is
-						when "000" | "001" | "010" 	=> color_address <= bg;			-- Column 0, 1 and 2
+					case column is 
 						when "011" 					=> color_address <= light_grey; -- Column 3
 						when "100" | "101" 			=> color_address <= diamond;	-- Column 4 and 5
 						when "110" 					=> color_address <= grey; 		-- Column 6
 						when "111" 					=> color_address <= dark_grey; 	-- Column 7
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= bg;			-- Column 0, 1 and 2			
 					end case;
 					
 				when "010" => 														-- Row 2
 					case column is
 						when "000" | "001" 			=> color_address <= bg; 			-- Column 0 and 1
-						when "010" | "011" | "100" 	=> color_address <= light_grey; 	-- Column 2, 3 and 4
 						when "101" 					=> color_address <= dark_diamond; 	-- Column 5
 						when "110" | "111" 			=> color_address <= dark_grey; 		-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= light_grey; 	-- Column 2, 3 and 4			
 					end case;
 					
 				when "011" => 														-- Row 3
@@ -329,8 +302,7 @@ else
 						when "001" | "011" 			=> color_address <= light_grey; -- Column 1 and 3
 						when "010" 					=> color_address <= diamond; 	-- Column 2
 						when "100" | "101" 			=> color_address <= grey;		-- Column 4 and 5
-						when "110" | "111" 			=> color_address <= dark_grey; 	-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when others 				=> color_address <= dark_grey; 	-- Column 6 and 7			
 					end case;
 					
 				when "100" =>														-- Row 4
@@ -340,8 +312,7 @@ else
 						when "010" 				=> color_address <= diamond; 		-- Column 2
 						when "011" 				=> color_address <= dark_diamond; 	-- Column 3
 						when "100" | "101" 		=> color_address <= grey; 			-- Column 4 and 5
-						when "110" | "111" 		=> color_address <= dark_grey; 		-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when others	 			=> color_address <= dark_grey; 		-- Column 6 and 7			
 					end case;
 				
 				when "101" =>														-- Row 5
@@ -349,27 +320,24 @@ else
 						when "000" 				=> color_address <= bg; 			-- Column 0
 						when "001" 				=> color_address <= light_grey; 	-- Column 1
 						when "010" | "100" 		=> color_address <= grey; 			-- Column 2 and 4
-						when "011" 				=> color_address <= dark_diamond; 	-- Column 3
-						when "101" | "110" 		=> color_address <= diamond; 		-- Column 5 and 6
+						when "011" 				=> color_address <= dark_diamond; 	-- Column 3 
 						when "111" 				=> color_address <= dark_grey;		-- Column 7
-						when others				=> color_address <= magenta;			
+						when others				=> color_address <= diamond; 		-- Column 5 and 6			
 					end case;
 					
 				when "110" => 														-- Row 6
 					case column is
 						when "000" 							=> color_address <= bg; 			-- Column 0
 						when "001" 							=> color_address <= grey;			-- Column 1
-						when "010" | "011" | "100" | "111" 	=> color_address <= dark_grey; 		-- Column 2, 3, 4 and 7
 						when "101" 							=> color_address <= diamond; 		-- Column 5
 						when "110" 							=> color_address <= dark_diamond; 	-- Column 6
-						when others							=> color_address <= magenta;			
+						when others							=> color_address <= dark_grey; 		-- Column 2, 3, 4 and 7			
 					end case;
 					
 				when "111" =>														-- Row 7
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= bg; 		-- Column 0, 1, 2 and 3
+					case column is 
 						when "100" | "101" | "110" 					=> color_address <= dark_grey; 	-- Column 4, 5 and 6
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= bg; 		-- Column 0, 1, 2, 3 and 7			
 					end case;
 					
 				when others	=> color_address <= magenta;			
@@ -380,27 +348,24 @@ else
 			case row is
 				when "000" | "111" =>												-- Row 0 and 7
 					case column is
-						when "000" | "111" 									=> color_address <= bg; 	-- Column 0 and 7
-						when "001" | "010" | "011" | "100" | "101" | "110" 	=> color_address <= black; 	-- Column 1, 2, 3, 4, 5 and 6
-						when others											=> color_address <= magenta;			
+						when "000" | "111" 									=> color_address <= bg; 	-- Column 0 and 7 
+						when others											=> color_address <= black; 	-- Column 1, 2, 3, 4, 5 and 6			
 					end case;
 					
 				when "001" => 														-- Row 1
 					case column is
-						when "000" 					=> color_address <= black; 			-- Column 0
-						when "001" | "010" | "011" 	=> color_address <= light_orange; 	-- Column 1, 2 and 3
+						when "000" 					=> color_address <= black; 			-- Column 0 
 						when "100" | "101" 			=> color_address <= yellow; 		-- Column 4 and 5
 						when "110" | "111" 			=> color_address <= orange; 		-- Column 6 and 7
-						when others					=> color_address <= magenta;			
+						when others					=> color_address <= light_orange; 	-- Column 1, 2 and 3			
 					end case;
 					
 				when "010" | "011" | "100" | "101" =>								-- Row 2, 3, 4 and 5
-					case column is
-						when "000" | "001" | "011" | "101" | "111"	=> color_address <= black; 			-- Column 0, 1, 3, 5 and 7
+					case column is 
 						when "010" 									=> color_address <= light_orange; 	-- Column 2
 						when "100" 									=> color_address <= yellow; 		-- Column 4
 						when "110" 									=> color_address <= orange; 		-- Column 6
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; 			-- Column 0, 1, 3, 5 and 7			
 					end case;
 			
 				when "110" =>														-- Row 6
@@ -408,8 +373,7 @@ else
 						when "000" 					=> color_address <= black; 			-- Column 0
 						when "001" 					=> color_address <= light_orange; 	-- Column 1
 						when "010" | "011" | "100" 	=> color_address <= yellow; 		-- Column 2, 3 and 4
-						when "101" | "110" | "111" 	=> color_address <= orange; 		-- Column 5, 6 and 7
-						when others					=> color_address <= magenta;			
+						when others 				=> color_address <= orange; 		-- Column 5, 6 and 7			
 					end case;
 					
 				when others	=> color_address <= magenta;			
@@ -421,43 +385,37 @@ else
 				when "000" => 														-- Row 0
 					case column is
 						when "000" | "001" | "101" | "110" 	=> color_address <= spirit_blue; 	-- Column 0, 1, 5 and 6
-						when "010" | "011" | "100" | "111" 	=> color_address <= white;			-- Column 2, 3, 4 and 7
-						when others							=> color_address <= magenta;			
+						when others 						=> color_address <= white;			-- Column 2, 3, 4 and 7			
 					end case;
 					
 				when "001" =>														-- Row 1
 					case column is
 						when "000" | "101" 									=> color_address <= spirit_blue; 	-- Column 0 and 5
-						when "001" | "010" | "011" | "100" | "110" | "111"	=> color_address <= white; 			-- Column 1, 2, 3, 4, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= white; 			-- Column 1, 2, 3, 4, 6 and 7			
 					end case;	
 					
 				when "010" =>														-- Row 2
 					case column is
 						when "000" | "011" 									=> color_address <= spirit_blue; 	-- Column 0 and 3
-						when "001" | "010" | "100" | "101" | "110" | "111"	=> color_address <= white; 			-- Column 1, 2, 4, 5, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= white; 			-- Column 1, 2, 4, 5, 6 and 7		
 					end case;	
 					
 				when "011" => 														-- Row 3
 					case column is
-						when "000" | "011" | "111" 					=> color_address <= spirit_blue; 	-- Column 0, 3 and 7
-						when "001" | "010" | "100" | "101" | "110" 	=> color_address <= white; 			-- Column 1, 2, 4, 5 and 6
-						when others									=> color_address <= magenta;			
+						when "000" | "011" | "111" 	=> color_address <= spirit_blue; 	-- Column 0, 3 and 7
+						when others 				=> color_address <= white; 			-- Column 1, 2, 4, 5 and 6			
 					end case;
 					
 				when "100" =>														-- Row 4
 					case column is
 						when "000" | "011" | "110" | "111" 	=> color_address <= spirit_blue; 	-- Column 0, 3, 6 and 7
-						when "001" | "010" | "100" | "101" 	=> color_address <= white; 			-- Column 1, 2, 4 and 5
-						when others							=> color_address <= magenta;			
+						when others 						=> color_address <= white; 			-- Column 1, 2, 4 and 5			
 					end case;
 					
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
-						when "000" 													=> color_address <= spirit_blue; 	-- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; 			-- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when "000" 		=> color_address <= spirit_blue; 	-- Column 0
+						when others 	=> color_address <= white; 			-- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 	
 				when "111" => 														-- Row 7
@@ -472,15 +430,13 @@ else
 				when "000" | "001" | "101" | "110" =>								-- Row 0, 1, 5 and 6
 					case column is
 						when "000" 													=> color_address <= spirit_blue; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 											=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "010" | "011" | "100" =>										-- Row 2, 3 and 4
 					case column is
 						when "000" | "011" | "100" | "101" 	=> color_address <= spirit_blue; 	-- Column 0, 3, 4 and 5
-						when "001" | "010" | "110" | "111" 	=> color_address <= white; 			-- Column 1, 2, 6 and 7
-						when others							=> color_address <= magenta;			
+						when others 	=> color_address <= white; 			-- Column 1, 2, 6 and 7			
 					end case;
 			
 				when "111" =>
@@ -495,29 +451,25 @@ else
 				when "000" | "001" | "101" | "110" => 								-- Row 0, 1, 5 and 6
 					case column is
 						when "000" 													=> color_address <= spirit_blue; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "010" =>														-- Row 2
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 3 and 7
+					case column is 
 						when "100" | "101" | "110" 					=> color_address <= white; 			-- Column 4, 5 and 6
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 3 and 7			
 					end case;
 					
 				when "011" =>														-- Row 3
-					case column is
-						when "000" | "001" | "010" | "110" | "111" 	=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 6 and 7
+					case column is 
 						when "011" | "100" | "101" 					=> color_address <= white; 			-- Column 3, 4 and 5
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 6 and 7			
 					end case;
 					
 				when "100" =>														-- Row 4
-					case column is
-						when "000" | "001" | "010" | "101" | "110" | "111" 	=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 5, 6 and 7
+					case column is 
 						when "011" | "100" 									=> color_address <= white; 			-- Column 3 and 4
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 5, 6 and 7			
 					end case;
 	
 				when "111" =>
@@ -533,17 +485,15 @@ else
 					color_address <= spirit_blue;
 					
 				when "001" | "010" | "011" =>										-- Row 1, 2 and 3
-					case column is
-						when "000" | "001" | "010" | "011" | "100" | "101" 	=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 3, 4 and 5
+					case column is 
 						when "110" | "111" 									=> color_address <= white; 			-- Column 6 and 7
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 3, 4 and 5			
 					end case;
 			
 				when "100" | "101" =>												-- Row 4 and 5
 					case column is
 						when "000" 													=> color_address <= spirit_blue; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 			
 				when others	=> color_address <= magenta;			
@@ -559,15 +509,13 @@ else
 				when "000" | "001" | "010" | "011" | "100" => 						-- Row 0, 1, 2, 3 and 4
 					case column is
 						when "000" | "011" | "100" | "101" => color_address <= black; -- Column 0, 3, 4 and 5
-						when "001" | "010" | "110" | "111" => color_address <= white; -- Column 1, 2, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others => color_address <= white; -- Column 1, 2, 6 and 7			
 					end case;
 			
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "111" =>
@@ -582,22 +530,19 @@ else
 				when "000" | "001" =>												-- Row 0 and 1
 					case column is
 						when "000" | "011" | "100" | "101" => color_address <= black; -- Column 0, 3, 4 and 5
-						when "001" | "010" | "110" | "111" => color_address <= white; -- Column 1, 2, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others => color_address <= white; -- Column 1, 2, 6 and 7		
 					end case;
 					
 				when "010" | "011" | "100" => 										-- Row 2, 3 and 4
 					case column is
 						when "000" | "011" | "101" 					=> color_address <= black; -- Column 0, 3 and 5
-						when "001" | "010" | "100" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7			
 					end case;
  			
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 			
 				when "111" =>
@@ -612,29 +557,25 @@ else
 				when "000" | "001" =>												-- Row 0 and 1
 					case column is
 						when "000" | "011" 									=> color_address <= black; -- Column 0 and 3
-						when "001" | "010" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 5, 6 and 7	
-						when others											=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 4, 5, 6 and 7				
 					end case;							
 			
 				when "010" | "011" =>												-- Row 2 and 3
 					case column is
 						when "000" | "011" | "101" 					=> color_address <= black; -- Column 0, 3 and 5
-						when "001" | "010" | "100" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7			
 					end case;
 			
 				when "100" =>														-- Row 4
 					case column is
 						when "000" | "011" | "100" | "101" => color_address <= black; -- Column 0, 3, 4 and 5
-						when "001" | "010" | "110" | "111" => color_address <= white; -- Column 1, 2, 6 and 7
-						when others							=> color_address <= magenta;			
+						when others => color_address <= white; -- Column 1, 2, 6 and 7			
 					end case;
 
 				when "101" | "110" => 												-- Row 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 	
 				when "111" =>														-- Row 7
@@ -650,17 +591,15 @@ else
 					color_address <= black;	
 					
 				when "001" | "010" | "011" =>										-- Row 1, 2 and 3
-					case column is
-						when "000" | "001" | "010" | "011" | "100" 	=> color_address <= black; -- Column 0, 1, 2, 3, 4 and 5
+					case column is 
 						when "110" | "111" 							=> color_address <= white; -- Column 6 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 1, 2, 3, 4 and 5			
 					end case;
 			
 				when "100" | "101" => 												-- Row 4 and 5
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when others	=> color_address <= magenta;			
@@ -672,29 +611,25 @@ else
 				when "000" | "001" | "101" | "110" =>								-- Row 0, 1, 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "010" =>														-- Row 2
-					case column is
-						when "000" | "001" | "010" | "011" | "111" 	=> color_address <= black; -- Column 0, 1, 2, 3 and 7
+					case column is 
 						when "100" | "101" | "110" 					=> color_address <= white; -- Column 4, 5 and 6
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 1, 2, 3 and 7			
 					end case;
 			
 				when "011" =>														-- Row 3
-					case column is
-						when "000" | "001" | "010" | "110" | "111" 	=> color_address <= black; -- Column 0, 1, 2, 6 and 7
+					case column is 
 						when "011" | "100" | "101" 					=> color_address <= white; -- Column 3, 4 and 5
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 1, 2, 6 and 7			
 					end case;
 					
 				when "100" =>														-- Row 4
-					case column is
-						when "000" | "001" | "010" | "101" | "110" | "111" 	=> color_address <= black; -- Column 0, 1, 2, 5, 6 and 7
+					case column is 
 						when "011" | "100"									=> color_address <= white; -- Column 3 and 4
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= black; -- Column 0, 1, 2, 5, 6 and 7			
 					end case;
 			
 				when "111" =>														-- Row 7
@@ -709,18 +644,15 @@ else
 				when "000" | "110" =>												-- Row 0 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
-					case column is
-						when "000" | "010" | "011" | "100" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 4, 5 and 6
+					case column is 
 						when "001" | "111" 									=> color_address <= white; -- Column 1 and 7
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= black; -- Column 0, 2, 3, 4, 5 and 6			
 					end case;
 			
-
 				when "111" =>														-- Row 7
 					color_address <= black;	
 					
@@ -731,24 +663,21 @@ else
 		when "010001" =>
 			case row is
 				when "000" | "001" | "010" =>										-- Row 0, 1 and 2
-					case column is
-						when "000" | "001" | "010" | "011" | "100" | "101" | "110" 	=> color_address <= black; -- Column 0, 1, 2, 3, 4, 5 and 6
+					case column is 
 						when "111" 													=> color_address <= white; -- Column 7
-						when others													=> color_address <= magenta;			
+						when others													=> color_address <= black; -- Column 0, 1, 2, 3, 4, 5 and 6			
 					end case;
 			
 				when "011" => 														-- Row 3
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 
 				when "100" | "101" | "110" =>										-- Row 4, 5 and 6
 					case column is
-						when "000" | "010" | "011" | "100" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 4, 5 and 6
 						when "001" | "111" 									=> color_address <= white; -- Column 1 and 7
-						when others											=> color_address <= magenta;			
+						when others											=> color_address <= black; -- Column 0, 2, 3, 4, 5 and 6		
 					end case;
 
 				when "111" =>														-- Row 7
@@ -763,22 +692,19 @@ else
 				when "000" =>														-- Row 0
 					case column is
 						when "000" | "101" | "110" 					=> color_address <= black;	-- Column 0, 5 and 6
-						when "001" | "010" | "011" | "100" | "111" 	=> color_address <= white; 	-- Column 1, 2, 3, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others	=> color_address <= white; 	-- Column 1, 2, 3, 4 and 7		
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
-					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
+					case column is 
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;
 
 				when "110" =>														-- Row 6
 					case column is
 						when "000" | "010" | "011" 					=> color_address <= black; -- Column 0, 2 and 3
-						when "001" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -793,15 +719,13 @@ else
 				when "000" => 														-- Row 0
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "001" | "010" | "011" | "100" | "101" | "110" =>				-- Row 1, 2, 3, 4, 5 and 6
-					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
+					case column is 
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;
 			
 				when "111" =>														-- Row 7
@@ -816,22 +740,19 @@ else
 				when "000" => 														-- Row 0
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
-					case column is
-						when "000" | "001" | "010" | "011" | "101" | "110" | "111" 	=> color_address <= black; -- Column 0, 1, 2, 3, 5, 6 and 7
+					case column is 
 						when "100" 													=> color_address <= white; -- Column 4
-						when others													=> color_address <= magenta;			
+						when others													=> color_address <= black; -- Column 0, 1, 2, 3, 5, 6 and 7			
 					end case;
 							
 				when "110" =>														-- Row 6
 					case column is
 						when "000" | "101" | "110" | "111" 	=> color_address <= black; -- Column 0, 5, 6 and 7
-						when "001" | "010" | "011" | "100" 	=> color_address <= white; -- Column 1, 2, 3 and 4
-						when others							=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3 and 4			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -846,22 +767,19 @@ else
 				when "000" =>														-- Row 0
 					case column is
 						when "000" | "010" | "011" 					=> color_address <= black; -- Column 0, 2 and 3
-						when "001" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7			
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
-					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
+					case column is 
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;
 
 				when "110" =>														-- Row 6
 					case column is
 						when "000" | "101" | "110" 					=> color_address <= black;	-- Column 0, 5 and 6
-						when "001" | "010" | "011" | "100" | "111" 	=> color_address <= white; 	-- Column 1, 2, 3, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; 	-- Column 1, 2, 3, 4 and 7			
 					end case;
 																		
 				when "111" =>														-- Row 7
@@ -876,22 +794,19 @@ else
 				when "000" => 														-- Row 0
 					case column is
 						when "000" | "010" | "011" 					=> color_address <= black; -- Column 0, 2 and 3
-						when "001" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 4, 5, 6 and 7			
 					end case;
 							
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
 					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7	
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;					
 				
 				when "110" =>														-- Row 6
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -906,15 +821,13 @@ else
 				when "000" =>														-- Row 0
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7	
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" | "110" =>				-- Row 1, 2, 3, 4, 5 and 6
 					case column is
-						when "000" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= black; -- Column 0, 2, 3, 4, 5, 6 and 7
 						when "001" 													=> color_address <= white; -- Column 1
-						when others													=> color_address <= magenta;			
+						when others													=> color_address <= black; -- Column 0, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -929,15 +842,13 @@ else
 				when "000" | "110" =>												-- Row 0 and 6
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
-					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
+					case column is 
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7	
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -952,22 +863,19 @@ else
 				when "000" =>														-- Row 0
 					case column is
 						when "000"  												=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 			
 				when "001" | "010" | "011" | "100" | "101" =>						-- Row 1, 2, 3, 4 and 5
 					case column is
-						when "000" | "010" | "011" | "101" | "110" 	=> color_address <= black; -- Column 0, 2, 3, 5 and 6
 						when "001" | "100" | "111" 					=> color_address <= white; -- Column 1, 4 and 7	
-						when others									=> color_address <= magenta;			
+						when others									=> color_address <= black; -- Column 0, 2, 3, 5 and 6			
 					end case;
 			
 				when "110" =>														-- Row 6
 					case column is
 						when "000" | "101" | "110" => color_address <= black; 	-- Column 0, 5 and 6
-						when "001" | "010" | "011" | "100" | "111" => color_address <= white; -- Column 1, 2, 3, 4 and 7
-						when others									=> color_address <= magenta;			
+						when others => color_address <= white; -- Column 1, 2, 3, 4 and 7			
 					end case;
 					
 				when "111" =>														-- Row 7
@@ -982,15 +890,13 @@ else
 				when "000" | "001" | "101" | "110" =>								-- Row 0, 1, 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; -- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 					
 				when "010" | "011" | "100" =>										-- Row 2, 3 and 4
 					case column is
 						when "000" | "011" | "100" | "101" 	=> color_address <= black; 	-- Column 0, 3, 4 and 5
-						when "001" | "010" | "110" | "111" 	=> color_address <= white; 	-- Column 1, 2, 6 and 7
-						when others							=> color_address <= magenta;			
+						when others 	=> color_address <= white; 	-- Column 1, 2, 6 and 7			
 					end case;
 			
 				when "111" =>
@@ -1005,43 +911,37 @@ else
 				when "000" => 														-- Row 0
 					case column is
 						when "000" | "001" | "101" | "110" 	=> color_address <= black; 	-- Column 0, 1, 5 and 6
-						when "010" | "011" | "100" | "111" 	=> color_address <= white;			-- Column 2, 3, 4 and 7
-						when others							=> color_address <= magenta;			
+						when others 	=> color_address <= white;			-- Column 2, 3, 4 and 7			
 					end case;
 					
 				when "001" =>														-- Row 1
 					case column is
 						when "000" | "101" 									=> color_address <= black; 	-- Column 0 and 5
-						when "001" | "010" | "011" | "100" | "110" | "111"	=> color_address <= white; 			-- Column 1, 2, 3, 4, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others	=> color_address <= white; 			-- Column 1, 2, 3, 4, 6 and 7			
 					end case;	
 					
 				when "010" =>														-- Row 2
 					case column is
 						when "000" | "011" 									=> color_address <= black; 	-- Column 0 and 3
-						when "001" | "010" | "100" | "101" | "110" | "111"	=> color_address <= white; 			-- Column 1, 2, 4, 5, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others	=> color_address <= white; 			-- Column 1, 2, 4, 5, 6 and 7			
 					end case;	
 					
 				when "011" => 														-- Row 3
 					case column is
 						when "000" | "011" | "111" 					=> color_address <= black; 	-- Column 0, 3 and 7
-						when "001" | "010" | "100" | "101" | "110" 	=> color_address <= white; 			-- Column 1, 2, 4, 5 and 6
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; 			-- Column 1, 2, 4, 5 and 6			
 					end case;
 					
 				when "100" =>														-- Row 4
 					case column is
 						when "000" | "011" | "110" | "111" 	=> color_address <= black; 	-- Column 0, 3, 6 and 7
-						when "001" | "010" | "100" | "101" 	=> color_address <= white; 			-- Column 1, 2, 4 and 5
-						when others							=> color_address <= magenta;			
+						when others 	=> color_address <= white; 			-- Column 1, 2, 4 and 5			
 					end case;
 					
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
 						when "000" 													=> color_address <= black; 	-- Column 0
-						when "001" | "010" | "011" | "100" | "101" | "110" | "111" 	=> color_address <= white; 			-- Column 1, 2, 3, 4, 5, 6 and 7
-						when others													=> color_address <= magenta;			
+						when others 	=> color_address <= white; 			-- Column 1, 2, 3, 4, 5, 6 and 7			
 					end case;
 	
 				when "111" => 														-- Row 7
@@ -1056,22 +956,19 @@ else
 				when "000" | "001" => 												-- Row 0 and 1
 					case column is
 						when "000" | "011" 									=> color_address <= black; -- Column 0 and 3
-						when "001" | "010" | "100" | "101" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 5, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 4, 5, 6 and 7			
 					end case;
 			
 				when "010" | "011" | "100" =>										-- Row 2, 3 and 4
 					case column is
 						when "000" | "011" | "101" 					=> color_address <= black; -- Column 0, 3 and 5
-						when "001" | "010" | "100" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7
-						when others									=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 4, 6 and 7			
 					end case;
 			
 				when "101" | "110" =>												-- Row 5 and 6
 					case column is
 						when "000" | "101" 									=> color_address <= black; -- Column 0 and 5
-						when "001" | "010" | "011" | "100" | "110" | "111" 	=> color_address <= white; -- Column 1, 2, 3, 4, 6 and 7
-						when others											=> color_address <= magenta;			
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 6 and 7		
 					end case;
 					
 				when "111" => 														-- Row 7
@@ -1080,83 +977,38 @@ else
 				when others	=> color_address <= magenta;			
 			end case;
 
-		-- V -- 
+		-- Letter: V -- 
 		when "011101" =>
-			if 		(row = "000" and column = "000") then	color_address <= black;		-- row 0, column 0
-			elsif 	(row = "000" and column = "001") then	color_address <= white;		-- row 0, column 1
-			elsif 	(row = "000" and column = "010") then	color_address <= white;		-- row 0, column 2
-			elsif	(row = "000" and column = "011") then	color_address <= white;		-- row 0, column 3
-			elsif 	(row = "000" and column = "100") then	color_address <= white;		-- row 0, column 4
-			elsif 	(row = "000" and column = "101") then	color_address <= white;		-- row 0, column 5
-			elsif	(row = "000" and column = "110") then	color_address <= black;		-- row 0, column 6
-			elsif 	(row = "000" and column = "111") then	color_address <= black;		-- row 0, column 7
-
-			elsif	(row = "001" and column = "000") then	color_address <= black;		-- row 1, column 0
-			elsif 	(row = "001" and column = "001") then	color_address <= white;		-- row 1, column 1
-			elsif 	(row = "001" and column = "010") then	color_address <= white;		-- row 1, column 2
-			elsif	(row = "001" and column = "011") then	color_address <= white;		-- row 1, column 3
-			elsif 	(row = "001" and column = "100") then	color_address <= white;		-- row 1, column 4
-			elsif 	(row = "001" and column = "101") then	color_address <= white;		-- row 1, column 5
-			elsif	(row = "001" and column = "110") then	color_address <= white;		-- row 1, column 6
-			elsif 	(row = "001" and column = "111") then	color_address <= black;		-- row 1, column 7 
+			case row is
+				when "000" | "110" =>												-- Row 0 and 6
+					case column is
+						when "000" | "110" | "111" 					=> color_address <= black; -- Column 0, 6 and 7
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4 and 5			
+					end case;
+					
+				when "001" | "101" =>												-- Row 1 and 5
+					case column is
+						when "000" | "111" 									=> color_address <= black; -- Column 0 and 7
+						when others 	=> color_address <= white; -- Column 1, 2, 3, 4, 5 and 6			
+					end case;
+					
+				when "010" | "100" => 												-- Row 2 and 4
+					case column is 
+						when "101" | "110" | "111" 					=> color_address <= white; -- Column 5, 6 and 7
+						when others									=> color_address <= black; -- Column 0, 1, 2, 3 and 4			
+					end case;
 			
-			elsif	(row = "010" and column = "000") then	color_address <= black;		-- row 2, column 0
-			elsif 	(row = "010" and column = "001") then	color_address <= black;		-- row 2, column 1
-			elsif 	(row = "010" and column = "010") then	color_address <= black;		-- row 2, column 2
-			elsif	(row = "010" and column = "011") then	color_address <= black;		-- row 2, column 3
-			elsif 	(row = "010" and column = "100") then	color_address <= black;		-- row 2, column 4
-			elsif 	(row = "010" and column = "101") then	color_address <= white;		-- row 2, column 5
-			elsif	(row = "010" and column = "110") then	color_address <= white;		-- row 2, column 6
-			elsif 	(row = "010" and column = "111") then	color_address <= white;		-- row 2, column 7
+				when "011" =>														-- Row 3
+					case column is
+						when "110" | "111" 									=> color_address <= white; -- Column 6 and 7
+						when others											=> color_address <= black; -- Column 0, 1, 2, 3, 4 and 5			
+					end case;
+					
+				when "111" => 														-- Row 7
+					color_address <= black; 
 
-			elsif	(row = "011" and column = "000") then	color_address <= black;		-- row 3, column 0
-			elsif 	(row = "011" and column = "001") then	color_address <= black;		-- row 3, column 1
-			elsif 	(row = "011" and column = "010") then	color_address <= black;		-- row 3, column 2
-			elsif	(row = "011" and column = "011") then	color_address <= black;		-- row 3, column 3
-			elsif 	(row = "011" and column = "100") then	color_address <= black;		-- row 3, column 4
-			elsif 	(row = "011" and column = "101") then	color_address <= black;		-- row 3, column 5
-			elsif	(row = "011" and column = "110") then	color_address <= white;		-- row 3, column 6
-			elsif 	(row = "011" and column = "111") then	color_address <= white;		-- row 3, column 7
-
-			elsif	(row = "100" and column = "000") then	color_address <= black;		-- row 4, column 0
-			elsif 	(row = "100" and column = "001") then	color_address <= black;		-- row 4, column 1
-			elsif 	(row = "100" and column = "010") then	color_address <= black;		-- row 4, column 2
-			elsif	(row = "100" and column = "011") then	color_address <= black;		-- row 4, column 3
-			elsif 	(row = "100" and column = "100") then	color_address <= black;		-- row 4, column 4
-			elsif 	(row = "100" and column = "101") then	color_address <= white;		-- row 4, column 5
-			elsif	(row = "100" and column = "110") then	color_address <= white;		-- row 4, column 6
-			elsif 	(row = "100" and column = "111") then	color_address <= white;		-- row 4, column 7
-	
-			elsif	(row = "101" and column = "000") then	color_address <= black;		-- row 5, column 0
-			elsif 	(row = "101" and column = "001") then	color_address <= white;		-- row 5, column 1
-			elsif 	(row = "101" and column = "010") then	color_address <= white;		-- row 5, column 2
-			elsif	(row = "101" and column = "011") then	color_address <= white;		-- row 5, column 3
-			elsif 	(row = "101" and column = "100") then	color_address <= white;		-- row 5, column 4
-			elsif 	(row = "101" and column = "101") then	color_address <= white;		-- row 5, column 5
-			elsif	(row = "101" and column = "110") then	color_address <= white;		-- row 5, column 6
-			elsif 	(row = "101" and column = "111") then	color_address <= black;		-- row 5, column 7 
-
-			elsif	(row = "110" and column = "000") then	color_address <= black;		-- row 6, column 0
-			elsif 	(row = "110" and column = "001") then	color_address <= white;		-- row 6, column 1
-			elsif 	(row = "110" and column = "010") then	color_address <= white;		-- row 6, column 2
-			elsif	(row = "110" and column = "011") then	color_address <= white;		-- row 6, column 3
-			elsif 	(row = "110" and column = "100") then	color_address <= white;		-- row 6, column 4
-			elsif 	(row = "110" and column = "101") then	color_address <= white;		-- row 6, column 5
-			elsif	(row = "110" and column = "110") then	color_address <= black;		-- row 6, column 6
-			elsif 	(row = "110" and column = "111") then	color_address <= black;		-- row 6, column 7   
-
-			elsif	(row = "111" and column = "000") then	color_address <= black;		-- row 7, column 0
-			elsif 	(row = "111" and column = "001") then	color_address <= black;		-- row 7, column 1
-			elsif 	(row = "111" and column = "010") then	color_address <= black;		-- row 7, column 2
-			elsif	(row = "111" and column = "011") then	color_address <= black;		-- row 7, column 3
-			elsif 	(row = "111" and column = "100") then	color_address <= black;		-- row 7, column 4
-			elsif 	(row = "111" and column = "101") then	color_address <= black;		-- row 7, column 5
-			elsif	(row = "111" and column = "110") then	color_address <= black;		-- row 7, column 6
-			elsif 	(row = "111" and column = "111") then	color_address <= black;		-- row 7, column 7  
-
-			else											color_address <= magenta;
-	
-			end if;
+				when others	=> color_address <= magenta;			
+			end case;	
 
 		-- Y --
 		when "011110" =>
