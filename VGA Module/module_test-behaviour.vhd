@@ -3,6 +3,8 @@ use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
 architecture behaviour of module_test is
+   type playermap_state is (playermiddle, playerleft, playerup, playerdown, playerright);
+   signal state, new_state: playermap_state;
 component player_fsm
 port(button_x_left  : IN  std_logic;
         button_x_right : IN  std_logic;
@@ -131,7 +133,19 @@ port map(   clk,        --set
             red,        --set
             green,      --set
             blue);      --set
-            
+   
+process (clk)
+   begin
+      if (clk'event and clk = '1') then
+         if reset = '1' then
+            state <= playermiddle;
+         else
+            state <= new_state;
+         end if;
+      end if;
+   end process;
+
+      
 process(clk,reset)
 begin
 
@@ -146,14 +160,82 @@ map_data_r <= map_data(20 downto 18);
 map_data_u <= map_data(35 downto 33);
 map_data_d <= map_data(38 downto 36);
 
-case input is
-	when "000" => 
-        map_data <= "011011010011011100000001011011000000000000011011000101000011011000011011";
-	when "001" => 
-        map_data <= "011011011011011011010011011011011100001011011000000000000000000101000000";
-	when others => 
-        map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
-end case;
+
+  case state is
+         when playermiddle =>
+			map_data 	<= "000000000000000000011000000000000011011000000000000011000000000000000000";
+			game_state 	<= "00";
+			Xplayer 	<= "0111";
+			Yplayer 	<= "0111";
+       		 if (button_x_left = '1') then
+			new_state <= playerleft;
+      		 elsif (button_y_up = '1') then
+			new_state <= playerup;
+      		 elsif (button_y_down = '1') then
+			new_state <= playerdown;
+      		 elsif (button_x_right = '1') then
+			new_state <= playerright;
+		 else
+			new_state <= playermiddle;
+           	 end if;
+
+         when playerleft =>
+			map_data 	<= "000000000000000000000000000000000000000000000000011011011000000011000000";
+			game_state 	<= "00";
+			Xplayer 	<= "0111";
+			Yplayer 	<= "1000";
+       		 if (button_x_right = '1') then
+			new_state <= playermiddle;
+		 else
+			new_state <= playerleft;
+           	 end if;
+
+         when playerup =>
+			map_data 	<= "000000000000000000000011000000000000011011000000000000011000000000000000";
+			game_state 	<= "00";
+			Xplayer 	<= "0110";
+			Yplayer 	<= "0111";
+       		 if (button_y_down = '1') then
+			new_state <= playermiddle;
+		 else
+			new_state <= playerup;
+           	 end if;
+
+         when playerdown =>
+			map_data 	<= "000000000000000011000000000000011011000000000000011000000000000000000000";
+			game_state 	<= "00";
+			Xplayer 	<= "1000";
+			Yplayer 	<= "0111";
+       		 if (button_y_up = '1') then
+			new_state <= playermiddle;
+		 else
+			new_state <= playerdown;
+           	 end if;
+
+         when playerright =>
+			map_data 	<= "000000011000000011011011000000000000000000000000000000000000000000000000";
+			game_state 	<= "00";
+			Xplayer 	<= "0111";
+			Yplayer 	<= "0110";
+       		 if (button_x_left = '1') then
+			new_state <= playermiddle;
+		 else
+			new_state <= playerright;
+           	 end if;
+      end case;
+
+
+
+
+
+--case input is
+	--when "000" => 
+        --map_data <= "011011010011011100000001011011000000000000011011000101000011011000011011";
+	--when "001" => 
+       -- map_data <= "011011011011011011010011011011011100001011011000000000000000000101000000";
+	--when others => 
+        --map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
+--end case;
 
 
 
