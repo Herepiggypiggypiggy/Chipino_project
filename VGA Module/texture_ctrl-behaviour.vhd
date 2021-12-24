@@ -73,12 +73,19 @@ architecture behaviour of texture_ctrl is
 	signal xp : unsigned(6 downto 0);
 	signal yp : unsigned(6 downto 0);
 
+	signal xposmxple : signed(5 downto 0);
+	signal yposmyple : signed(5 downto 0);
+
 begin
 	-- Process: Combinatorial
 	-- Takes the signals from the register and computes outputs: New value of counter.
     --changed:
     --reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
 	-- Start screen
+	
+	xposmxple <= signed(signed('0'&xposition) - signed("00"&xplayer));
+	yposmyple <= signed(signed('0'&yposition) - signed("00"&yplayer));
+	
 	vvis_start <= ((3 - unsigned(yplayer))&"00000");
 	hvis_start <= ((3 - unsigned(xplayer))&"00000");
 
@@ -173,101 +180,105 @@ begin
 			-- In game
 			when "01" =>
 				--Tile Type selector
-				case xposition is
-					when unsigned(xplayer) - 3 =>
-						case yposition is
-							when unsigned(yplayer) =>							-- Tile 10
+				case xposmxple is
+					when "100011" =>-- -3
+						case yposmyple is
+							when "000000" =>							-- Tile 10
 								tile_address <= "000" & map_data(44 downto 42); 
 							when others =>
 								tile_address <= "001010"; 						-- Black
 						end case;
 						
-					when unsigned(xplayer) - 2 =>
-						case yposition is
-							when unsigned(yplayer) - 1 =>						-- Tile 16
+					when "100010" =>-- -2
+						case yposmyple is
+							when "100001" =>						-- Tile 16
 								tile_address <= "000" & map_data(26 downto 24);
-							when unsigned(yplayer) =>							-- Tile 11
+							when "000000" =>							-- Tile 11
 								tile_address <= "000" & map_data(41 downto 39);
-							when unsigned(yplayer) + 1 =>						-- Tile 5
+							when "000001" =>						-- Tile 5
 								tile_address <= "000" & map_data(59 downto 57);
 							when others =>
-								tile_address <= "001010"; 						-- Black
+								tile_address <= "001010"; 					-- Black
 						end case;
 						
-					when unsigned(xplayer) - 1 =>
-						case yposition is
-							when unsigned(yplayer) - 2 =>						-- Tile 21
+					when "100001" =>
+						case yposmyple is
+							when "100010" =>						-- Tile 21
 								tile_address <= "000" & map_data(11 downto 9);
-							when unsigned(yplayer) - 1 =>						-- Tile 17
+							when "100001" =>						-- Tile 17
 								tile_address <= "000" & map_data(23 downto 21);
-							when unsigned(yplayer) =>							-- Tile 12
+							when "000000" =>							-- Tile 12
 								tile_address <= "000" & map_data(38 downto 36);
-							when unsigned(yplayer) + 1 =>						-- Tile 6
+							when "000001" =>						-- Tile 6
 								tile_address <= "000" & map_data(56 downto 54);
-							when unsigned(yplayer) + 2 =>						-- Tile 2
+							when "000010" =>						-- Tile 2
 								tile_address <= "000" & map_data(68 downto 66);
 							when others =>
 								tile_address <= "001010"; 						-- Black
 						end case;
 				
-					when unsigned(xplayer) =>
-						case yposition is
-							when unsigned(yplayer) - 3 =>						-- Tile 24
+					when "000000" =>
+						case yposmyple is
+							when "100011" =>						-- Tile 24
 								tile_address <= "000" & map_data(2 downto 0);
-							when unsigned(yplayer) - 2 =>						-- Tile 22
+							when "100010" =>						-- Tile 22
 								tile_address <= "000" & map_data(8 downto 6);
-							when unsigned(yplayer) - 1 =>						-- Tile 18
+							when "100001" =>						-- Tile 18
 								tile_address <= "000" & map_data(20 downto 18);
-							when unsigned(yplayer) =>							-- Player
+							when "000000" =>							-- Player
 								tile_address <= "111111";
-							when unsigned(yplayer) + 1 =>						-- Tile 7
+							when "000001" =>						-- Tile 7
 								tile_address <= "000" & map_data(53 downto 51);
-							when unsigned(yplayer) + 2 =>						-- Tile 3
+							when "000010" =>						-- Tile 3
 								tile_address <= "000" & map_data(65 downto 63); 
-							when unsigned(yplayer) + 3 =>						-- Tile 1
+							when "000011" =>						-- Tile 1
 								tile_address <= "000" & map_data(71 downto 69); 
 							when others =>
 								tile_address <= "001010"; 						-- Black
 						end case;
 						
-					when unsigned(xplayer) + 1 =>
-						case yposition is
-							when unsigned(yplayer) - 2 =>						-- Tile 23
+					when "000001" =>
+						case yposmyple is
+							when "100010" =>						-- Tile 23
 								tile_address <= "000" & map_data(5 downto 3);		
-							when unsigned(yplayer) - 1 =>						-- Tile 19
+							when "100001" =>						-- Tile 19
 								tile_address <= "000" & map_data(17 downto 15);
-							when unsigned(yplayer) =>							-- Tile 13
+							when "000000" =>							-- Tile 13
 								tile_address <= "000" & map_data(35 downto 33);
-							when unsigned(yplayer) + 1 =>						-- Tile 8
+							when "000001" =>						-- Tile 8
 								tile_address <= "000" & map_data(50 downto 48);
-							when unsigned(yplayer) + 2 =>						-- Tile 4
+							when "000010" =>						-- Tile 4
 								tile_address <= "000" & map_data(62 downto 60);
 							when others =>
 									tile_address <= "001010"; 					-- Black
 						end case;
 						
-					when unsigned(xplayer) + 2 =>
-						case yposition is
-							when unsigned(yplayer) - 1 =>						-- Tile 20
+					when "000010" =>
+						case yposmyple is
+							when "100001" =>						-- Tile 20
 								tile_address <= "000" & map_data(14 downto 12);
-							when unsigned(yplayer) =>							-- Tile 14
+							when "000000" =>							-- Tile 14
 								tile_address <= "000" & map_data(32 downto 30);
-							when unsigned(yplayer) + 1 =>						-- Tile 9
+							when "000001" =>						-- Tile 9
 								tile_address <= "000" & map_data(47 downto 45); 
 							when others =>
 									tile_address <= "001010"; 					-- Black
 						end case;
 					
-					when unsigned(xplayer) + 3 =>
-						case yposition is
-							when unsigned(yplayer) =>							-- Tile 15	
+					when "000011" =>
+						case yposmyple is
+							when "000000" =>							-- Tile 15	
 								tile_address <= "000" & map_data(29 downto 27);
 							when others =>
 								tile_address <= "001010"; 						-- Black
 						end case;
+					when others =>
+						tile_address <= "001010"; 
+					end case;		
 						
-					-- Energy display
-					when info_lv + 14 =>
+				-- Energy display
+				case xposition is
+					when "01111" =>
 						case yposition is
 							when "00010" =>									-- 2		
 								tile_address <= "01" & score(3 downto 0); 	-- Energy(0)
@@ -292,7 +303,7 @@ begin
 						end case;
 						
 					-- Score display
-					when info_lv + 16  =>
+					when "10001"  =>
 						case yposition is
 							when "00010" =>									-- 2
 								tile_address <= "01" & score(3 downto 0); 	-- Score(0)
@@ -317,7 +328,7 @@ begin
 						end case;
 
 					-- Level display
-					when info_lv + 18 =>
+					when "10011" =>
 						case yposition is
 							when "00010" =>									-- 2
 								tile_address <= "01" & level(3 downto 0);  	-- Level(0)
