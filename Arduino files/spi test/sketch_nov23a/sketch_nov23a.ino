@@ -26,6 +26,17 @@ unsigned short Read2Bytes(void) {
   return (w.svar);
 }
 
+unsigned short Read1Bytes(void) {
+    union {
+    unsigned short svar;
+    byte c[2];
+  } w;
+  
+  while(!(SPSR & (1<<SPIF))) ;
+  w.c[0] = SPDR;      
+  return (w.svar);
+}
+
 void setup() {
   Serial.begin(115200);
   SlaveInit();
@@ -44,6 +55,7 @@ void loop() {
     SPCR = (0<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0);  // SPI off
   
     Serial.print(word1);
+    Serial.print('\n');
     for(int k=0; k<24; k++)
     {
       SPDR= 011;
