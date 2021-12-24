@@ -18,7 +18,7 @@ type player_fsm_state is (	mine_state,right_state,left_state,down_state,
 
 	signal score_add: unsigned(1 downto 0);
 	signal energy_remove: unsigned(1 downto 0);
-
+	
 
 	signal new_score_d: unsigned(15 downto 0);
 	signal score_d: unsigned(15 downto 0);

@@ -15,6 +15,8 @@ architecture behaviour of player_fsm_tb is
         map_data_d     : IN  std_logic_vector(2 downto 0);
         CLK            : IN  std_logic;
         reset          : IN  std_logic;
+	vga_done_out   : IN  std_logic;
+	animate_done   : IN  std_logic;
         dir_mined      : OUT std_logic_vector(2 downto 0);
         energy_lvl_out   : OUT std_logic_vector(8 downto 0);
 	score_out    : OUT std_logic_vector(9 downto 0);
@@ -38,6 +40,8 @@ signal 	energy_d_out   : std_logic_vector(11 downto 0);
    signal button_y_up    : std_logic;
    signal button_y_down  : std_logic;
    signal button_mining  : std_logic;
+   signal animate_done	 : std_logic;
+   signal vga_done_out 	 : std_logic;
    signal map_data_l     : std_logic_vector(2 downto 0);
    signal map_data_r     : std_logic_vector(2 downto 0);
    signal map_data_u     : std_logic_vector(2 downto 0);
@@ -52,7 +56,7 @@ signal 	energy_d_out   : std_logic_vector(11 downto 0);
 	signal level_out : std_logic_vector(4 downto 0);
 	signal moved		: std_logic;
 begin
-   test: player_fsm port map (button_x_left, button_x_right, button_y_up, button_y_down, button_mining, map_data_l, map_data_r, map_data_u, map_data_d, CLK, reset, dir_mined, energy_lvl_out,score_out,level_out,level_d_out, score_d_out,energy_d_out,y_pos_out, x_pos_out);
+   test: player_fsm port map (button_x_left, button_x_right, button_y_up, button_y_down, button_mining, map_data_l, map_data_r, map_data_u, map_data_d, CLK, reset, vga_done_out, animate_done);
    	button_x_left <= '0' after 0 ns,
 			'1' after 200 ns,
 			'0' after 400 ns,
@@ -97,4 +101,8 @@ begin
    CLK <= '1' after 0 ns, '0' after 20 ns when CLK /= '0' else '1' after 20 ns;
    reset <= '1' after 0 ns,
             '0' after 80 ns;
+ vga_done_out <= '0'after 0 ns,
+		 '1'after 50 ns;
+ animate_done <= '0'after 0 ns,
+		 '1'after 50 ns;
 end behaviour;
