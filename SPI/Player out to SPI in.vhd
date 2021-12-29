@@ -28,7 +28,7 @@ begin
             MOSI_data(3 downto 0) <= x_pos_out;
             MOSI_data(7 downto 4) <= y_pos_out;
             MOSI_data(12 downto 8) <= level_out;
-            MOSI_data(13) <= '0';
+            MOSI_data(13) <= '1';
             MOSI_data(15 downto 14) <= (others => '0');
         elsif (moved = '0' and dir_mined(2) = '1') then
             send <= '1';
@@ -46,7 +46,7 @@ begin
                 MOSI_data(7 downto 4) <= std_logic_vector(unsigned(y_pos_out)+1);
             end if;
             MOSI_data(12 downto 8) <= level_out;
-            MOSI_data(13) <= '1';
+            MOSI_data(13) <= '0';
             MOSI_data(15 downto 14) <= (others => '0');
             
         else
