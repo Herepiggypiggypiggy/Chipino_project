@@ -118,7 +118,7 @@ begin
 		end if;
 	end process dimmer;
 
-	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, game_state, frame_count)
+	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, game_state, frame_count,yposmyple, xposmxple)
 	begin
 		case game_state is
 			-- Begin screen
@@ -180,177 +180,179 @@ begin
 			-- In game
 			when "01" =>
 				--Tile Type selector
-				case xposmxple is
-					when "100011" =>-- -3
-						case yposmyple is
-							when "000000" =>							-- Tile 10
-								tile_address <= "000" & map_data(44 downto 42); 
-							when others =>
-								tile_address <= "001010"; 						-- Black
-						end case;
-						
-					when "100010" =>-- -2
-						case yposmyple is
-							when "100001" =>						-- Tile 16
-								tile_address <= "000" & map_data(26 downto 24);
-							when "000000" =>							-- Tile 11
-								tile_address <= "000" & map_data(41 downto 39);
-							when "000001" =>						-- Tile 5
-								tile_address <= "000" & map_data(59 downto 57);
-							when others =>
-								tile_address <= "001010"; 					-- Black
-						end case;
-						
-					when "100001" =>
-						case yposmyple is
-							when "100010" =>						-- Tile 21
-								tile_address <= "000" & map_data(11 downto 9);
-							when "100001" =>						-- Tile 17
-								tile_address <= "000" & map_data(23 downto 21);
-							when "000000" =>							-- Tile 12
-								tile_address <= "000" & map_data(38 downto 36);
-							when "000001" =>						-- Tile 6
-								tile_address <= "000" & map_data(56 downto 54);
-							when "000010" =>						-- Tile 2
-								tile_address <= "000" & map_data(68 downto 66);
-							when others =>
-								tile_address <= "001010"; 						-- Black
-						end case;
-				
-					when "000000" =>
-						case yposmyple is
-							when "100011" =>						-- Tile 24
-								tile_address <= "000" & map_data(2 downto 0);
-							when "100010" =>						-- Tile 22
-								tile_address <= "000" & map_data(8 downto 6);
-							when "100001" =>						-- Tile 18
-								tile_address <= "000" & map_data(20 downto 18);
-							when "000000" =>							-- Player
-								tile_address <= "111111";
-							when "000001" =>						-- Tile 7
-								tile_address <= "000" & map_data(53 downto 51);
-							when "000010" =>						-- Tile 3
-								tile_address <= "000" & map_data(65 downto 63); 
-							when "000011" =>						-- Tile 1
-								tile_address <= "000" & map_data(71 downto 69); 
-							when others =>
-								tile_address <= "001010"; 						-- Black
-						end case;
-						
-					when "000001" =>
-						case yposmyple is
-							when "100010" =>						-- Tile 23
-								tile_address <= "000" & map_data(5 downto 3);		
-							when "100001" =>						-- Tile 19
-								tile_address <= "000" & map_data(17 downto 15);
-							when "000000" =>							-- Tile 13
-								tile_address <= "000" & map_data(35 downto 33);
-							when "000001" =>						-- Tile 8
-								tile_address <= "000" & map_data(50 downto 48);
-							when "000010" =>						-- Tile 4
-								tile_address <= "000" & map_data(62 downto 60);
-							when others =>
+				if (xposition < 15) then
+					case xposmxple is
+						when "111101" =>-- -3
+							case yposmyple is
+								when "000000" =>							-- Tile 10
+									tile_address <= "000" & map_data(44 downto 42); 
+								when others =>
+									tile_address <= "001010"; 						-- Black
+							end case;
+							
+						when "111110" =>-- -2
+							case yposmyple is
+								when "111111" =>						-- Tile 16
+									tile_address <= "000" & map_data(26 downto 24);
+								when "000000" =>							-- Tile 11
+									tile_address <= "000" & map_data(41 downto 39);
+								when "000001" =>						-- Tile 5
+									tile_address <= "000" & map_data(59 downto 57);
+								when others =>
 									tile_address <= "001010"; 					-- Black
-						end case;
-						
-					when "000010" =>
-						case yposmyple is
-							when "100001" =>						-- Tile 20
-								tile_address <= "000" & map_data(14 downto 12);
-							when "000000" =>							-- Tile 14
-								tile_address <= "000" & map_data(32 downto 30);
-							when "000001" =>						-- Tile 9
-								tile_address <= "000" & map_data(47 downto 45); 
-							when others =>
-									tile_address <= "001010"; 					-- Black
-						end case;
+							end case;
+							
+						when "111111" =>
+							case yposmyple is
+								when "111110" =>						-- Tile 21
+									tile_address <= "000" & map_data(11 downto 9);
+								when "111111" =>						-- Tile 17
+									tile_address <= "000" & map_data(23 downto 21);
+								when "000000" =>							-- Tile 12
+									tile_address <= "000" & map_data(38 downto 36);
+								when "000001" =>						-- Tile 6
+									tile_address <= "000" & map_data(56 downto 54);
+								when "000010" =>						-- Tile 2
+									tile_address <= "000" & map_data(68 downto 66);
+								when others =>
+									tile_address <= "001010"; 						-- Black
+							end case;
 					
-					when "000011" =>
-						case yposmyple is
-							when "000000" =>							-- Tile 15	
-								tile_address <= "000" & map_data(29 downto 27);
-							when others =>
-								tile_address <= "001010"; 						-- Black
-						end case;
-					when others =>
-						tile_address <= "001010"; 
+						when "000000" =>
+							case yposmyple is
+								when "111101" =>						-- Tile 24
+									tile_address <= "000" & map_data(2 downto 0);
+								when "111110" =>						-- Tile 22
+									tile_address <= "000" & map_data(8 downto 6);
+								when "111111" =>						-- Tile 18
+									tile_address <= "000" & map_data(20 downto 18);
+								when "000000" =>							-- Player
+									tile_address <= "111111";
+								when "000001" =>						-- Tile 7
+									tile_address <= "000" & map_data(53 downto 51);
+								when "000010" =>						-- Tile 3
+									tile_address <= "000" & map_data(65 downto 63); 
+								when "000011" =>						-- Tile 1
+									tile_address <= "000" & map_data(71 downto 69); 
+								when others =>
+									tile_address <= "001010"; 						-- Black
+							end case;
+							
+						when "000001" =>
+							case yposmyple is
+								when "111110" =>						-- Tile 23
+									tile_address <= "000" & map_data(5 downto 3);		
+								when "111111" =>						-- Tile 19
+									tile_address <= "000" & map_data(17 downto 15);
+								when "000000" =>							-- Tile 13
+									tile_address <= "000" & map_data(35 downto 33);
+								when "000001" =>						-- Tile 8
+									tile_address <= "000" & map_data(50 downto 48);
+								when "000010" =>						-- Tile 4
+									tile_address <= "000" & map_data(62 downto 60);
+								when others =>
+										tile_address <= "001010"; 					-- Black
+							end case;
+							
+						when "000010" =>
+							case yposmyple is
+								when "111111" =>						-- Tile 20
+									tile_address <= "000" & map_data(14 downto 12);
+								when "000000" =>							-- Tile 14
+									tile_address <= "000" & map_data(32 downto 30);
+								when "000001" =>						-- Tile 9
+									tile_address <= "000" & map_data(47 downto 45); 
+								when others =>
+										tile_address <= "001010"; 					-- Black
+							end case;
+						
+						when "000011" =>
+							case yposmyple is
+								when "000000" =>							-- Tile 15	
+									tile_address <= "000" & map_data(29 downto 27);
+								when others =>
+									tile_address <= "001010"; 						-- Black
+							end case;
+						when others =>
+							tile_address <= "001010"; 
 					end case;		
-						
-				-- Energy display
-				case xposition is
-					when "01111" =>
-						case yposition is
-							when "00010" =>									-- 2		
-								tile_address <= "01" & score(3 downto 0); 	-- Energy(0)
-							when "00011" =>									-- 3
-								tile_address <= "01" & score(7 downto 4); 	-- Energy(1)
-							when "00100" =>									-- 4
-								tile_address <= "01" & score(11 downto 8); 	-- Energy(2)
-							when "00111" =>									-- 7
-								tile_address <= "011110"; 					-- Y
-							when "01000" =>									-- 8
-								tile_address <= "001101"; 					-- G
-							when "01001" =>									-- 9
-								tile_address <= "011011"; 					-- R
-							when "01010" =>									-- 10
-								tile_address <= "001100"; 					-- E
-							when "01011" =>									-- 11
-								tile_address <= "001111"; 					-- N
-							when "01100" =>									-- 12
-								tile_address <= "001100"; 					-- E
-							when others =>
-								tile_address <= "001010"; 					-- Black
-						end case;
-						
-					-- Score display
-					when "10001"  =>
-						case yposition is
-							when "00010" =>									-- 2
-								tile_address <= "01" & score(3 downto 0); 	-- Score(0)
-							when "00011" =>									-- 3
-								tile_address <= "01" & score(7 downto 4); 	-- Score(1)
-							when "00100" =>									-- 4
-								tile_address <= "01" & score(11 downto 8); 	-- Score(2)
-							when "00101" =>									-- 5
-								tile_address <= "01" & score(15 downto 12); -- Score(3)
-							when "01000" =>									-- 8
-								tile_address <= "001100"; 					-- E
-							when "01001" =>									-- 9
-								tile_address <= "011011"; 					-- R
-							when "01010" =>									-- 10
-								tile_address <= "011010"; 					-- O
-							when "01011" =>									-- 11
-								tile_address <= "001011"; 					-- C
-							when "01100" =>									-- 12
-								tile_address <= "011100"; 					-- S
-							when others =>
-								tile_address <= "001010"; 					-- Black
-						end case;
+				else
+					-- Energy display
+					case xposition is
+						when "01111" =>
+							case yposition is
+								when "00010" =>									-- 2		
+									tile_address <= "01" & score(3 downto 0); 	-- Energy(0)
+								when "00011" =>									-- 3
+									tile_address <= "01" & score(7 downto 4); 	-- Energy(1)
+								when "00100" =>									-- 4
+									tile_address <= "01" & score(11 downto 8); 	-- Energy(2)
+								when "00111" =>									-- 7
+									tile_address <= "011110"; 					-- Y
+								when "01000" =>									-- 8
+									tile_address <= "001101"; 					-- G
+								when "01001" =>									-- 9
+									tile_address <= "011011"; 					-- R
+								when "01010" =>									-- 10
+									tile_address <= "001100"; 					-- E
+								when "01011" =>									-- 11
+									tile_address <= "001111"; 					-- N
+								when "01100" =>									-- 12
+									tile_address <= "001100"; 					-- E
+								when others =>
+									tile_address <= "001010"; 					-- Black
+							end case;
+							
+						-- Score display
+						when "10001"  =>
+							case yposition is
+								when "00010" =>									-- 2
+									tile_address <= "01" & score(3 downto 0); 	-- Score(0)
+								when "00011" =>									-- 3
+									tile_address <= "01" & score(7 downto 4); 	-- Score(1)
+								when "00100" =>									-- 4
+									tile_address <= "01" & score(11 downto 8); 	-- Score(2)
+								when "00101" =>									-- 5
+									tile_address <= "01" & score(15 downto 12); -- Score(3)
+								when "01000" =>									-- 8
+									tile_address <= "001100"; 					-- E
+								when "01001" =>									-- 9
+									tile_address <= "011011"; 					-- R
+								when "01010" =>									-- 10
+									tile_address <= "011010"; 					-- O
+								when "01011" =>									-- 11
+									tile_address <= "001011"; 					-- C
+								when "01100" =>									-- 12
+									tile_address <= "011100"; 					-- S
+								when others =>
+									tile_address <= "001010"; 					-- Black
+							end case;
 
-					-- Level display
-					when "10011" =>
-						case yposition is
-							when "00010" =>									-- 2
-								tile_address <= "01" & level(3 downto 0);  	-- Level(0)
-							when "00011" =>									-- 3
-								tile_address <= "01" & level(7 downto 4); 	-- Level(1)
-							when "01000" =>									-- 8
-								tile_address <= "001110"; 					-- L
-							when "01001" =>									-- 9
-								tile_address <= "001100"; 					-- E
-							when "01010" =>									-- 10
-								tile_address <= "011101"; 					-- V
-							when "01011" =>									-- 11
-								tile_address <= "001100"; 					-- E
-							when "01100" =>									-- 12
-								tile_address <= "001110"; 					-- L
-							when others =>
-								tile_address <= "001010"; 					-- Black
-						end case;
-						
-					when others =>
-						tile_address <= "001010"; 					-- Black
-				end case;
+						-- Level display
+						when "10011" =>
+							case yposition is
+								when "00010" =>									-- 2
+									tile_address <= "01" & level(3 downto 0);  	-- Level(0)
+								when "00011" =>									-- 3
+									tile_address <= "01" & level(7 downto 4); 	-- Level(1)
+								when "01000" =>									-- 8
+									tile_address <= "001110"; 					-- L
+								when "01001" =>									-- 9
+									tile_address <= "001100"; 					-- E
+								when "01010" =>									-- 10
+									tile_address <= "011101"; 					-- V
+								when "01011" =>									-- 11
+									tile_address <= "001100"; 					-- E
+								when "01100" =>									-- 12
+									tile_address <= "001110"; 					-- L
+								when others =>
+									tile_address <= "001010"; 					-- Black
+							end case;
+						when others =>
+							tile_address <= "001010"; -- Black
+					end case;
+				end if; 					
+				
 
 			-- End screen
 			when "10" =>
@@ -657,7 +659,7 @@ begin
 
 	-- Process: visibility counter H
       ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
-	process(hcount, xposition, xplayer,hvis)
+	process(hcount, xposition, xplayer,hvis, hvis_start)
 	begin
 		if (unsigned(xplayer) < 4 ) then
 			if (hcount = 0) then
@@ -684,7 +686,7 @@ begin
 
 	-- Process: visibility counter V
     ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
-	process(vcount, yposition, yplayer, vvis,hcount)
+	process(vcount, yposition, yplayer, vvis,hcount, vvis_start)
 	begin
 	
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then

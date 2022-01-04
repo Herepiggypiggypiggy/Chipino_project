@@ -53,7 +53,7 @@ begin
 end process;
 	
 	
-process (clk, reset, tile_address, row, column) 
+process (clk, reset, tile_address, row, column, bg, timer1) 
 begin 
 -- If reset is high, always select magenta -- 
 if (reset = '1') then 
@@ -1508,7 +1508,7 @@ else
 						when "001" |"011"	=> color_address <= black;			-- Column 1 and 3
 						when "010"			=> color_address <= diamond;		-- Column 2
 						when "100"			=> color_address <= yellow;			-- Column 4
-						when "101"			=> color_address <= ligh_yellow;	-- Column 5
+						when "101"			=> color_address <= light_yellow;	-- Column 5
 						when others			=> color_address <= light_blue;		-- Column 6 and 7
 					end case;
 					
@@ -1644,7 +1644,7 @@ else
 					end case;
 					
 				when others =>	-- Row 7
-					case coclumn is
+					case column is
 						when "110" 	=> color_address <= diamond;	-- Column 6
 						when others	=> color_address <= black;		-- Column 0, 1, 2, 3, 4, 5 and 7
 					end case;

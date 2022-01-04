@@ -75,7 +75,7 @@ architecture behavioural of display_ctrl is
 		end if;
 	end process display;
 
-	RGB: process(in_red, in_green, in_blue, dim)
+	RGB: process(in_red, in_green, in_blue, dim,display_state)
 	begin
 		if (display_state = display_on) then
 				if(dim > "0000") then	
