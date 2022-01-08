@@ -47,7 +47,6 @@ begin
 		when "100" => 	bg <= caustic_green;
 		when "101" => 	bg <= lava;
 		when "110" => 	bg <= lavender;
-		when "111" => 	bg <= magenta;
 		when others => 	bg <= magenta;
 	end case;
 end process;
