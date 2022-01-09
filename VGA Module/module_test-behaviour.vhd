@@ -27,7 +27,8 @@ port(button_x_left  : IN  std_logic;
         y_pos_out    : OUT std_logic_vector(3 downto 0);
         x_pos_out    : OUT std_logic_vector(3 downto 0);
 	moved	: OUT std_logic;
-	game_state : OUT std_logic_vector(1 downto 0));
+	game_state : OUT std_logic_vector(1 downto 0);
+	animation_done 	: OUT std_logic);
 end component;
 
 component VGA
@@ -47,7 +48,8 @@ port (	clk 		: in    std_logic;
         red		    : out   std_logic_vector(3 downto 0);
         green		: out   std_logic_vector(3 downto 0);
         blue		: out   std_logic_vector(3 downto 0);
-        vga_done_out: out   std_logic);
+        vga_done_out: out   std_logic;
+        animation_done 	: out std_logic);
 end component;
 
 signal  button_x_left   : std_logic;
@@ -84,6 +86,9 @@ signal  level_d_out     : std_logic_vector(7 downto 0);
 signal  score_d_out     : std_logic_vector(15 downto 0);
 signal  energy_d_out    : std_logic_vector(11 downto 0);
 
+signal animation_done 	: std_logic;
+signal vga_done_out : std_logic;
+
 
 begin
 level <=  std_logic_vector(level_d_out);
@@ -114,7 +119,8 @@ port map(   button_x_left,  --input
             y_pos_out,        --set
             x_pos_out,        --set
             moved,
-	    game_state);         --not interesting
+	    game_state,
+	    animation_done);         --not interesting
 
 vga_com: VGA 
 port map(   clk,        --set
@@ -132,7 +138,9 @@ port map(   clk,        --set
             vsync,      --set
             red,        --set
             green,      --set
-            blue);      --set
+            blue,		--set
+            vga_done_out,
+            animation_done);      
    
 process (clk)
    begin

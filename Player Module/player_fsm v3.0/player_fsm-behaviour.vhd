@@ -237,7 +237,7 @@ begin
  			level_next <= level;
 
 			-- keep start screen untill a button is pressed.
-			if (animate_done = '1') then
+			if (animation_done = '1') then
 				new_state <= central_state;
 			else
 				new_state <= animate_state;
@@ -706,7 +706,7 @@ begin
 				reached_high_next <= reached_high;
 			end if;
 			
-			if (animate_done = '1' and input = '1') then
+			if (animation_done = '1' and input = '1') then
 				new_state <= start_state;
 			else
 				new_state <= game_over_state;
