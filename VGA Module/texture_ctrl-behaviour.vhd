@@ -86,7 +86,7 @@ begin
 	xposmxple <= signed(signed('0'&xposition) - signed("00"&xplayer));
 	yposmyple <= signed(signed('0'&yposition) - signed("00"&yplayer));
 	
-	vvis_start <= ((3 - unsigned(yplayer))&"00000");
+	vvis_start <= ((2 - unsigned(yplayer))&"11111"); -- start 1 row earlier
 	hvis_start <= ((3 - unsigned(xplayer))&"00000");
 
 	xp <= "1110000";                   --112
@@ -672,7 +672,7 @@ begin
 				end if;
 			end if;
 		else
-			if (xposition > unsigned(xplayer) - 4 and xposition < unsigned(xplayer) + 4) then
+			if (xposition > unsigned(xplayer) - 4) then
             			if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
 			   		new_hvis <= hvis + 1;
            			else
@@ -701,7 +701,7 @@ begin
 					end if;
 				end if;
 			else
-				if (yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then
+				if (yposition > unsigned(yplayer) - 4) then
 					if (vcount < unsigned('0'&yplayer&"10000")) then--vcoumt > yplayer * 32 + 16
 			   			new_vvis <= vvis + 1;
             				else

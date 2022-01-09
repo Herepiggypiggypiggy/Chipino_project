@@ -9,27 +9,33 @@ use std.textio.all;
 architecture behavioural of VGA_tb is 
 component VGA
 port (	
-	clk 		: in std_logic;
-	reset 		: in std_logic;
+	clk 			: in std_logic;
+	reset 			: in std_logic;
 
-	map_data	: in std_logic_vector(71 downto 0);
+	map_data		: in std_logic_vector(71 downto 0);
 
-	Xplayer		: in std_logic_vector(3 downto 0);
-	Yplayer		: in std_logic_vector(3 downto 0);
+	Xplayer			: in std_logic_vector(3 downto 0);
+	Yplayer			: in std_logic_vector(3 downto 0);
 
-	score 		: in std_logic_vector(15 downto 0);
-	energy		: in std_logic_vector(11 downto 0);
-	level 		: in std_logic_vector(7 downto 0);
+	score 			: in std_logic_vector(15 downto 0);
+	energy			: in std_logic_vector(11 downto 0);
+	level 			: in std_logic_vector(7 downto 0);
+	
 	game_state      : in std_logic_vector(1 downto 0);
-	timer1_out		: out  unsigned(5 downto 0);
-	timer2_out		: out  unsigned(5 downto 0);
-	hsync		: out std_logic;
-	vsync		: out std_logic;
-	red		: out std_logic_vector(3 downto 0);
-	green		: out std_logic_vector(3 downto 0);
-	blue		: out std_logic_vector(3 downto 0);
+	
+	timer1_out		: out std_logic_vector(5 downto 0);
+	timer2_out		: out std_logic_vector(5 downto 0);
+	
+	hsync			: out std_logic;
+	vsync			: out std_logic;
+	
+	red				: out std_logic_vector(3 downto 0);
+	green			: out std_logic_vector(3 downto 0);
+	blue			: out std_logic_vector(3 downto 0);
 
-	vga_done_out	: out std_logic
+	vga_done_out	: out std_logic;
+	
+	animation_done 	: out std_logic
 );
 end component;
 
@@ -43,8 +49,8 @@ end component;
 	signal energy		: std_logic_vector(11 downto 0);
 	signal level		: std_logic_vector(7 downto 0);
 	signal game_state      : std_logic_vector(1 downto 0);
-	signal timer1_out		: unsigned(5 downto 0);
-	signal timer2_out		: unsigned(5 downto 0);
+	signal timer1_out		: std_logic_vector(5 downto 0);
+	signal timer2_out		: std_logic_vector(5 downto 0);
 	signal hsync		: std_logic;
 	signal vga_done_out	: std_logic;
 	signal vsync		: std_logic;
