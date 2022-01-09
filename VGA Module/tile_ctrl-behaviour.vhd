@@ -447,8 +447,8 @@ else
 					
 				when "100" =>	-- Row 4
 					case column is 
-						when "011" | "100"	=> color_address <= white; 			-- Column 3 and 4
-						when others			=> color_address <= spirit_blue; 	-- Column 0, 1, 2, 5, 6 and 7			
+						when "010" | "011" | "100"	=> color_address <= white; 			-- Column 2, 3 and 4
+						when others					=> color_address <= spirit_blue; 	-- Column 0, 1, 5, 6 and 7			
 					end case;
 	
 				when "111" =>	-- Row 7

@@ -28,7 +28,7 @@ port(button_x_left  : IN  std_logic;
         x_pos_out    : OUT std_logic_vector(3 downto 0);
 	moved	: OUT std_logic;
 	game_state : OUT std_logic_vector(1 downto 0);
-	animation_done 	: OUT std_logic);
+	animation_done 	: in std_logic);
 end component;
 
 component VGA
@@ -172,9 +172,6 @@ map_data_d <= map_data(38 downto 36);
   case state is
          when playermiddle =>
 			map_data 	<= "000000000000000000011000000000000011011000000000000011000000000000000000";
-			game_state 	<= "00";
-			Xplayer 	<= "0111";
-			Yplayer 	<= "0111";
        		 if (button_x_left = '1') then
 			new_state <= playerleft;
       		 elsif (button_y_up = '1') then
@@ -189,9 +186,6 @@ map_data_d <= map_data(38 downto 36);
 
          when playerleft =>
 			map_data 	<= "000000000000000000000000000000000000000000000000011011011000000011000000";
-			game_state 	<= "00";
-			Xplayer 	<= "0111";
-			Yplayer 	<= "1000";
        		 if (button_x_right = '1') then
 			new_state <= playermiddle;
 		 else
@@ -200,9 +194,6 @@ map_data_d <= map_data(38 downto 36);
 
          when playerup =>
 			map_data 	<= "000000000000000000000011000000000000011011000000000000011000000000000000";
-			game_state 	<= "00";
-			Xplayer 	<= "0110";
-			Yplayer 	<= "0111";
        		 if (button_y_down = '1') then
 			new_state <= playermiddle;
 		 else
@@ -211,9 +202,6 @@ map_data_d <= map_data(38 downto 36);
 
          when playerdown =>
 			map_data 	<= "000000000000000011000000000000011011000000000000011000000000000000000000";
-			game_state 	<= "00";
-			Xplayer 	<= "1000";
-			Yplayer 	<= "0111";
        		 if (button_y_up = '1') then
 			new_state <= playermiddle;
 		 else
@@ -222,9 +210,6 @@ map_data_d <= map_data(38 downto 36);
 
          when playerright =>
 			map_data 	<= "000000011000000011011011000000000000000000000000000000000000000000000000";
-			game_state 	<= "00";
-			Xplayer 	<= "0111";
-			Yplayer 	<= "0110";
        		 if (button_x_left = '1') then
 			new_state <= playermiddle;
 		 else
