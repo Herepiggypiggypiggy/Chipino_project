@@ -633,7 +633,7 @@ begin
 	process(level)
 	begin
 		if (level = "00000000") then
-			bg_select <= "100";
+			bg_select <= "000";
 		elsif (level = "00000001" or level(7 downto 1) = "0000001") then
 			bg_select <= "001";         -- levels 1 to 3
 		elsif (level(7 downto 1) = "0000010" or level = "00000110") then

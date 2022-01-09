@@ -40,7 +40,7 @@ begin
 process (bg_select)
 begin
 	case bg_select is
-		when "000" => 	bg <= black;
+		when "000" => 	bg <= green;
 		when "001" => 	bg <= bg_red;
 		when "010" => 	bg <= swamp_green;
 		when "011" => 	bg <= ice;
