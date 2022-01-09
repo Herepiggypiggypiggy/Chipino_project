@@ -124,8 +124,8 @@ begin
 			-- Begin screen
 			when "00" =>
 				case xposition is
-					when "00000" | "00001" | "00010" =>			-- X = 0, 1 or 2
-						tile_address <= "101110"; 				-- Sky
+					when "00000" | "00001" | "00010" =>		-- X = 0, 1 or 2
+						tile_address <= "101110"; 			-- Sky
 					
 					when "00011" =>								-- X = 3
 						case yposition is
@@ -153,24 +153,22 @@ begin
 								tile_address <= "100001"; 		-- I - Light Blue
 							when "01000" =>						-- Y = 8
 								tile_address <= "111110"; 		-- M - Light Blue
-							when "01010" =>						-- Y = 10
-								tile_address <= "000001"; 		-- Rock
 							when others =>
 								tile_address <= "101110"; 		-- Sky
 						end case;
 						
-					when "00101" | "00110" | "00111" | "01000" | "01001" =>		-- X = 5, 6, 7, 8 or 9
-						tile_address <= "101110"; 								-- Sky
+					when "00101" | "00110" | "00111" | "01000" =>	-- X = 5, 6, 7 or 8
+						tile_address <= "101110"; 					-- Sky
 						
 					when "01010" =>								-- X = 10
 						case yposition is
 							when "00111" =>						-- Y = 7
 								tile_address <= "111111";		-- Player
 							when others =>
-								tile_address <= "101110"; 		-- Sky
+								tile_address <= "101111"; 		-- Grass
 						end case;
 						
-					when "01011" | "01100" | "01101" | "01110" =>				-- X = 11, 12, 13 or 14
+					when "01001" | "01011" | "01100" | "01101" | "01110" =>		-- X = 9, 11, 12, 13 or 14
 						tile_address <= "101111"; 								-- Grass
 						
 					when others =>
@@ -463,8 +461,6 @@ begin
 								tile_address <= "100001"; 		-- I - Light Blue
 							when "01000" =>						-- Y = 8
 								tile_address <= "111110"; 		-- M - Light Blue
-							when "01010" =>						-- Y = 10
-								tile_address <= "000001"; 		-- Rock
 							when others =>
 								tile_address <= "101110"; 		-- Sky
 						end case;
@@ -516,10 +512,10 @@ begin
 									when "1000" =>						-- Frame count = 8
 										tile_address <= "110111"; 		-- Start (fifth bottom frame)
 									when others =>
-										tile_address <= "101110"; 		-- Sky
+										tile_address <= "101111"; 		-- Grass
 								end case;
 							when others =>
-								tile_address <= "101110"; 				-- Sky
+								tile_address <= "101111"; 				-- Grass
 						end case;										
 						
 						
@@ -637,7 +633,7 @@ begin
 	process(level)
 	begin
 		if (level = "00000000") then
-			bg_select <= "000";
+			bg_select <= "100";
 		elsif (level = "00000001" or level(7 downto 1) = "0000001") then
 			bg_select <= "001";         -- levels 1 to 3
 		elsif (level(7 downto 1) = "0000010" or level = "00000110") then
