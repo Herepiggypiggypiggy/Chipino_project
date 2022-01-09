@@ -154,7 +154,7 @@ process (clk)
    end process;
 
       
-process(clk,reset)
+process(clk,reset, bleft, bright, up, down, mining, map_data, state, button_x_left, button_y_up, button_y_down, button_x_right)
 begin
 
 if(bleft  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
