@@ -612,15 +612,15 @@ begin
       ---((((maybe make single constant)))--- can be optimized
 	vcounter_process : process(vcount, hcount)
 	begin
-        if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
+        if (hcount = h_display + h_fp + h_margin - 1) then
 			if(vcount < v_display + v_fp + v_sp + v_bp - 1) then
 				new_vcount <= vcount + 1;
 			else
 				new_vcount <= (others => '0');
 			end if;
-		else
-				new_vcount <= vcount;
-			end if;
+	else
+		new_vcount <= vcount;
+	end if;
 	end process vcounter_process;
 
 	-- VGA done signal     
