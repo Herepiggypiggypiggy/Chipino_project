@@ -14,6 +14,10 @@ port (
 	energy		: in std_logic_vector(11 downto 0);
 	level 		: in std_logic_vector(7 downto 0);
 
+	score_abs 		: in std_logic_vector(15 downto 0);
+	energy_abs		: in std_logic_vector(11 downto 0);
+	level_abs 		: in std_logic_vector(7 downto 0);
+
 	game_state      : in std_logic_vector(1 downto 0);
 
 	dim		: out std_logic_vector(3 downto 0);

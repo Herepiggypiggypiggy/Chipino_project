@@ -6,6 +6,7 @@ architecture behaviour of module_test is
    type playermap_state is (playermiddle, playerleft, playerup, playerdown, playerright);
    signal state, new_state: playermap_state;
 component player_fsm
+<<<<<<< Updated upstream
 port(button_x_left  : IN  std_logic;
         button_x_right : IN  std_logic;
         button_y_up    : IN  std_logic;
@@ -50,6 +51,56 @@ port (	clk 		: in    std_logic;
         blue		: out   std_logic_vector(3 downto 0);
         vga_done_out: out   std_logic;
         animation_done 	: out std_logic);
+=======
+port( button_x_left  : IN  std_logic;
+      button_x_right : IN  std_logic;
+      button_y_up    : IN  std_logic;
+      button_y_down  : IN  std_logic;
+      button_mining  : IN  std_logic;
+      map_data_l     : IN  std_logic_vector(2 downto 0);
+      map_data_r     : IN  std_logic_vector(2 downto 0);
+      map_data_u     : IN  std_logic_vector(2 downto 0);
+      map_data_d     : IN  std_logic_vector(2 downto 0);
+      CLK            : IN  std_logic;
+      reset          : IN  std_logic;
+
+      dir_mined      : OUT std_logic_vector(2 downto 0);
+      energy_lvl_out : OUT std_logic_vector(8 downto 0);
+	   score_out      : OUT std_logic_vector(9 downto 0);
+	   level_out      : OUT std_logic_vector(4 downto 0);
+	   level_d_out    : OUT std_logic_vector(7 downto 0);
+	   score_d_out    : OUT std_logic_vector(15 downto 0);
+	   energy_d_out   : OUT std_logic_vector(11 downto 0);
+      y_pos_out      : OUT std_logic_vector(3 downto 0);
+      x_pos_out      : OUT std_logic_vector(3 downto 0);
+	   moved	         : OUT std_logic;
+	   game_state     : OUT std_logic_vector(1 downto 0));
+end component;
+
+component vga
+port( clk 			   : in std_logic;
+		reset 			: in std_logic;
+		map_data		   : in std_logic_vector(71 downto 0);
+		Xplayer			: in std_logic_vector(3 downto 0);
+		Yplayer			: in std_logic_vector(3 downto 0);
+		score 			: in std_logic_vector(15 downto 0);
+		energy			: in std_logic_vector(11 downto 0);
+		level 			: in std_logic_vector(7 downto 0);
+		score_abs 		: in std_logic_vector(15 downto 0);
+		energy_abs		: in std_logic_vector(11 downto 0);
+		level_abs 		: in std_logic_vector(7 downto 0);
+		game_state     : in std_logic_vector(1 downto 0);
+	
+		timer1_out		: out std_logic_vector(5 downto 0);
+		timer2_out		: out std_logic_vector(5 downto 0);
+		hsync			   : out std_logic;
+		vsync			   : out std_logic;
+		red				: out std_logic_vector(3 downto 0);
+		green			   : out std_logic_vector(3 downto 0);
+		blue			   : out std_logic_vector(3 downto 0);
+		vga_done_out	: out std_logic;
+		animation_done : out std_logic);
+>>>>>>> Stashed changes
 end component;
 
 signal  button_x_left   : std_logic;
