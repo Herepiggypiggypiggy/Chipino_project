@@ -130,45 +130,49 @@ begin
 	timer2_out <= timer2;
 
 --Port maps
-texture_module : texture_ctrl port map	(			
-										clk, reset, 
-										map_data, 
-										Xplayer, Yplayer, 
-										score, energy, level,
-										game_state,
-										dim,
-										column, row,
-										timer1,	timer2,
-										bg_select,
-										tile_address,
-										hcount,	vcount,
-										vga_done_out,
-										animation_done
-										); 
+texture_module : texture_ctrl 
+port map (			
+	clk, reset, 
+	map_data, 
+	xplayer, yplayer, 
+	score, energy, level,
+	game_state,
+	dim,
+	column, row,
+	timer1,	timer2,
+	bg_select,
+	tile_address,
+	hcount,	vcount,
+	vga_done_out,
+	animation_done
+); 
 
-tile_module : tile_ctrl port map	(				
-									clk, reset, 
-									tile_address, 
-									row, column, 
-									bg_select,
-									timer1, timer2,
-									color_address
-									); 
+tile_module : tile_ctrl 
+port map (				
+	clk, reset, 
+	tile_address, 
+	row, column, 
+	bg_select,
+	timer1, timer2,
+	color_address
+); 
 
-color_driver_module : color_ctrl port map	(		
-											clk, reset, 
-											color_address, 
-											in_red, in_green, in_blue
-											);
+color_driver_module : color_ctrl 
+port map (		
+	clk, reset, 
+	color_address, 
+	in_red, in_green, in_blue
+);
  
-display_controller_module : display_ctrl port map	(	
-													clk, reset, 
-													in_red, in_green, in_blue,
-													hcount, vcount,
-													dim, 
-													hsync, vsync,
-													red, green, blue
-													); 
+display_controller_module : display_ctrl 
+port map (	
+	clk, reset, 
+	in_red, in_green, in_blue,
+	hcount, vcount,
+	dim, 
+	hsync, vsync,
+	red, green, blue
+); 
 end architecture;
 
 
