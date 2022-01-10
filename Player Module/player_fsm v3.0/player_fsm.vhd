@@ -3,28 +3,31 @@ use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.ALL;
 
 entity player_fsm is
-   port(button_x_left  : IN  std_logic;
-        button_x_right : IN  std_logic;
-        button_y_up    : IN  std_logic;
-        button_y_down  : IN  std_logic;
-        button_mining  : IN  std_logic;
-        map_data_l     : IN  std_logic_vector(2 downto 0);
-        map_data_r     : IN  std_logic_vector(2 downto 0);
-        map_data_u     : IN  std_logic_vector(2 downto 0);
-        map_data_d     : IN  std_logic_vector(2 downto 0);
-        CLK            : IN  std_logic;
-        reset          : IN  std_logic;
-        dir_mined      : OUT std_logic_vector(2 downto 0);
-        energy_lvl_out : OUT std_logic_vector(8 downto 0);
-	score_out      : OUT std_logic_vector(9 downto 0);
-	level_out      : OUT std_logic_vector(4 downto 0);
-	level_d_out    : OUT std_logic_vector(7 downto 0);
-	score_d_out    : OUT std_logic_vector(15 downto 0);
-	energy_d_out   : OUT std_logic_vector(11 downto 0);
-        y_pos_out      : OUT std_logic_vector(3 downto 0);
-        x_pos_out      : OUT std_logic_vector(3 downto 0);
-	moved	       : OUT std_logic;
-	game_state     : OUT std_logic_vector(1 downto 0);
-	vga_done_out   : IN  std_logic;
-	animation_done   : IN  std_logic);
+port (
+	clk            	: in  std_logic;
+    reset          	: in  std_logic;
+	button_x_left  	: in  std_logic;
+    button_x_right 	: in  std_logic;
+    button_y_up    	: in  std_logic;
+    button_y_down  	: in  std_logic;
+    button_mining  	: in  std_logic;
+    animation_done  : in  std_logic;
+    vga_done   		: in  std_logic;
+    map_data_l     	: in  std_logic_vector(2 downto 0);
+    map_data_r     	: in  std_logic_vector(2 downto 0);
+    map_data_u     	: in  std_logic_vector(2 downto 0);
+    map_data_d     	: in  std_logic_vector(2 downto 0);
+    
+    moved	       	: out std_logic;
+    game_state     	: out std_logic_vector(1 downto 0);
+    dir_mined      	: out std_logic_vector(2 downto 0);
+    x_pos_out      	: out std_logic_vector(3 downto 0);
+    y_pos_out      	: out std_logic_vector(3 downto 0);
+    level      		: out std_logic_vector(4 downto 0);
+	level_abs    	: out std_logic_vector(7 downto 0);
+	energy 			: out std_logic_vector(8 downto 0);
+	energy_abs   	: out std_logic_vector(11 downto 0);
+	score      		: out std_logic_vector(9 downto 0);
+	score_abs    	: out std_logic_vector(15 downto 0)
+);
 end player_fsm;

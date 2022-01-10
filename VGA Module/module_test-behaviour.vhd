@@ -54,9 +54,13 @@ port (
     xplayer			: in    std_logic_vector(3 downto 0);
     yplayer			: in    std_logic_vector(3 downto 0);
     
-    level 			: in    std_logic_vector(7 downto 0);
-    energy			: in    std_logic_vector(11 downto 0);
-    score 			: in    std_logic_vector(15 downto 0);
+    level 			: in std_logic_vector(7 downto 0);
+	energy			: in std_logic_vector(11 downto 0);
+	score 			: in std_logic_vector(15 downto 0);
+	
+	level_abs 		: in std_logic_vector(7 downto 0);
+	energy_abs		: in std_logic_vector(11 downto 0);
+	score_abs 		: in std_logic_vector(15 downto 0);
     
     map_data		: in    std_logic_vector(71 downto 0);
     
@@ -256,7 +260,7 @@ port map (
 	MISO
 );
 
-spi_com	: SPI
+spi_com	: spi_v3
 port map (
 	clk,
 	reset,
