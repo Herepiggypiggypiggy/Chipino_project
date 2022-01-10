@@ -108,7 +108,7 @@ port (
 	clk					: 	in	std_logic;
 	reset				:	in 	std_logic;
 	map_updated			:	in	std_logic;
-	vga_done		:	in	std_logic;
+	vga_done			:	in	std_logic;
 	dir_mined			:	in	std_logic_vector(2 downto 0);
 	map_data_volatile	:	in 	std_logic_vector(71 downto 0);
 	
@@ -134,7 +134,8 @@ signal  moved	        : std_logic;
 signal	xplayer			: std_logic_vector(3 downto 0);
 signal	yplayer			: std_logic_vector(3 downto 0);
 
-signal  map_data		: std_logic_vector(71 downto 0);
+signal  map_data			: std_logic_vector(71 downto 0);
+signal 	map_data_volatile	: std_logic_vector(71 downto 0);
 
 signal  x_pos_out       : std_logic_vector(3 downto 0);
 signal  y_pos_out       : std_logic_vector(3 downto 0);
@@ -147,23 +148,32 @@ signal  level_out       : std_logic_vector(4 downto 0);
 signal  energy_out  	: std_logic_vector(8 downto 0);
 signal  score_out       : std_logic_vector(9 downto 0);
 
-signal  level_d_out     : std_logic_vector(7 downto 0);
-signal  energy_d_out    : std_logic_vector(11 downto 0);
-signal  score_d_out     : std_logic_vector(15 downto 0);
+signal  level_abs_out   : std_logic_vector(7 downto 0);
+signal  energy_abs_out  : std_logic_vector(11 downto 0);
+signal  score_abs_out   : std_logic_vector(15 downto 0);
 
 signal  game_state  	: std_logic_vector(1 downto 0);
 
 signal  timer1			: unsigned(5 downto 0);
 signal	timer2			: unsigned(5 downto 0);
 
-signal animation_done 	: std_logic;
-signal vga_done 	: std_logic;
+signal 	animation_done 	: std_logic;
+signal 	vga_done 		: std_logic;
+
+signal 	MOSI			: std_logic;
+signal 	MISO			: std_logic;
+signal 	SCLK			: std_logic;
+signal 	SS				: std_logic;
+
+signal 	send			: std_logic;
+
+signal 	MOSI_data		: std_logic_vector(15 downto 0);
 
 
 begin
-level 	<=  std_logic_vector(level_d_out);
-energy 	<=  std_logic_vector(energy_d_out);
-score 	<=  std_logic_vector(score_d_out);
+level 	<=  std_logic_vector(level_abs_out);
+energy 	<=  std_logic_vector(energy_abs_out);
+score 	<=  std_logic_vector(score_abs_out);
 
 xplayer <=  std_logic_vector(x_pos_out);
 yplayer <=  std_logic_vector(y_pos_out);
@@ -195,13 +205,13 @@ port map (
 	y_pos_out,
 	
 	level_out,
-	level_d_out,
+	level_abs_out,
 	
 	energy_out,
-	energy_d_out,
+	energy_abs_out,
 	
 	score_out,
-	score_d_out
+	score_abs_out
 );
 
 vga_com: VGA 
@@ -233,81 +243,124 @@ port map (
 	timer1_out,
 	timer2_out
 );  
+
+not_arduino_com : not_arduino
+port map (
+	clk,
+	reset,
+	
+	MOSI,
+	SCLK,
+	SS,
+	
+	MISO
+);
+
+spi_com	: SPI
+port map (
+	clk,
+	reset,
+	
+	send,
+	
+	MISO,
+	MOSI_data,
+	
+	map_data_volatile,
+	
+	SCLK,
+	SS,
+	MOSI
+);
+
+stable_map_com : stable_map
+port map (
+	clk,
+	reset,
+	
+	map_updated,
+	vga_done,
+	
+	dir_mined,
+	
+	map_data_volatile,
+	map_data
+);
    
-process (clk)
-   begin
-      if (clk'event and clk = '1') then
-         if reset = '1' then
-            state <= playermiddle;
-         else
-            state <= new_state;
-         end if;
-      end if;
-   end process;
-
-      
-process(clk,reset, bleft, bright, up, down, mining, map_data, state, button_x_left, button_y_up, button_y_down, button_x_right)
-begin
-
-if(bleft  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
-if(bright = '1')  then  button_x_right    <= '1'; else button_x_right <= '0'; end if;
-if(up     = '1')  then  button_y_up       <= '1'; else button_y_up    <= '0'; end if;
-if(down   = '1')  then  button_y_down     <= '1'; else button_y_down  <= '0'; end if;
-if(mining = '1')  then  button_mining     <= '1'; else button_mining  <= '0'; end if;
-
-map_data_l <= map_data(53 downto 51);
-map_data_r <= map_data(20 downto 18);
-map_data_u <= map_data(35 downto 33);
-map_data_d <= map_data(38 downto 36);
-
-
-  case state is
-         when playermiddle =>
-			map_data 	<= "000000000000000000011000000000000011011000000000000011000000000000000000";
-       		 if (button_x_left = '1') then
-			new_state <= playerleft;
-      		 elsif (button_y_up = '1') then
-			new_state <= playerup;
-      		 elsif (button_y_down = '1') then
-			new_state <= playerdown;
-      		 elsif (button_x_right = '1') then
-			new_state <= playerright;
-		 else
-			new_state <= playermiddle;
-           	 end if;
-
-         when playerleft =>
-			map_data 	<= "000000000000000000000000000000000000000000000000011011011000000011000000";
-       		 if (button_x_right = '1') then
-			new_state <= playermiddle;
-		 else
-			new_state <= playerleft;
-           	 end if;
-
-         when playerup =>
-			map_data 	<= "000000000000000000000011000000000000011011000000000000011000000000000000";
-       		 if (button_y_down = '1') then
-			new_state <= playermiddle;
-		 else
-			new_state <= playerup;
-           	 end if;
-
-         when playerdown =>
-			map_data 	<= "000000000000000011000000000000011011000000000000011000000000000000000000";
-       		 if (button_y_up = '1') then
-			new_state <= playermiddle;
-		 else
-			new_state <= playerdown;
-           	 end if;
-
-         when playerright =>
-			map_data 	<= "000000011000000011011011000000000000000000000000000000000000000000000000";
-       		 if (button_x_left = '1') then
-			new_state <= playermiddle;
-		 else
-			new_state <= playerright;
-           	 end if;
-      end case;
+--process (clk)
+--   begin
+--      if (clk'event and clk = '1') then
+--         if reset = '1' then
+--            state <= playermiddle;
+--         else
+--            state <= new_state;
+--         end if;
+--      end if;
+--   end process;
+--
+--      
+--process(clk,reset, bleft, bright, up, down, mining, map_data, state, button_x_left, button_y_up, button_y_down, button_x_right)
+--begin
+--
+--if(bleft  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
+--if(bright = '1')  then  button_x_right    <= '1'; else button_x_right <= '0'; end if;
+--if(up     = '1')  then  button_y_up       <= '1'; else button_y_up    <= '0'; end if;
+--if(down   = '1')  then  button_y_down     <= '1'; else button_y_down  <= '0'; end if;
+--if(mining = '1')  then  button_mining     <= '1'; else button_mining  <= '0'; end if;
+--
+--map_data_l <= map_data(53 downto 51);
+--map_data_r <= map_data(20 downto 18);
+--map_data_u <= map_data(35 downto 33);
+--map_data_d <= map_data(38 downto 36);
+--
+--
+--  case state is
+--         when playermiddle =>
+--			map_data 	<= "000000000000000000011000000000000011011000000000000011000000000000000000";
+--       		 if (button_x_left = '1') then
+--			new_state <= playerleft;
+--      		 elsif (button_y_up = '1') then
+--			new_state <= playerup;
+--      		 elsif (button_y_down = '1') then
+--			new_state <= playerdown;
+--      		 elsif (button_x_right = '1') then
+--			new_state <= playerright;
+--		 else
+--			new_state <= playermiddle;
+--           	 end if;
+--
+--         when playerleft =>
+--			map_data 	<= "000000000000000000000000000000000000000000000000011011011000000011000000";
+--       		 if (button_x_right = '1') then
+--			new_state <= playermiddle;
+--		 else
+--			new_state <= playerleft;
+--           	 end if;
+--
+--         when playerup =>
+--			map_data 	<= "000000000000000000000011000000000000011011000000000000011000000000000000";
+--       		 if (button_y_down = '1') then
+--			new_state <= playermiddle;
+--		 else
+--			new_state <= playerup;
+--           	 end if;
+--
+--         when playerdown =>
+--			map_data 	<= "000000000000000011000000000000011011000000000000011000000000000000000000";
+--       		 if (button_y_up = '1') then
+--			new_state <= playermiddle;
+--		 else
+--			new_state <= playerdown;
+--           	 end if;
+--
+--         when playerright =>
+--			map_data 	<= "000000011000000011011011000000000000000000000000000000000000000000000000";
+--       		 if (button_x_left = '1') then
+--			new_state <= playermiddle;
+--		 else
+--			new_state <= playerright;
+--           	 end if;
+--      end case;
 
 
 
@@ -324,7 +377,7 @@ map_data_d <= map_data(38 downto 36);
 
 
 
-end process;
+--end process;
 end architecture;
 
 
