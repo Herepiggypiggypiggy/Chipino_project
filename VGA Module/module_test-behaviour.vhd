@@ -88,7 +88,7 @@ port (
 );
 end component;
 
-component SPI
+component spi_v3
 port (
 	clk					:	in 	std_logic;
 	reset				: 	in 	std_logic;
