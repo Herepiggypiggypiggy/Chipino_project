@@ -166,11 +166,7 @@ begin
 							when "00111" =>										-- Y = 7
 								tile_address <= "111111";						-- Player
 							when others =>
-<<<<<<< Updated upstream
-								tile_address <= "101111"; 		-- Grass
-=======
 								tile_address <= "101110"; 						-- Sky
->>>>>>> Stashed changes
 						end case;
 						
 					when "01001" | "01011" | "01100" | "01101" | "01110" =>		-- X = 9, 11, 12, 13 or 14
@@ -466,13 +462,9 @@ begin
 								tile_address <= "100001"; 		-- I - Light Blue
 							when "01000" =>						-- Y = 8
 								tile_address <= "111110"; 		-- M - Light Blue
-<<<<<<< Updated upstream
-							when others =>
-=======
 							when "01010" =>						-- Y = 10
 								tile_address <= "000001"; 		-- Rock
 							when others  =>
->>>>>>> Stashed changes
 								tile_address <= "101110"; 		-- Sky
 						end case;
 						

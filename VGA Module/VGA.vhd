@@ -20,6 +20,7 @@ port (
 	score_abs 		: in std_logic_vector(15 downto 0);
 	map_data		: in std_logic_vector(71 downto 0);
 	
+<<<<<<< Updated upstream
 	hsync			: out std_logic;
 	vsync			: out std_logic;
 	vga_done_out	: out std_logic;
@@ -31,5 +32,17 @@ port (
 	timer2_out		: out std_logic_vector(5 downto 0)
 );
 end VGA;
+=======
+		timer1_out		: out std_logic_vector(5 downto 0);
+		timer2_out		: out std_logic_vector(5 downto 0);
+		hsync			: out std_logic;
+		vsync			: out std_logic;
+		red				: out std_logic_vector(3 downto 0);
+		green			: out std_logic_vector(3 downto 0);
+		blue			: out std_logic_vector(3 downto 0);
+		vga_done_out	: out std_logic;
+		animation_done 	: out std_logic);
+end vga;
+>>>>>>> Stashed changes
 
 
