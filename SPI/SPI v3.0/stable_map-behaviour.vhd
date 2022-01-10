@@ -24,7 +24,7 @@ begin
 	end if;
 end process;
 
-process (map_updated, dir_mined, vga_done_out, map_data_vol, 
+process (map_updated, dir_mined, vga_done, map_data_volatile, 
 	map_internal, state)
 begin
 case state is
@@ -50,8 +50,8 @@ case state is
 		end if;
 
 	when update_state =>
-		if (vga_done_out = '1') then
-			map_next <= map_data_vol;
+		if (vga_done = '1') then
+			map_next <= map_data_volatile;
 			next_state <= reset_state;
 		else
 			map_next <= map_internal;
@@ -59,7 +59,7 @@ case state is
 		end if;
 
 	when break_l_state =>
-		if (vga_done_out = '1') then
+		if (vga_done = '1') then
 			if (map_internal(20 downto 18) = "001"
 			or map_internal(20 downto 18) = "010"
 			or map_internal(20 downto 18) = "100") then -- if rock or ore -> ground
@@ -80,7 +80,7 @@ case state is
 		end if;
 
 	when break_r_state =>
-		if (vga_done_out = '1') then
+		if (vga_done = '1') then
 			if (map_internal(53 downto 51) = "001"
 			or map_internal(53 downto 51) = "010"
 			or map_internal(53 downto 51) = "100") then -- if rock or ore -> ground
@@ -101,7 +101,7 @@ case state is
 		end if;
 
 	when break_u_state =>
-		if (vga_done_out = '1') then
+		if (vga_done = '1') then
 			if (map_internal(35 downto 33) = "001"
 			or map_internal(35 downto 33) = "010"
 			or map_internal(35 downto 33) = "100") then -- if rock or ore -> ground
@@ -122,7 +122,7 @@ case state is
 		end if;
 
 	when break_d_state =>
-		if (vga_done_out = '1') then
+		if (vga_done = '1') then
 			if (map_internal(38 downto 36) = "001"
 			or map_internal(38 downto 36) = "010"
 			or map_internal(38 downto 36) = "100") then -- if rock or ore -> ground

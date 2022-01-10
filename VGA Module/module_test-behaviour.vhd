@@ -44,7 +44,7 @@ port (
 );
 end component;
 
-component VGA
+component vga
 port (	
 	clk 			: in    std_logic;
 	reset 			: in    std_logic;
@@ -120,11 +120,11 @@ port (
 );
 end component;
 
-signal  button_x_left   : std_logic;
-signal  button_x_right  : std_logic;
-signal  button_y_up     : std_logic;
-signal  button_y_down   : std_logic;
-signal  button_mining   : std_logic;
+signal  button_x_left   	: std_logic;
+signal  button_x_right  	: std_logic;
+signal  button_y_up     	: std_logic;
+signal  button_y_down   	: std_logic;
+signal  button_mining_int  	: std_logic;
 
 signal  map_data_l      : std_logic_vector(2 downto 0);
 signal  map_data_r      : std_logic_vector(2 downto 0);
@@ -164,6 +164,8 @@ signal	timer2			: unsigned(5 downto 0);
 signal 	animation_done 	: std_logic;
 signal 	vga_done 		: std_logic;
 
+signal 	map_updated		: std_logic;
+
 signal 	MOSI			: std_logic;
 signal 	MISO			: std_logic;
 signal 	SCLK			: std_logic;
@@ -191,7 +193,7 @@ port map (
 	button_x_right,
 	button_y_up,
 	button_y_down,
-	button_mining,
+	button_mining_int,
 	
 	animation_done,
 	
@@ -218,7 +220,7 @@ port map (
 	score_abs_out
 );
 
-vga_com: VGA 
+vga_com: vga 
 port map (   
 	clk,
 	reset,
@@ -232,6 +234,10 @@ port map (
 	energy,
 	score,
 	
+	level_abs_out,
+	energy_abs_out,
+	score_abs_out,
+	
 	map_data,
 	
 	hsync,
@@ -244,8 +250,8 @@ port map (
 	green,
 	blue,
 	
-	timer1_out,
-	timer2_out
+	timer1,
+	timer2
 );  
 
 not_arduino_com : not_arduino
@@ -290,6 +296,22 @@ port map (
 	map_data_volatile,
 	map_data
 );
+
+process (clk, reset, button_left, button_right, button_up, button_down, button_mining, map_data)
+begin
+	
+	if(button_left  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
+	if(button_right = '1')  then  button_x_right    <= '1'; else button_x_right <= '0'; end if;
+	if(button_up     = '1')  then  button_y_up       <= '1'; else button_y_up    <= '0'; end if;
+	if(button_down   = '1')  then  button_y_down     <= '1'; else button_y_down  <= '0'; end if;
+	if(button_mining = '1')  then  button_mining_int     <= '1'; else button_mining_int  <= '0'; end if;
+
+	map_data_l <= map_data(53 downto 51);
+	map_data_r <= map_data(20 downto 18);
+	map_data_u <= map_data(35 downto 33);
+	map_data_d <= map_data(38 downto 36);
+	
+end process;
    
 --process (clk)
 --   begin

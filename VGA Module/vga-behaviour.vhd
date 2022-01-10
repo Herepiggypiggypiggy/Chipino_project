@@ -143,7 +143,7 @@ port map (
 	bg_select,
 	tile_address,
 	hcount,	vcount,
-	vga_done_out,
+	vga_done,
 	animation_done
 ); 
 

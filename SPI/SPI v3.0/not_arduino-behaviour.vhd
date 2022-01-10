@@ -77,7 +77,7 @@ begin
 	end if;
 end process;
 
-process(SCLK_rise, SCLK_fall, MISO_shift, MOSI_shift, SS, MOSI, full_map, state, bit_counter)
+process(SCLK_rise, SCLK_fall, MISO_shift, MOSI_shift, SCLK, SS, MOSI, full_map, state, bit_counter, request_map, x_pos, y_pos)
 begin
 
 case state is

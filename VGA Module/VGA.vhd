@@ -22,7 +22,7 @@ port (
 	
 	hsync			: out std_logic;
 	vsync			: out std_logic;
-	vga_done_out	: out std_logic;
+	vga_done		: out std_logic;
 	animation_done 	: out std_logic;
 	red				: out std_logic_vector(3 downto 0);
 	green			: out std_logic_vector(3 downto 0);
