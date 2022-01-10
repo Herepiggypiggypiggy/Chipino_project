@@ -3,9 +3,12 @@ use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
 architecture behaviour of module_test is
+	
    type playermap_state is (playermiddle, playerleft, playerup, playerdown, playerright);
    signal state, new_state: playermap_state;
+
 component player_fsm
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 port(button_x_left  : IN  std_logic;
         button_x_right : IN  std_logic;
@@ -101,6 +104,114 @@ port( clk 			   : in std_logic;
 		vga_done_out	: out std_logic;
 		animation_done : out std_logic);
 >>>>>>> Stashed changes
+=======
+port (
+	clk            	: in  	std_logic;
+	reset          	: in  	std_logic;
+	
+	button_x_left  	: in  	std_logic;
+    button_x_right 	: in  	std_logic;
+    button_y_up    	: in  	std_logic;
+    button_y_down  	: in  	std_logic;
+    button_mining  	: in  	std_logic;
+    
+    animation_done 	: in 	std_logic;
+    
+    map_data_l     	: in  	std_logic_vector(2 downto 0);
+    map_data_r     	: in  	std_logic_vector(2 downto 0);
+    map_data_u     	: in  	std_logic_vector(2 downto 0);
+    map_data_d     	: in  	std_logic_vector(2 downto 0);
+    
+    moved			: out 	std_logic;
+    
+    game_state 		: out 	std_logic_vector(1 downto 0);
+    dir_mined      	: out 	std_logic_vector(2 downto 0);
+    
+    x_pos_out    	: out 	std_logic_vector(3 downto 0);
+    y_pos_out    	: out 	std_logic_vector(3 downto 0);
+    
+    level_out    	: out 	std_logic_vector(4 downto 0);
+	level_d_out    	: out 	std_logic_vector(7 downto 0);
+	
+	energy_out  	: out 	std_logic_vector(8 downto 0);
+	energy_d_out   	: out 	std_logic_vector(11 downto 0);
+	
+	score_out    	: out 	std_logic_vector(9 downto 0);
+	score_d_out    	: out 	std_logic_vector(15 downto 0)
+);
+end component;
+
+component VGA
+port (	
+	clk 			: in    std_logic;
+	reset 			: in    std_logic;
+	
+	game_state  	: in    std_logic_vector(1 downto 0);
+	
+    xplayer			: in    std_logic_vector(3 downto 0);
+    yplayer			: in    std_logic_vector(3 downto 0);
+    
+    level 			: in    std_logic_vector(7 downto 0);
+    energy			: in    std_logic_vector(11 downto 0);
+    score 			: in    std_logic_vector(15 downto 0);
+    
+    map_data		: in    std_logic_vector(71 downto 0);
+    
+    hsync			: out   std_logic;
+    vsync			: out   std_logic;
+    
+    vga_done		: out   std_logic;
+    animation_done 	: out 	std_logic;
+    
+    red		   	 	: out   std_logic_vector(3 downto 0);
+    green			: out   std_logic_vector(3 downto 0);
+    blue			: out   std_logic_vector(3 downto 0);
+    
+    timer1_out		: out   unsigned(5 downto 0);
+    timer2_out		: out   unsigned(5 downto 0)
+    
+);
+end component;
+
+component not_arduino
+port (
+	clk		: in 	std_logic;
+	reset	: in 	std_logic;
+	MOSI	: in 	std_logic;
+	SCLK	: in 	std_logic;
+	SS		: in 	std_logic;
+	
+	MISO	: out	std_logic
+);
+end component;
+
+component SPI
+port (
+	clk					:	in 	std_logic;
+	reset				: 	in 	std_logic;
+	send				: 	in 	std_logic;
+	MISO				:	in 	std_logic;
+	MOSI_data			:	in 	std_logic_vector(15 downto 0);
+	
+	map_data_volatile	:	out std_logic_vector(71 downto 0);
+	SCLK				: 	out	std_logic;
+	SS					:	out std_logic;
+	MOSI				:	out std_logic	
+);
+end component;
+
+component stable_map
+port (
+	clk					: 	in	std_logic;
+	reset				:	in 	std_logic;
+	map_updated			:	in	std_logic;
+	vga_done		:	in	std_logic;
+	dir_mined			:	in	std_logic_vector(2 downto 0);
+	map_data_volatile	:	in 	std_logic_vector(71 downto 0);
+	
+	map_data			:	out	std_logic_vector(71 downto 0)
+);
+>>>>>>> Stashed changes
 end component;
 
 signal  button_x_left   : std_logic;
@@ -108,90 +219,118 @@ signal  button_x_right  : std_logic;
 signal  button_y_up     : std_logic;
 signal  button_y_down   : std_logic;
 signal  button_mining   : std_logic;
+
 signal  map_data_l      : std_logic_vector(2 downto 0);
 signal  map_data_r      : std_logic_vector(2 downto 0);
 signal  map_data_u      : std_logic_vector(2 downto 0);
 signal  map_data_d      : std_logic_vector(2 downto 0);
 
-
 signal  dir_mined       : std_logic_vector(2 downto 0);
-signal  energy_lvl_out  : std_logic_vector(8 downto 0);
-signal  score_out       : std_logic_vector(9 downto 0);
-signal  level_out       : std_logic_vector(4 downto 0);
+
 signal  moved	        : std_logic;
 
-signal  map_data	: std_logic_vector(71 downto 0);
-signal	Xplayer		: std_logic_vector(3 downto 0);
-signal	Yplayer		: std_logic_vector(3 downto 0);
+signal	xplayer			: std_logic_vector(3 downto 0);
+signal	yplayer			: std_logic_vector(3 downto 0);
 
-signal  y_pos_out       : std_logic_vector(3 downto 0);
+signal  map_data		: std_logic_vector(71 downto 0);
+
 signal  x_pos_out       : std_logic_vector(3 downto 0);
+signal  y_pos_out       : std_logic_vector(3 downto 0);
 
-signal	score 		: std_logic_vector(15 downto 0);
-signal	energy		: std_logic_vector(11 downto 0);
-signal	level 	    : std_logic_vector(7 downto 0);
-signal  game_state  : std_logic_vector(1 downto 0);
-signal  timer1		: unsigned(5 downto 0);
-signal	timer2		: unsigned(5 downto 0);
+signal	level 	    	: std_logic_vector(7 downto 0);
+signal	energy			: std_logic_vector(11 downto 0);
+signal	score 			: std_logic_vector(15 downto 0);
+
+signal  level_out       : std_logic_vector(4 downto 0);
+signal  energy_out  	: std_logic_vector(8 downto 0);
+signal  score_out       : std_logic_vector(9 downto 0);
+
 signal  level_d_out     : std_logic_vector(7 downto 0);
-signal  score_d_out     : std_logic_vector(15 downto 0);
 signal  energy_d_out    : std_logic_vector(11 downto 0);
+signal  score_d_out     : std_logic_vector(15 downto 0);
+
+signal  game_state  	: std_logic_vector(1 downto 0);
+
+signal  timer1			: unsigned(5 downto 0);
+signal	timer2			: unsigned(5 downto 0);
 
 signal animation_done 	: std_logic;
-signal vga_done_out : std_logic;
+signal vga_done 	: std_logic;
 
 
 begin
-level <=  std_logic_vector(level_d_out);
-energy <=  std_logic_vector(energy_d_out);
-score <=  std_logic_vector(score_d_out);
-yplayer <=  std_logic_vector(y_pos_out);
+level 	<=  std_logic_vector(level_d_out);
+energy 	<=  std_logic_vector(energy_d_out);
+score 	<=  std_logic_vector(score_d_out);
+
 xplayer <=  std_logic_vector(x_pos_out);
+yplayer <=  std_logic_vector(y_pos_out);
 
 fsm_com: player_fsm
-port map(   button_x_left,  --input
-            button_x_right, --input
-            button_y_up,    --input
-            button_y_down,  --input
-            button_mining,  --input
-            map_data_l,     --input
-            map_data_r,     --input
-            map_data_u,     --input
-            map_data_d,     --input
-            clk,            --set
-            reset,          --set
-            dir_mined,      --not interesting
-            energy_lvl_out, --not interesting
-            score_out,      --not interesting
-            level_out,      --not interesting
-            level_d_out,          --input
-            score_d_out,          --input
-            energy_d_out,         --input
-            y_pos_out,        --set
-            x_pos_out,        --set
-            moved,
-	    game_state,
-	    animation_done);         --not interesting
+port map (   
+	clk,	
+	reset,
+	
+	button_x_left,
+	button_x_right,
+	button_y_up,
+	button_y_down,
+	button_mining,
+	
+	animation_done,
+	
+	map_data_l,
+	map_data_r,
+	map_data_u,
+	map_data_d,
+	
+	moved,
+	
+	game_state,
+	dir_mined,
+	
+	x_pos_out,
+	y_pos_out,
+	
+	level_out,
+	level_d_out,
+	
+	energy_out,
+	energy_d_out,
+	
+	score_out,
+	score_d_out,
+);
 
 vga_com: VGA 
-port map(   clk,        --set
-            reset,      --set
-            map_data,   --input
-            Xplayer,    --set
-            Yplayer,    --set
-            score,      --set
-            energy,     --set
-            level,      --set
-            game_state, --input
-            timer1,     --not interesting
-            timer2,     --not interesting
-            hsync,      --set
-            vsync,      --set
-            red,        --set
-            green,      --set
-            blue,		--set
-            vga_done_out,
-            animation_done);      
+port map (   
+	clk,
+	reset,
+	
+	game_state,
+	
+	xplayer,
+	yplayer,
+	
+	level,
+	energy,
+	score,
+	
+	map_data,
+	
+	hsync,
+	vsync,
+	
+	vga_done,
+	animation_done,
+	
+	red,
+	green,
+	blue,
+	
+	timer1_out,
+	timer2_out
+);  
    
 process (clk)
    begin
