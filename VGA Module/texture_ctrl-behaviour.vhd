@@ -8,25 +8,25 @@ use work.parameter_def.all;
 architecture behaviour of texture_ctrl is
 	constant h_display : unsigned(9 downto 0) := "1010000000";--640
 	constant h_fp      : unsigned(9 downto 0) := "0000010000";--16
-    	constant h_sp      : unsigned(9 downto 0) := "0001100000";--96
-    	constant h_bp      : unsigned(9 downto 0) := "0000110000";--48
+	constant h_sp      : unsigned(9 downto 0) := "0001100000";--96
+	constant h_bp      : unsigned(9 downto 0) := "0000110000";--48
 
-    	constant v_display : unsigned(9 downto 0) := "0111100000";--480
-    	constant v_fp      : unsigned(9 downto 0) := "0000001010";--10
-    	constant v_sp      : unsigned(9 downto 0) := "0000000010";--2
-    	constant v_bp      : unsigned(9 downto 0) := "0000100001";--33
+	constant v_display : unsigned(9 downto 0) := "0111100000";--480
+	constant v_fp      : unsigned(9 downto 0) := "0000001010";--10
+	constant v_sp      : unsigned(9 downto 0) := "0000000010";--2
+	constant v_bp      : unsigned(9 downto 0) := "0000100001";--33
 
-    	constant h_margin  : unsigned(9 downto 0) := "0000101000";--40
+	constant h_margin  : unsigned(9 downto 0) := "0000101000";--40
 
-    	constant pixel_num       : unsigned(4 downto 0) := "11111"; --31
-    	constant pixel_tile_data : unsigned(2 downto 0) := "111";   --7
-    	constant pixel_tile      : unsigned(1 downto 0) := "11";    --3
+	constant pixel_num       : unsigned(4 downto 0) := "11111"; --31
+	constant pixel_tile_data : unsigned(2 downto 0) := "111";   --7
+	constant pixel_tile      : unsigned(1 downto 0) := "11";    --3
 
-    	constant info_lv       : unsigned(4 downto 0) := "00001";--1
-    	constant info_lv_space : unsigned(4 downto 0) := "00001";--1
+	constant info_lv       : unsigned(4 downto 0) := "00001";--1
+	constant info_lv_space : unsigned(4 downto 0) := "00001";--1
 
-    	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";--2304
-    	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";--6400
+	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";--2304
+	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";--6400
 	
 	signal hcount : unsigned(9 downto 0);
 	signal vcount : unsigned(9 downto 0);
@@ -77,27 +77,28 @@ architecture behaviour of texture_ctrl is
 	signal yposmyple : signed(5 downto 0);
 
 begin
-	-- Process: Combinatorial
-	-- Takes the signals from the register and computes outputs: New value of counter.
+	--Process: Combinatorial
+	--Takes the signals from the register and computes outputs: New value of counter.
     --changed:
     --reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
-	-- Start screen
-	
+	--Start screen
+
 	xposmxple <= signed(signed('0'&xposition) - signed("00"&xplayer));
 	yposmyple <= signed(signed('0'&yposition) - signed("00"&yplayer));
 	
+	--
 	vvis_start <= ((2 - unsigned(yplayer))&"11111"); -- start 1 row earlier
 	hvis_start <= ((3 - unsigned(xplayer))&"00000");
 
-	xp <= "1110000";                   --112
-	yp <= "1110000";                   --112
+	--mid point of vicibility circle
+	xp <= "110111"&timer1(5 downto 4);
+	yp <= "110111"&timer1(4); 
 
 	xr <= (xp -  hvis) * (xp - hvis);
 	yr <= (yp -  vvis) * (yp - vvis);
 
 	p1 <= xr + yr;
-
-	dimmer : process(xposition, yposition, p1, xplayer, yplayer, game_state)
+	dimmer : process(xposition, yposition, p1, xplayer, yplayer, game_state, timer1)
 	begin
 		if (xposition < "01111" and game_state = "01") then
 			if (p1 > "001100100000000") then
@@ -121,7 +122,7 @@ begin
 	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, game_state, frame_count,yposmyple, xposmxple)
 	begin
 		case game_state is
-			-- Begin screen
+-- gamemode: Begin screen.
 			when "00" =>
 				case xposition is
 					when "00000" | "00001" | "00010" =>		-- X = 0, 1 or 2
@@ -160,22 +161,26 @@ begin
 					when "00101" | "00110" | "00111" | "01000" =>	-- X = 5, 6, 7 or 8
 						tile_address <= "101110"; 					-- Sky
 						
-					when "01010" =>								-- X = 10
+					when "01010" =>												-- X = 10
 						case yposition is
-							when "00111" =>						-- Y = 7
-								tile_address <= "111111";		-- Player
+							when "00111" =>										-- Y = 7
+								tile_address <= "111111";						-- Player
 							when others =>
+<<<<<<< Updated upstream
 								tile_address <= "101111"; 		-- Grass
+=======
+								tile_address <= "101110"; 						-- Sky
+>>>>>>> Stashed changes
 						end case;
 						
 					when "01001" | "01011" | "01100" | "01101" | "01110" =>		-- X = 9, 11, 12, 13 or 14
 						tile_address <= "101111"; 								-- Grass
 						
 					when others =>
-						tile_address <= "001010"; 				-- Black
+						tile_address <= "001010"; 								-- Black
 				end case;
 
-			-- In game
+-- gamemode: main game.
 			when "01" =>
 				--Tile Type selector
 				if (xposition < 15) then
@@ -275,7 +280,7 @@ begin
 							tile_address <= "001010"; 
 					end case;		
 				else
-					-- Energy display
+					-- Energy display assignment.
 					case xposition is
 						when "01111" =>
 							case yposition is
@@ -301,7 +306,7 @@ begin
 									tile_address <= "001010"; 					-- Black
 							end case;
 							
-						-- Score display
+						-- Score display assignment.
 						when "10001"  =>
 							case yposition is
 								when "00010" =>									-- 2
@@ -326,7 +331,7 @@ begin
 									tile_address <= "001010"; 					-- Black
 							end case;
 
-						-- Level display
+						-- Level display assignment
 						when "10011" =>
 							case yposition is
 								when "00010" =>									-- 2
@@ -352,7 +357,7 @@ begin
 				end if; 					
 				
 
-			-- End screen
+-- gamemode: End screen.
 			when "10" =>
 				case xposition is
 					when "00011" =>							-- 3
@@ -461,7 +466,13 @@ begin
 								tile_address <= "100001"; 		-- I - Light Blue
 							when "01000" =>						-- Y = 8
 								tile_address <= "111110"; 		-- M - Light Blue
+<<<<<<< Updated upstream
 							when others =>
+=======
+							when "01010" =>						-- Y = 10
+								tile_address <= "000001"; 		-- Rock
+							when others  =>
+>>>>>>> Stashed changes
 								tile_address <= "101110"; 		-- Sky
 						end case;
 						
@@ -518,7 +529,6 @@ begin
 								tile_address <= "101111"; 				-- Grass
 						end case;										
 						
-						
 					when "01011" | "01100" | "01101" | "01110" =>		-- X = 11, 12, 13 or 14
 						tile_address <= "101111"; 						-- Grass
 						
@@ -531,7 +541,7 @@ begin
 		end case;
 	end process;
 	
-      ---((((mabey make single constant)))--- can be optimized
+	-- Process for calculating global tile coordinates.
 	xposition_process : process(hcount, xposition)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -545,7 +555,7 @@ begin
 		end if;
 	end process xposition_process;
 	
-      ---((((maybe make single constant)))--- can be optimized
+	-- Process for calculating global tile coordinates.
 	yposition_process : process(hcount, vcount, yposition)
 	begin
 		if (vcount = v_display + v_fp + v_sp + v_bp - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -559,16 +569,15 @@ begin
 		end if;
 	end process yposition_process;
 
-	--Column selector   
-      ---((((maybe make single constant)))--- can be optimized
+	-- Process for calculating the next column.
 	column_process : process(hcount, column)
 	begin
-		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when not at the end of the H
+		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then 	-- when not at the end of the H
 			new_column <= (others => '0');
 		else
-			if (hcount(4 downto 0) = pixel_num) then -- when hcount mod 32 is 31 add start new tile
+			if (hcount(4 downto 0) = pixel_num) then 			-- when hcount mod 32 is 31 add start new tile
 				new_column <= (others => '0');
-			elsif (hcount(1 downto 0) = pixel_tile) then -- when hcount mod 4 is 3 add column
+			elsif (hcount(1 downto 0) = pixel_tile) then 		-- when hcount mod 4 is 3 add column
 				new_column <= column + 1;
 			else
 				new_column <= column;
@@ -576,14 +585,13 @@ begin
 		end if;
 	end process column_process;
 
-	--Row selector
-      ---((((maybe make single constant)))--- can be optimized
+    -- Process for calculating the next row.
 	row_process : process(vcount, hcount, row)
 	begin
-        if (vcount < v_display + v_fp + v_sp + v_bp - 1) then -- when not at the end of the total frame
-            if (vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when vcount mod 32 is 31 add H is end of line start new tile
+        if (vcount < v_display + v_fp + v_sp + v_bp - 1) then 											-- when not at the end of the total frame
+            if (vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then 	-- when vcount mod 32 is 31 add H is end of line start new tile
                 new_row <= (others => '0');
-            elsif (vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then -- when vcount mod 4 is 3 and if H is end of line
+            elsif (vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then 		-- when vcount mod 4 is 3 and if H is end of line
                 new_row <= row + 1;
             else
                 new_row <= row;
@@ -593,33 +601,31 @@ begin
 		end if;
 	end process row_process;
 
-	--hcounter COM
-      ---((((maybe make single constant)))--- can be optimized
+	-- Process for calculating the next horizantal pixel position.
 	hcounter_process : process(hcount)
-	begin
-		if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
-			new_hcount <= hcount + 1;
-		else
-			new_hcount <= (others => '0');
-		end if;
+		begin
+			if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
+				new_hcount <= hcount + 1;
+			else
+				new_hcount <= (others => '0');
+			end if;
 	end process hcounter_process;
 
-	--vcounter COM      
-      ---((((maybe make single constant)))--- can be optimized
+	-- Process for calculating the next vertical pixel position.
 	vcounter_process : process(vcount, hcount)
-	begin
-        if (hcount = h_display + h_fp + h_margin - 1) then
-			if(vcount < v_display + v_fp + v_sp + v_bp - 1) then
-				new_vcount <= vcount + 1;
-			else
-				new_vcount <= (others => '0');
-			end if;
-	else
-		new_vcount <= vcount;
-	end if;
+		begin
+			if (hcount = h_display + h_fp + h_margin - 1) then
+				if(vcount < v_display + v_fp + v_sp + v_bp - 1) then
+					new_vcount <= vcount + 1;
+				else
+					new_vcount <= (others => '0');
+				end if;
+		else
+			new_vcount <= vcount;
+		end if;
 	end process vcounter_process;
 
-	-- VGA done signal     
+	-- vga done signal     
 	vga_done_process : process(vcount)
 	begin
 		if (vcount > v_display - 1) then
