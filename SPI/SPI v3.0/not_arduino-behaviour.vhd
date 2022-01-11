@@ -17,7 +17,7 @@ signal SCLK_rise, SCLK_fall : std_logic;
 signal bit_counter, bit_counter_next : std_logic_vector(3 downto 0);
 
 signal x_pos, y_pos : integer;
-signal level : integer;
+-- signal level : integer;
 signal request_map : std_logic;
 
 begin
@@ -25,11 +25,11 @@ begin
 
 
 -- combanatorial stuff
-SCLK_rise <= SCLK_edge(0) and (not SCLK_edge(1));
-SCLK_fall <= SCLK_edge(1) and (not SCLK_edge(0));
+-- SCLK_rise <= SCLK_edge(0) and (not SCLK_edge(1));
+-- SCLK_fall <= SCLK_edge(1) and (not SCLK_edge(0));
 
 request_map <= MOSI_shift(14);
-level <= to_integer(unsigned(MOSI_shift(13 downto 9)));
+-- level <= to_integer(unsigned(MOSI_shift(13 downto 9)));
 y_pos <= to_integer(unsigned(MOSI_shift(8 downto 5)));
 x_pos <= to_integer(unsigned(MOSI_shift(4 downto 1)));
 
@@ -77,7 +77,7 @@ begin
 	end if;
 end process;
 
-process(SCLK_rise, SCLK_fall, MISO_shift, MOSI_shift, SCLK, SS, MOSI, full_map, state, bit_counter, request_map, x_pos, y_pos)
+process(MISO_shift, MOSI_shift, SS, MOSI, full_map, state, bit_counter, SCLK, request_map, x_pos, y_pos)
 begin
 
 case state is
@@ -140,6 +140,7 @@ case state is
 		elsif (SCLK = '0') then
 			state_next <= read_state;
 			MISO_shift_next(72 downto 1) <= MISO_shift(71 downto 0);
+			MISO_shift_next(0) <= '0';
 			MOSI_shift_next(16 downto 1) <= MOSI_shift(15 downto 0);
 			MOSI_shift_next(0) <= '0';
 
