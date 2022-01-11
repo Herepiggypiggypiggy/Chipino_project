@@ -15,9 +15,7 @@ port (
 	level 			: in std_logic_vector(7 downto 0);
 	energy			: in std_logic_vector(11 downto 0);
 	score 			: in std_logic_vector(15 downto 0);
-	level_abs 		: in std_logic_vector(7 downto 0);
-	energy_abs		: in std_logic_vector(11 downto 0);
-	score_abs 		: in std_logic_vector(15 downto 0);
+	level_abs 		: in std_logic_vector(4 downto 0);
 	map_data		: in std_logic_vector(71 downto 0);
 	
 	hsync			: out std_logic;
@@ -26,10 +24,7 @@ port (
 	animation_done 	: out std_logic;
 	red				: out std_logic_vector(3 downto 0);
 	green			: out std_logic_vector(3 downto 0);
-	blue			: out std_logic_vector(3 downto 0);
-	timer1_out		: out std_logic_vector(5 downto 0);
-	timer2_out		: out std_logic_vector(5 downto 0)
-);
-end VGA;
+	blue			: out std_logic_vector(3 downto 0));
+end vga;
 
 

@@ -126,9 +126,6 @@ end component;
 
 begin
 
-	timer1_out <= timer1;
-	timer2_out <= timer2;
-
 --Port maps
 texture_module : texture_ctrl 
 port map (			

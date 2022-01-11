@@ -91,8 +91,8 @@ begin
 	hvis_start <= ((3 - unsigned(xplayer))&"00000");
 
 	--mid point of vicibility circle
-	xp <= "11011"&timer1(5 downto 4);
-	yp <= "110111"&timer1(4); 
+	xp <= "11100"&timer1(5 downto 4);
+	yp <= "111000"&timer1(4); 
 
 	xr <= (xp -  hvis) * (xp - hvis);
 	yr <= (yp -  vvis) * (yp - vvis);
@@ -629,21 +629,21 @@ begin
     ---(((USE ABSOLUTE VALUE OF LEVEL)))---
 	process(level)
 	begin
-		if (level = "00000000") then
+		if (level_abs < "00000001") then
 			bg_select <= "000";
-		elsif (level = "00000001" or level(7 downto 1) = "0000001") then
+		elsif (level_abs < "00000100") then
 			bg_select <= "001";         -- levels 1 to 3
-		elsif (level(7 downto 1) = "0000010" or level = "00000110") then
+		elsif (level_abs < "00000111") then
 			bg_select <= "010";         -- levels 4 to 6
-		elsif (level = "00000111" or level(7 downto 1) = "0000100") then
+		elsif (level_abs < "00001010") then
 			bg_select <= "011";         -- levels 7 to 9
-		elsif (level(7 downto 1) = "0001000" or level = "00010010") then
+		elsif (level_abs < "00001011") then
 			bg_select <= "100";         -- levels 10 to 12
-		elsif (level(7 downto 1) = "0001010" or level = "00010011") then
+		elsif (level_abs < "00010000") then
 			bg_select <= "101";         -- levels 13 to 15
-		elsif (level(7 downto 1) = "0001011" or level = "00011000") then
+		elsif (level_abs < "00011001") then
 			bg_select <= "110";         -- levels 16 to 18
-		elsif (level(7 downto 5) = "001" or level = "00011001") then
+		elsif (level_abs < "00010110") then
 			bg_select <= "111";         -- levels 19 to 22
 		else
 			bg_select <= "111";

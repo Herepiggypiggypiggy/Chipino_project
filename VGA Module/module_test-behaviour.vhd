@@ -8,76 +8,50 @@ architecture behaviour of module_test is
    signal state, new_state: playermap_state;
 
 component player_fsm
-port (
-	clk            	: in  	std_logic;
-	reset          	: in  	std_logic;
-	
-	button_x_left  	: in  	std_logic;
-    button_x_right 	: in  	std_logic;
-    button_y_up    	: in  	std_logic;
-    button_y_down  	: in  	std_logic;
-    button_mining  	: in  	std_logic;
-    
-    animation_done 	: in 	std_logic;
-    
-    map_data_l     	: in  	std_logic_vector(2 downto 0);
-    map_data_r     	: in  	std_logic_vector(2 downto 0);
-    map_data_u     	: in  	std_logic_vector(2 downto 0);
-    map_data_d     	: in  	std_logic_vector(2 downto 0);
-    
-    moved			: out 	std_logic;
-    
-    game_state 		: out 	std_logic_vector(1 downto 0);
-    dir_mined      	: out 	std_logic_vector(2 downto 0);
-    
-    x_pos_out    	: out 	std_logic_vector(3 downto 0);
-    y_pos_out    	: out 	std_logic_vector(3 downto 0);
-    
-    level    		: out 	std_logic_vector(4 downto 0);
-	level_abs    	: out 	std_logic_vector(7 downto 0);
-	
-	energy  		: out 	std_logic_vector(8 downto 0);
-	energy_abs   	: out 	std_logic_vector(11 downto 0);
-	
-	score	    	: out 	std_logic_vector(9 downto 0);
-	score_abs    	: out 	std_logic_vector(15 downto 0)
-);
+	port (	clk            : IN  std_logic;
+			reset          : IN  std_logic;
+			button_x_left  : IN  std_logic;
+			button_x_right : IN  std_logic;
+			button_y_up    : IN  std_logic;
+			button_y_down  : IN  std_logic;
+			button_mining  : IN  std_logic;
+			map_data_l     : IN  std_logic_vector(2 downto 0);
+			map_data_r     : IN  std_logic_vector(2 downto 0);
+			map_data_u     : IN  std_logic_vector(2 downto 0);
+			map_data_d     : IN  std_logic_vector(2 downto 0);
+			vga_done   	   : IN  std_logic;
+			animation_done : IN  std_logic;
+			
+			dir_mined      : OUT std_logic_vector(2 downto 0);
+			level_out      : OUT std_logic_vector(4 downto 0);
+			energy_d_out   : OUT std_logic_vector(11 downto 0);
+			score_d_out    : OUT std_logic_vector(15 downto 0);
+			level_d_out    : OUT std_logic_vector(7 downto 0);
+			y_pos_out      : OUT std_logic_vector(3 downto 0);
+			x_pos_out      : OUT std_logic_vector(3 downto 0);
+			moved	       : OUT std_logic;
+			game_state     : OUT std_logic_vector(1 downto 0));
 end component;
 
 component vga
-port (	
-	clk 			: in    std_logic;
-	reset 			: in    std_logic;
-	
-	game_state  	: in    std_logic_vector(1 downto 0);
-	
-    xplayer			: in    std_logic_vector(3 downto 0);
-    yplayer			: in    std_logic_vector(3 downto 0);
-    
-    level 			: in std_logic_vector(7 downto 0);
-	energy			: in std_logic_vector(11 downto 0);
-	score 			: in std_logic_vector(15 downto 0);
-	
-	level_abs 		: in std_logic_vector(7 downto 0);
-	energy_abs		: in std_logic_vector(11 downto 0);
-	score_abs 		: in std_logic_vector(15 downto 0);
-    
-    map_data		: in    std_logic_vector(71 downto 0);
-    
-    hsync			: out   std_logic;
-    vsync			: out   std_logic;
-    
-    vga_done		: out   std_logic;
-    animation_done 	: out 	std_logic;
-    
-    red		   	 	: out   std_logic_vector(3 downto 0);
-    green			: out   std_logic_vector(3 downto 0);
-    blue			: out   std_logic_vector(3 downto 0);
-    
-    timer1_out		: out   unsigned(5 downto 0);
-    timer2_out		: out   unsigned(5 downto 0)
-    
-);
+	port (	clk 			: in std_logic;
+			reset 			: in std_logic;
+			game_state      : in std_logic_vector(1 downto 0);
+			xplayer			: in std_logic_vector(3 downto 0);
+			yplayer			: in std_logic_vector(3 downto 0);
+			level 			: in std_logic_vector(7 downto 0);
+			energy			: in std_logic_vector(11 downto 0);
+			score 			: in std_logic_vector(15 downto 0);
+			level_abs 		: in std_logic_vector(4 downto 0);
+			map_data		: in std_logic_vector(71 downto 0);
+			
+			hsync			: out std_logic;
+			vsync			: out std_logic;
+			vga_done		: out std_logic;
+			animation_done 	: out std_logic;
+			red				: out std_logic_vector(3 downto 0);
+			green			: out std_logic_vector(3 downto 0);
+			blue			: out std_logic_vector(3 downto 0));
 end component;
 
 component not_arduino
@@ -108,16 +82,14 @@ port (
 end component;
 
 component stable_map
-port (
-	clk					: 	in	std_logic;
-	reset				:	in 	std_logic;
-	map_updated			:	in	std_logic;
-	vga_done			:	in	std_logic;
-	dir_mined			:	in	std_logic_vector(2 downto 0);
-	map_data_volatile	:	in 	std_logic_vector(71 downto 0);
-	
-	map_data			:	out	std_logic_vector(71 downto 0)
-);
+port (	clk					: 	in	std_logic;
+		reset				:	in 	std_logic;
+		map_updated			:	in	std_logic;
+		vga_done			:	in	std_logic;
+		dir_mined			:	in	std_logic_vector(2 downto 0);
+		map_data_volatile	:	in 	std_logic_vector(71 downto 0);
+		
+		map_data			:	out	std_logic_vector(71 downto 0));
 end component;
 
 signal  button_x_left   	: std_logic;
@@ -125,134 +97,81 @@ signal  button_x_right  	: std_logic;
 signal  button_y_up     	: std_logic;
 signal  button_y_down   	: std_logic;
 signal  button_mining_int  	: std_logic;
-
-signal  map_data_l      : std_logic_vector(2 downto 0);
-signal  map_data_r      : std_logic_vector(2 downto 0);
-signal  map_data_u      : std_logic_vector(2 downto 0);
-signal  map_data_d      : std_logic_vector(2 downto 0);
-
-signal  dir_mined       : std_logic_vector(2 downto 0);
-
-signal  moved	        : std_logic;
-
-signal	xplayer			: std_logic_vector(3 downto 0);
-signal	yplayer			: std_logic_vector(3 downto 0);
+signal  map_data_l      	: std_logic_vector(2 downto 0);
+signal  map_data_r      	: std_logic_vector(2 downto 0);
+signal  map_data_u      	: std_logic_vector(2 downto 0);
+signal  map_data_d      	: std_logic_vector(2 downto 0);
+signal  dir_mined       	: std_logic_vector(2 downto 0);
+signal  moved	        	: std_logic;
+signal	xplayer				: std_logic_vector(3 downto 0);
+signal	yplayer				: std_logic_vector(3 downto 0);
 
 signal  map_data			: std_logic_vector(71 downto 0);
 signal 	map_data_volatile	: std_logic_vector(71 downto 0);
+signal	level_d	 	    	: std_logic_vector(7 downto 0);
+signal	energy_d			: std_logic_vector(11 downto 0);
+signal	score_d 			: std_logic_vector(15 downto 0);
+signal  level_abs	      	: std_logic_vector(4 downto 0);
+signal  game_state  		: std_logic_vector(1 downto 0);
+signal 	animation_done 		: std_logic;
+signal 	vga_done 			: std_logic;
+signal 	map_updated			: std_logic;
 
-signal  x_pos_out       : std_logic_vector(3 downto 0);
-signal  y_pos_out       : std_logic_vector(3 downto 0);
+signal 	MOSI				: std_logic;
+signal 	MISO				: std_logic;
+signal 	SCLK				: std_logic;
+signal 	SS					: std_logic;
 
-signal	level 	    	: std_logic_vector(7 downto 0);
-signal	energy			: std_logic_vector(11 downto 0);
-signal	score 			: std_logic_vector(15 downto 0);
-
-signal  level_out       : std_logic_vector(4 downto 0);
-signal  energy_out  	: std_logic_vector(8 downto 0);
-signal  score_out       : std_logic_vector(9 downto 0);
-
-signal  level_abs_out   : std_logic_vector(7 downto 0);
-signal  energy_abs_out  : std_logic_vector(11 downto 0);
-signal  score_abs_out   : std_logic_vector(15 downto 0);
-
-signal  game_state  	: std_logic_vector(1 downto 0);
-
-signal  timer1			: unsigned(5 downto 0);
-signal	timer2			: unsigned(5 downto 0);
-
-signal 	animation_done 	: std_logic;
-signal 	vga_done 		: std_logic;
-
-signal 	map_updated		: std_logic;
-
-signal 	MOSI			: std_logic;
-signal 	MISO			: std_logic;
-signal 	SCLK			: std_logic;
-signal 	SS				: std_logic;
-
-signal 	send			: std_logic;
-
-signal 	MOSI_data		: std_logic_vector(15 downto 0);
+signal 	send				: std_logic;
+signal 	MOSI_data			: std_logic_vector(15 downto 0);
 
 
 begin
-level 	<=  std_logic_vector(level_abs_out);
-energy 	<=  std_logic_vector(energy_abs_out);
-score 	<=  std_logic_vector(score_abs_out);
-
-xplayer <=  std_logic_vector(x_pos_out);
-yplayer <=  std_logic_vector(y_pos_out);
 
 fsm_com: player_fsm
-port map (   
-	clk,	
-	reset,
-	
-	button_x_left,
-	button_x_right,
-	button_y_up,
-	button_y_down,
-	button_mining_int,
-	
-	animation_done,
-	
-	map_data_l,
-	map_data_r,
-	map_data_u,
-	map_data_d,
-	
-	moved,
-	
-	game_state,
-	dir_mined,
-	
-	x_pos_out,
-	y_pos_out,
-	
-	level_out,
-	level_abs_out,
-	
-	energy_out,
-	energy_abs_out,
-	
-	score_out,
-	score_abs_out
-);
+port map (	clk,	
+			reset,
+			button_x_left,
+			button_x_right,
+			button_y_up,
+			button_y_down,
+			button_mining_int,
+			map_data_l,
+			map_data_r,
+			map_data_u,
+			map_data_d,
+			vga_done,
+			animation_done,
+
+			dir_mined,
+			level_abs,
+			energy_d,
+			score_d,
+			level_d,
+			yplayer,
+			xplayer,
+			moved,
+			game_state);
 
 vga_com: vga 
-port map (   
-	clk,
-	reset,
-	
-	game_state,
-	
-	xplayer,
-	yplayer,
-	
-	level,
-	energy,
-	score,
-	
-	level_abs_out,
-	energy_abs_out,
-	score_abs_out,
-	
-	map_data,
-	
-	hsync,
-	vsync,
-	
-	vga_done,
-	animation_done,
-	
-	red,
-	green,
-	blue,
-	
-	timer1,
-	timer2
-);  
+port map (  clk,
+			reset,
+			game_state,
+			xplayer,
+			yplayer,
+			level_d,
+			energy_d,
+			score_d,
+			level_abs,
+			map_data,
+			
+			hsync,
+			vsync,
+			vga_done,
+			animation_done,
+			red,
+			green,
+			blue);  
 
 not_arduino_com : not_arduino
 port map (
