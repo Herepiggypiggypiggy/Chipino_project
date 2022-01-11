@@ -35,7 +35,7 @@ send_rise <= not send_in1 and send_in0;
 
 request_map <= mosi_data(13);
 MOSI <= MOSI_shift(15);
-map_data <= map_data_internal;
+map_data_volatile <= map_data_internal;
 
 process(clk)
 begin
