@@ -1,3 +1,4 @@
+#include <SPI.h>
 #define SCK_PIN   13  // D13 = pin19 = PortB.5
 #define MISO_PIN  12  // D12 = pin18 = PortB.4
 #define MOSI_PIN  11  // D11 = pin17 = PortB.3
