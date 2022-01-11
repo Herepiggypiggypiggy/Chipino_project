@@ -129,7 +129,7 @@ signal 	MOSI_data			: std_logic_vector(15 downto 0);
 begin
 
 fsm_com: player_fsm
-port map (	clk,	
+port map (		clk,	
 			reset,
 			button_x_left,
 			button_x_right,

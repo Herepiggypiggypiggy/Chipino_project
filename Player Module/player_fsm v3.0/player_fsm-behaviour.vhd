@@ -115,7 +115,7 @@ begin
 	button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
 		map_data_u, rise_left, rise_right,rise_up,rise_down,score_add,
 		score_d, level_d, energy_d, energy_remove, x_pos, y_pos,
-		score, energy, level, reached_high, vga_done_out, input, animation_done)
+		score, energy, level, reached_high, vga_done, input, animation_done)
     	begin
 	if (state = lvl_up_state) then
 		new_energy_d <= "001000000000";
@@ -297,7 +297,7 @@ begin
 			moved <= '0';
 			reached_high_next <= reached_high;
 			-- check in which direction the player is mining
-			if (vga_done_out = '1') then
+			if (vga_done = '1') then
 				if(button_mining = '1' and button_x_left = '1') then
 					new_state <= mine_left_state;
 				elsif(button_mining = '1' and button_x_right = '1') then
