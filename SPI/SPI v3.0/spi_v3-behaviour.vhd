@@ -11,7 +11,7 @@ signal map_data_next, map_data_internal: std_logic_vector(71 downto 0);
 signal MOSI_shift, MOSI_shift_next : std_logic_vector(15 downto 0);
 signal byte_count, byte_count_next, bit_count, bit_count_next : std_logic_vector(3 downto 0);
 signal pause_count, pause_count_next : std_logic_vector(2 downto 0);
-signal SCLK_count, SCLK_count_next : std_logic_vector(3 downto 0);
+signal SCLK_count, SCLK_count_next : std_logic_vector(4 downto 0);
 signal request_map, SCLK_internal : std_logic;
 signal send_in0, send_in1, send_rise : std_logic;
 
@@ -108,12 +108,12 @@ case state is
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal;
-		elsif (bit_count = "1000" and SCLK_count = "1111") then
+		elsif (bit_count = "1000" and SCLK_count = "11111") then
 			next_state <= pause_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal ;
-		elsif (SCLK_count =  "1111") then
+		elsif (SCLK_count =  "11111") then
 			next_state <= sclk_1_state;
 
 			MISO_shift_next(0) <= MISO; -- read on rise
@@ -134,7 +134,7 @@ case state is
 		MOSI_shift_next <= MOSI_shift;
 
 		-- counters
-		if (SCLK_count = "1111") then
+		if (SCLK_count = "11111") then
 			SCLK_count_next <= (others => '0');
 
 			if (bit_count = "1000") then
@@ -152,7 +152,7 @@ case state is
 
 	when sclk_1_state =>
 		-- determine next state
-		if (SCLK_count = "1111") then
+		if (SCLK_count = "11111") then
 			next_state <= sclk_0_state;
 			MISO_shift_next(72 downto 1) <= MISO_shift(71 downto 0); -- shift on falling edge
 			MOSI_shift_next(15 downto 1) <= MOSI_shift(14 downto 0); -- shift on falling edge
@@ -174,7 +174,7 @@ case state is
 		
 
 		-- counters
-		if (SCLK_count = "1111") then
+		if (SCLK_count = "11111") then
 			SCLK_count_next <= (others => '0');
 		else
 			SCLK_count_next <= std_logic_vector(unsigned(SCLK_count) + 1);
@@ -185,7 +185,7 @@ case state is
 
 	when pause_state =>
 		-- determine next state
-		if (pause_count = "100" and SCLK_count = "1111") then
+		if (pause_count = "100" and SCLK_count = "11111") then
 			next_state <= sclk_0_state;
 		else
 			next_state <= pause_state;
@@ -201,7 +201,7 @@ case state is
 		MOSI_shift_next <= MOSI_shift;
 
 		-- counters
-		if (SCLK_count = "1111") then
+		if (SCLK_count = "11111") then
 			SCLK_count_next <= (others => '0');
 
 			if (pause_count = "100") then

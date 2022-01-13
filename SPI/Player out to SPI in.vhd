@@ -44,6 +44,8 @@ begin
             elsif (dir_mined(1 downto 0) = "11") then -- down
                 MOSI_data(3 downto 0) <= x_pos_out;
                 MOSI_data(7 downto 4) <= std_logic_vector(unsigned(y_pos_out)+1);
+				else
+				    MOSI_data(7 downto 0) <= (others => '0');
             end if;
             MOSI_data(12 downto 8) <= level_out;
             MOSI_data(13) <= '0';

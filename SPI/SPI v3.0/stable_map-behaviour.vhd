@@ -11,6 +11,8 @@ signal map_internal, map_next : std_logic_vector(71 downto 0);
 
 begin
 
+map_data <= map_internal;
+
 process (clk)
 begin
 	if (rising_edge(clk)) then
