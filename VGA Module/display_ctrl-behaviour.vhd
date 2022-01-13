@@ -30,8 +30,9 @@ architecture behavioural of display_ctrl is
 	-- Takes the signals from the register and computes outputs: HS, VS, New value of counter.
 
 	hstate_process: process(hcount)
-	begin 
-		if (unsigned(hcount) > h_display + h_fp - 2 and unsigned(hcount) < h_display + h_fp + h_sp - 1) then -- -1 ofset because of 1 clkcycle delay
+	begin
+		-- -1 offset because of 1 clock cycle delay
+		if (unsigned(hcount) > h_display + h_fp - 2 and unsigned(hcount) < h_display + h_fp + h_sp - 1) then
 			new_hsync_state <= hsync_off;
 		else
 			new_hsync_state <= hsync_on;

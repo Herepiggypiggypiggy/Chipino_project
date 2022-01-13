@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 
 -- Entity of VGA
 entity display_ctrl is
-port(
+port (
 	clk			: in std_logic;
 	reset 		: in std_logic;
 
