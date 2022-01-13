@@ -40,13 +40,13 @@ begin
 process (bg_select)
 begin
 	case bg_select is
-		when "000" => 	bg <= green;
-		when "001" => 	bg <= bg_red;
-		when "010" => 	bg <= swamp_green;
-		when "011" => 	bg <= ice;
-		when "100" => 	bg <= caustic_green;
-		when "101" => 	bg <= lava;
-		when "110" => 	bg <= lavender;
+		when "000" 	=> 	bg <= green;
+		when "001" 	=> 	bg <= bg_red;
+		when "010" 	=> 	bg <= swamp_green;
+		when "011" 	=> 	bg <= ice;
+		when "100" 	=> 	bg <= caustic_green;
+		when "101" 	=> 	bg <= lava;
+		when "110" 	=> 	bg <= lavender;
 		when others => 	bg <= magenta;
 	end case;
 end process;
@@ -54,13 +54,13 @@ end process;
 	
 process (clk, reset, tile_address, row, column, bg, timer1) 
 begin 
--- If reset is high, always select magenta -- 
+-- If reset is high, always select magenta 
 if (reset = '1') then 
 	color_address <= magenta; 
 else 
 	-- Select color address depending on the tile address, and the row and column  
 	case tile_address is 
-		-- Empty floor tile / Background red
+		-- Floor tile
 		when "000000" =>
 			color_address <= bg;
 	
