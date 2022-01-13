@@ -3,30 +3,30 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.parameter_def.all;
 
-  ---((((make unsigned position values fixed if the compiler it dumb)))--- can be optimized
+
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
-	constant h_display : unsigned(9 downto 0) := "1010000000";--640
-	constant h_fp      : unsigned(9 downto 0) := "0000010000";--16
-	constant h_sp      : unsigned(9 downto 0) := "0001100000";--96
-	constant h_bp      : unsigned(9 downto 0) := "0000110000";--48
+	constant h_display : unsigned(9 downto 0) := "1010000000";	-- 640
+	constant h_fp      : unsigned(9 downto 0) := "0000010000";	-- 16
+	constant h_sp      : unsigned(9 downto 0) := "0001100000";	-- 96
+	constant h_bp      : unsigned(9 downto 0) := "0000110000";	-- 48
 
-	constant v_display : unsigned(9 downto 0) := "0111100000";--480
-	constant v_fp      : unsigned(9 downto 0) := "0000001010";--10
-	constant v_sp      : unsigned(9 downto 0) := "0000000010";--2
-	constant v_bp      : unsigned(9 downto 0) := "0000100001";--33
+	constant v_display : unsigned(9 downto 0) := "0111100000";	-- 480
+	constant v_fp      : unsigned(9 downto 0) := "0000001010";	-- 10
+	constant v_sp      : unsigned(9 downto 0) := "0000000010";	-- 2
+	constant v_bp      : unsigned(9 downto 0) := "0000100001";	-- 33
 
-	constant h_margin  : unsigned(9 downto 0) := "0000101000";--40
+	constant h_margin  : unsigned(9 downto 0) := "0000101000";	-- 40
 
-	constant pixel_num       : unsigned(4 downto 0) := "11111"; --31
-	constant pixel_tile_data : unsigned(2 downto 0) := "111";   --7
-	constant pixel_tile      : unsigned(1 downto 0) := "11";    --3
+	constant pixel_num       : unsigned(4 downto 0) := "11111"; -- 31
+	constant pixel_tile_data : unsigned(2 downto 0) := "111";   -- 7
+	constant pixel_tile      : unsigned(1 downto 0) := "11";    -- 3
 
-	constant info_lv       : unsigned(4 downto 0) := "00001";--1
-	constant info_lv_space : unsigned(4 downto 0) := "00001";--1
+	constant info_lv       : unsigned(4 downto 0) := "00001";	-- 1
+	constant info_lv_space : unsigned(4 downto 0) := "00001";	-- 1
 
-	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";--2304
-	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";--6400
+	constant visibility_in  : unsigned(21 downto 0) := "0000000000100100000000";	-- 2304
+	constant visibility_out : unsigned(21 downto 0) := "0000000001100100000000";	-- 6400
 	
 	signal hcount : unsigned(9 downto 0);
 	signal vcount : unsigned(9 downto 0);
@@ -79,22 +79,21 @@ architecture behaviour of texture_ctrl is
 	signal yposmyple : signed(5 downto 0);
 
 begin
-	--Process: Combinatorial
-	--Takes the signals from the register and computes outputs: New value of counter.
-    --changed:
-    --reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
-	--Start screen
+	-- Process: Combinatorial
+	-- Takes the signals from the register and computes outputs: New value of counter.
+    -- changed:
+    -- reduced vvis and hvis to 7 bit counter that counds down halfway so mid point never gets smaller than counters so i dont have to use siged for multiplication
+	-- Start screen
 
-	xposmxple <= signed(signed('0'&xposition) - signed("00"&xplayer));
-	yposmyple <= signed(signed('0'&yposition) - signed("00"&yplayer));
+	xposmxple <= signed(signed('0' & xposition) - signed("00" & xplayer));
+	yposmyple <= signed(signed('0' & yposition) - signed("00" & yplayer));
 	
-	--
-	vvis_start <= ((2 - unsigned(yplayer))&"11111"); -- start 1 row earlier
-	hvis_start <= ((3 - unsigned(xplayer))&"00000");
+	vvis_start <= ((2 - unsigned(yplayer)) & "11111"); -- start 1 row earlier
+	hvis_start <= ((3 - unsigned(xplayer)) & "00000");
 
-	--mid point of vicibility circle
-	xp <= "11100"&timer1(5 downto 4);
-	yp <= "111000"&timer1(4); 
+	-- mid point of visibility circle
+	xp <= "11100" & timer1(5 downto 4);
+	yp <= "111000" & timer1(4); 
 
 	xr <= (xp -  hvis) * (xp - hvis);
 	yr <= (yp -  vvis) * (yp - vvis);
@@ -121,7 +120,7 @@ begin
 		end if;
 	end process dimmer;
 
-	tile_address_corection_RL: process(tile_address_temp,game_state)
+	tile_address_corection_RL: process(tile_address_temp, game_state)
 	begin
 		if (game_state = "01" and tile_address_temp = "000111") then
 			tile_address <= "000001";
@@ -133,97 +132,97 @@ begin
 	tile_select : process(clk, hcount, vcount, xposition, yposition, map_data, xplayer, yplayer, score, level, energy, game_state, frame_count,yposmyple, xposmxple)
 	begin
 		case game_state is
--- gamemode: Begin screen.
+			-- Gamemode: Begin Screen
 			when "00" =>
 				case xposition is
-					when "00000" | "00001" | "00010" =>		-- X = 0, 1 or 2
+					when "00000" | "00001" | "00010" =>			-- X = 0, 1 or 2
 						tile_address_temp <= "101110"; 			-- Sky
 					
 					when "00011" =>								-- X = 3
 						case yposition is
 							when "00111" =>						-- Y = 7
-								tile_address_temp <= "111101"; 		-- E - Light Blue
+								tile_address_temp <= "111101"; 	-- E - Light Blue
 							when "01000" =>						-- Y = 8
-								tile_address_temp <= "001001"; 		-- L - Light Blue
+								tile_address_temp <= "001001"; 	-- L - Light Blue
 							when "01001" =>						-- Y = 9
-								tile_address_temp <= "000111"; 		-- O - Light Blue
+								tile_address_temp <= "000111"; 	-- O - Light Blue
 							when "01010" =>						-- Y = 10
-								tile_address_temp <= "111110"; 		-- M - Light Blue
+								tile_address_temp <= "111110"; 	-- M - Light Blue
 							when others =>
-								tile_address_temp <= "101110"; 		-- Sky
+								tile_address_temp <= "101110"; 	-- Sky
 						end case;
 						
 					when "00100" =>								-- X = 4	
 						case yposition is					
 							when "00100" =>						-- Y = 4
-								tile_address_temp <= "000110"; 		-- R - Light Blue
+								tile_address_temp <= "000110"; 	-- R - Light Blue
 							when "00101" =>						-- Y = 5
-								tile_address_temp <= "111101"; 		-- E - Light Blue
+								tile_address_temp <= "111101"; 	-- E - Light Blue
 							when "00110" =>						-- Y = 6
-								tile_address_temp <= "001000"; 		-- N - Light Blue
+								tile_address_temp <= "001000"; 	-- N - Light Blue
 							when "00111" =>						-- Y = 7
-								tile_address_temp <= "100001"; 		-- I - Light Blue
+								tile_address_temp <= "100001"; 	-- I - Light Blue
 							when "01000" =>						-- Y = 8
-								tile_address_temp <= "111110"; 		-- M - Light Blue
+								tile_address_temp <= "111110"; 	-- M - Light Blue
 							when others =>
-								tile_address_temp <= "101110"; 		-- Sky
+								tile_address_temp <= "101110"; 	-- Sky
 						end case;
 						
 					when "00101" | "00110" | "00111" | "01000" =>	-- X = 5, 6, 7 or 8
-						tile_address_temp <= "101110"; 					-- Sky
+						tile_address_temp <= "101110"; 				-- Sky
 						
-					when "01010" =>												-- X = 10
+					when "01010" =>									-- X = 10
 						case yposition is
-							when "00111" =>										-- Y = 7
-								tile_address_temp <= "111111";						-- Player
+							when "00111" =>							-- Y = 7
+								tile_address_temp <= "111111";		-- Player
 							when others =>
 								tile_address_temp <= "101111"; 		-- Grass
 
 						end case;
 						
-					when "01001" | "01011" | "01100" | "01101" | "01110" =>		-- X = 9, 11, 12, 13 or 14
-						tile_address_temp <= "101111"; 								-- Grass
+					when "01001" | "01011" | "01100" | "01101" | "01110" =>	-- X = 9, 11, 12, 13 or 14
+						tile_address_temp <= "101111"; 						-- Grass
 						
 					when others =>
-						tile_address_temp <= "001010"; 								-- Black
+						tile_address_temp <= "001010"; 						-- Black
 				end case;
 
--- gamemode: main game.
+			-- Gamemode: Main Game.
 			when "01" =>
 				--Tile Type selector
 				if (xposition < 15) then
 					case xposmxple is
-						when "111101" =>-- -3
+						when "111101" =>	-- -3
 							case yposmyple is
-								when "000000" =>							-- Tile 10
+								when "000000" =>										-- Tile 10
 									tile_address_temp <= "000" & map_data(44 downto 42); 
 								when others =>
 									tile_address_temp <= "001010"; 						-- Black
 							end case;
 							
-						when "111110" =>-- -2
+						when "111110" =>	-- -2
 							case yposmyple is
-								when "111111" =>						-- Tile 16
+								when "111111" =>										-- Tile 16
 									tile_address_temp <= "000" & map_data(26 downto 24);
-								when "000000" =>							-- Tile 11
+								when "000000" =>										-- Tile 11
 									tile_address_temp <= "000" & map_data(41 downto 39);
-								when "000001" =>						-- Tile 5
+								when "000001" =>										-- Tile 5
 									tile_address_temp <= "000" & map_data(59 downto 57);
 								when others =>
-									tile_address_temp <= "001010"; 					-- Black
+									tile_address_temp <= "001010"; 						-- Black
 							end case;
 							
 						when "111111" =>
 							case yposmyple is
-								when "111110" =>						-- Tile 21
+								when "111110" =>										-- Tile 21
 									tile_address_temp <= "000" & map_data(11 downto 9);
-								when "111111" =>						-- Tile 17
+								when "111111" =>										-- Tile 17
 									tile_address_temp <= "000" & map_data(23 downto 21);
-								when "000000" =>							-- Tile 12
+								when "000000" =>										-- Tile 12
 									tile_address_temp <= "000" & map_data(38 downto 36);
-								when "000001" =>						-- Tile 6
+								when "000001" =>										-- Tile 6
 									tile_address_temp <= "000" & map_data(56 downto 54);
-								when "000010" =>						-- Tile 2
+								when "000010" =>										-- Tile 2
 									tile_address_temp <= "000" & map_data(68 downto 66);
 								when others =>
 									tile_address_temp <= "001010"; 						-- Black
@@ -231,19 +230,19 @@ begin
 					
 						when "000000" =>
 							case yposmyple is
-								when "111101" =>						-- Tile 24
+								when "111101" =>										-- Tile 24
 									tile_address_temp <= "000" & map_data(2 downto 0);
-								when "111110" =>						-- Tile 22
+								when "111110" =>										-- Tile 22
 									tile_address_temp <= "000" & map_data(8 downto 6);
-								when "111111" =>						-- Tile 18
+								when "111111" =>										-- Tile 18
 									tile_address_temp <= "000" & map_data(20 downto 18);
-								when "000000" =>							-- Player
+								when "000000" =>										-- Player
 									tile_address_temp <= "111111";
-								when "000001" =>						-- Tile 7
+								when "000001" =>										-- Tile 7
 									tile_address_temp <= "000" & map_data(53 downto 51);
-								when "000010" =>						-- Tile 3
+								when "000010" =>										-- Tile 3
 									tile_address_temp <= "000" & map_data(65 downto 63); 
-								when "000011" =>						-- Tile 1
+								when "000011" =>										-- Tile 1
 									tile_address_temp <= "000" & map_data(71 downto 69); 
 								when others =>
 									tile_address_temp <= "001010"; 						-- Black
@@ -251,15 +250,15 @@ begin
 							
 						when "000001" =>
 							case yposmyple is
-								when "111110" =>						-- Tile 23
+								when "111110" =>										-- Tile 23
 									tile_address_temp <= "000" & map_data(5 downto 3);		
-								when "111111" =>						-- Tile 19
+								when "111111" =>										-- Tile 19
 									tile_address_temp <= "000" & map_data(17 downto 15);
-								when "000000" =>							-- Tile 13
+								when "000000" =>										-- Tile 13
 									tile_address_temp <= "000" & map_data(35 downto 33);
-								when "000001" =>						-- Tile 8
+								when "000001" =>										-- Tile 8
 									tile_address_temp <= "000" & map_data(50 downto 48);
-								when "000010" =>						-- Tile 4
+								when "000010" =>										-- Tile 4
 									tile_address_temp <= "000" & map_data(62 downto 60);
 								when others =>
 										tile_address_temp <= "001010"; 					-- Black
@@ -267,11 +266,11 @@ begin
 							
 						when "000010" =>
 							case yposmyple is
-								when "111111" =>						-- Tile 20
+								when "111111" =>										-- Tile 20
 									tile_address_temp <= "000" & map_data(14 downto 12);
-								when "000000" =>							-- Tile 14
+								when "000000" =>										-- Tile 14
 									tile_address_temp <= "000" & map_data(32 downto 30);
-								when "000001" =>						-- Tile 9
+								when "000001" =>										-- Tile 9
 									tile_address_temp <= "000" & map_data(47 downto 45); 
 								when others =>
 										tile_address_temp <= "001010"; 					-- Black
@@ -279,7 +278,7 @@ begin
 						
 						when "000011" =>
 							case yposmyple is
-								when "000000" =>							-- Tile 15	
+								when "000000" =>										-- Tile 15	
 									tile_address_temp <= "000" & map_data(29 downto 27);
 								when others =>
 									tile_address_temp <= "001010"; 						-- Black
@@ -288,117 +287,116 @@ begin
 							tile_address_temp <= "001010"; 
 					end case;		
 				else
-					-- Energy display assignment.
+					-- Energy display assignment
 					case xposition is
 						when "01111" =>
 							case yposition is
-								when "00010" =>									-- 2		
+								when "00010" =>											-- 2		
 									tile_address_temp <= "01" & energy(3 downto 0); 	-- Energy(0)
-								when "00011" =>									-- 3
+								when "00011" =>											-- 3
 									tile_address_temp <= "01" & energy(7 downto 4); 	-- Energy(1)
-								when "00100" =>									-- 4
+								when "00100" =>											-- 4
 									tile_address_temp <= "01" & energy(11 downto 8); 	-- Energy(2)
-								when "00111" =>									-- 7
-									tile_address_temp <= "011110"; 					-- Y
-								when "01000" =>									-- 8
-									tile_address_temp <= "001101"; 					-- G
-								when "01001" =>									-- 9
-									tile_address_temp <= "011011"; 					-- R
-								when "01010" =>									-- 10
-									tile_address_temp <= "001100"; 					-- E
-								when "01011" =>									-- 11
-									tile_address_temp <= "001111"; 					-- N
-								when "01100" =>									-- 12
-									tile_address_temp <= "001100"; 					-- E
+								when "00111" =>											-- 7
+									tile_address_temp <= "011110"; 						-- Y
+								when "01000" =>											-- 8
+									tile_address_temp <= "001101"; 						-- G
+								when "01001" =>											-- 9
+									tile_address_temp <= "011011"; 						-- R
+								when "01010" =>											-- 10
+									tile_address_temp <= "001100"; 						-- E
+								when "01011" =>											-- 11
+									tile_address_temp <= "001111"; 						-- N
+								when "01100" =>											-- 12
+									tile_address_temp <= "001100"; 						-- E
 								when others =>
-									tile_address_temp <= "001010"; 					-- Black
+									tile_address_temp <= "001010"; 						-- Black
 							end case;
 							
-						-- Score display assignment.
+						-- Score display assignment
 						when "10001"  =>
 							case yposition is
-								when "00010" =>									-- 2
-									tile_address_temp <= "01" & score(3 downto 0); 	-- Score(0)
-								when "00011" =>									-- 3
-									tile_address_temp <= "01" & score(7 downto 4); 	-- Score(1)
-								when "00100" =>									-- 4
+								when "00010" =>											-- 2
+									tile_address_temp <= "01" & score(3 downto 0); 		-- Score(0)
+								when "00011" =>											-- 3
+									tile_address_temp <= "01" & score(7 downto 4); 		-- Score(1)
+								when "00100" =>											-- 4
 									tile_address_temp <= "01" & score(11 downto 8); 	-- Score(2)
-								when "00101" =>									-- 5
-									tile_address_temp <= "01" & score(15 downto 12); -- Score(3)
-								when "01000" =>									-- 8
-									tile_address_temp <= "001100"; 					-- E
-								when "01001" =>									-- 9
-									tile_address_temp <= "011011"; 					-- R
-								when "01010" =>									-- 10
-									tile_address_temp <= "011010"; 					-- O
-								when "01011" =>									-- 11
-									tile_address_temp <= "001011"; 					-- C
-								when "01100" =>									-- 12
-									tile_address_temp <= "011100"; 					-- S
+								when "00101" =>											-- 5
+									tile_address_temp <= "01" & score(15 downto 12); 	-- Score(3)
+								when "01000" =>											-- 8
+									tile_address_temp <= "001100"; 						-- E
+								when "01001" =>											-- 9
+									tile_address_temp <= "011011"; 						-- R
+								when "01010" =>											-- 10
+									tile_address_temp <= "011010"; 						-- O
+								when "01011" =>											-- 11
+									tile_address_temp <= "001011"; 						-- C
+								when "01100" =>											-- 12
+									tile_address_temp <= "011100"; 						-- S
 								when others =>
-									tile_address_temp <= "001010"; 					-- Black
+									tile_address_temp <= "001010"; 						-- Black
 							end case;
 
 						-- Level display assignment
 						when "10011" =>
 							case yposition is
-								when "00010" =>									-- 2
+								when "00010" =>											-- 2
 									tile_address_temp <= "01" & level(3 downto 0);  	-- Level(0)
-								when "00011" =>									-- 3
-									tile_address_temp <= "01" & level(7 downto 4); 	-- Level(1)
-								when "01000" =>									-- 8
-									tile_address_temp <= "001110"; 					-- L
-								when "01001" =>									-- 9
-									tile_address_temp <= "001100"; 					-- E
-								when "01010" =>									-- 10
-									tile_address_temp <= "011101"; 					-- V
-								when "01011" =>									-- 11
-									tile_address_temp <= "001100"; 					-- E
-								when "01100" =>									-- 12
-									tile_address_temp <= "001110"; 					-- L
+								when "00011" =>											-- 3
+									tile_address_temp <= "01" & level(7 downto 4); 		-- Level(1)
+								when "01000" =>											-- 8
+									tile_address_temp <= "001110"; 						-- L
+								when "01001" =>											-- 9
+									tile_address_temp <= "001100"; 						-- E
+								when "01010" =>											-- 10
+									tile_address_temp <= "011101"; 						-- V
+								when "01011" =>											-- 11
+									tile_address_temp <= "001100"; 						-- E
+								when "01100" =>											-- 12
+									tile_address_temp <= "001110"; 						-- L
 								when others =>
-									tile_address_temp <= "001010"; 					-- Black
+									tile_address_temp <= "001010"; 						-- Black
 							end case;
 						when others =>
-							tile_address_temp <= "001010"; -- Black
+							tile_address_temp <= "001010"; 								-- Black
 					end case;
 				end if; 					
 				
-
--- gamemode: End screen.
+			-- Gamemode: End screen
 			when "10" =>
 				case xposition is
-					when "00011" =>							-- 3
+					when "00011" =>								-- 3
 						case yposition is
-							when "00011" =>					-- 3
+							when "00011" =>						-- 3
 								tile_address_temp <= "011011"; 	-- R
-							when "00100" =>					-- 4
+							when "00100" =>						-- 4
 								tile_address_temp <= "001100"; 	-- E
-							when "00101" =>					-- 5
+							when "00101" =>						-- 5
 								tile_address_temp <= "011101"; 	-- V
-							when "00110" =>					-- 6
+							when "00110" =>						-- 6
 								tile_address_temp <= "011010"; 	-- O
-							when "01000" =>					-- 8
+							when "01000" =>						-- 8
 								tile_address_temp <= "001100"; 	-- E
-							when "01001" =>					-- 9
+							when "01001" =>						-- 9
 								tile_address_temp <= "100000"; 	-- M
-							when "01010" =>					-- 10
+							when "01010" =>						-- 10
 								tile_address_temp <= "011111"; 	-- A
-							when "01011" =>					-- 11
+							when "01011" =>						-- 11
 								tile_address_temp <= "001101"; 	-- G
 							when others =>
 								tile_address_temp <= "001010"; 	-- Black
 						end case;
 								
-					when "00110" =>									-- X = 6
+					when "00110" =>										-- X = 6
 						case yposition is
-							when "00111" =>							-- Y = 7
+							when "00111" =>								-- Y = 7
 								case frame_count is
-									when "0111" =>					-- Frame count = 7
+									when "0111" =>						-- Frame count = 7
 										tile_address_temp <= "101001"; 	-- Soul (first frame)
-									when "1000" =>					-- Frame count = 8
+									when "1000" =>						-- Frame count = 8
 										tile_address_temp <= "101010"; 	-- Soul (second frame)
-									when "1001" =>					-- Frame count = 9
+									when "1001" =>						-- Frame count = 9
 										tile_address_temp <= "101100"; 	-- Soul (third frame)
 									when others =>
 										tile_address_temp <= "001010"; 	-- Black
@@ -407,29 +405,29 @@ begin
 								tile_address_temp <= "001010"; 			-- Black
 						end case;
 							
-					when "00111" =>									-- X = 7
+					when "00111" =>										-- X = 7
 						case yposition is
-							when "00111" =>							-- Y = 7
+							when "00111" =>								-- Y = 7
 								case frame_count is
-									when "0000"	=>					-- Frame count = 0
+									when "0000"	=>						-- Frame count = 0
 										tile_address_temp <= "111111"; 	-- Player
-									when "0001" =>					-- Frame count = 1
+									when "0001" =>						-- Frame count = 1
 										tile_address_temp <= "100010"; 	-- Dying player (first frame)
-									when "0010" =>					-- Frame count = 2
+									when "0010" =>						-- Frame count = 2
 										tile_address_temp <= "100011"; 	-- Dying player (second frame)
-									when "0011" =>					-- Frame count = 3
+									when "0011" =>						-- Frame count = 3
 										tile_address_temp <= "100100"; 	-- Dying player (third frame)
-									when "0100" =>					-- Frame count = 4
+									when "0100" =>						-- Frame count = 4
 										tile_address_temp <= "100101"; 	-- Poof (first frame)
-									when "0101" =>					-- Frame count = 5
+									when "0101" =>						-- Frame count = 5
 										tile_address_temp <= "100110"; 	-- Poof (second frame)
-									when "0110" =>					-- Frame count = 6
+									when "0110" =>						-- Frame count = 6
 										tile_address_temp <= "100111"; 	-- Poof (third frame)
-									when "0111" =>					-- Frame count = 7
+									when "0111" =>						-- Frame count = 7
 										tile_address_temp <= "101000"; 	-- Poof (fourth frame)
-									when "1000" =>					-- Frame count = 8
+									when "1000" =>						-- Frame count = 8
 										tile_address_temp <= "100110"; 	-- Poof (second frame)
-									when "1001" =>					-- Frame count = 9
+									when "1001" =>						-- Frame count = 9
 										tile_address_temp <= "101011"; 	-- Poof (fifth frame)
 									when others =>
 										tile_address_temp <= "001010"; 	-- Black
@@ -439,67 +437,67 @@ begin
 						end case;
 					
 					when others =>
-						tile_address_temp <= "001010"; 			-- Black
+						tile_address_temp <= "001010"; 					-- Black
 				end case;
 
 			-- Start animation
 			when "11" =>
 				case xposition is
 					when "00000" | "00001" | "00010" =>			-- X = 0, 1 or 2
-						tile_address_temp <= "101110"; 				-- Sky
+						tile_address_temp <= "101110"; 			-- Sky
 					
 					when "00011" =>								-- X = 3
 						case yposition is
 							when "00111" =>						-- Y = 7
-								tile_address_temp <= "111101"; 		-- E - Light Blue
+								tile_address_temp <= "111101"; 	-- E - Light Blue
 							when "01000" =>						-- Y = 8
-								tile_address_temp <= "001001"; 		-- L - Light Blue
+								tile_address_temp <= "001001"; 	-- L - Light Blue
 							when "01001" =>						-- Y = 9
-								tile_address_temp <= "000111"; 		-- O - Light Blue
+								tile_address_temp <= "000111"; 	-- O - Light Blue
 							when "01010" =>						-- Y = 10
-								tile_address_temp <= "111110"; 		-- M - Light Blue
+								tile_address_temp <= "111110"; 	-- M - Light Blue
 							when others =>
-								tile_address_temp <= "101110"; 		-- Sky
+								tile_address_temp <= "101110"; 	-- Sky
 						end case;
 						
 					when "00100" =>								-- X = 4	
 						case yposition is					
 							when "00100" =>						-- Y = 4
-								tile_address_temp <= "000110"; 		-- R - Light Blue
+								tile_address_temp <= "000110"; 	-- R - Light Blue
 							when "00101" =>						-- Y = 5
-								tile_address_temp <= "111101"; 		-- E - Light Blue
+								tile_address_temp <= "111101"; 	-- E - Light Blue
 							when "00110" =>						-- Y = 6
-								tile_address_temp <= "001000"; 		-- N - Light Blue
+								tile_address_temp <= "001000"; 	-- N - Light Blue
 							when "00111" =>						-- Y = 7
-								tile_address_temp <= "100001"; 		-- I - Light Blue
+								tile_address_temp <= "100001"; 	-- I - Light Blue
 							when "01000" =>						-- Y = 8
-								tile_address_temp <= "111110"; 		-- M - Light Blue
+								tile_address_temp <= "111110"; 	-- M - Light Blue
 							when others =>
-								tile_address_temp <= "101110"; 		-- Sky
+								tile_address_temp <= "101110"; 	-- Sky
 						end case;
 						
 					when "00101" | "00110" | "00111" | "01000" =>		-- X = 5, 6, 7 or 8
-						tile_address_temp <= "101110"; 						-- Sky
+						tile_address_temp <= "101110"; 					-- Sky
 						
 					when "01001" =>										-- X = 9
 						case yposition is
 							when "00111" =>								-- Y = 7
 								case frame_count is
 									when "0000" | "0001" | "0010" =>	-- Frame count = 0, 1 or 2
-										tile_address_temp <= "110000"; 		-- Start (first top frame)
+										tile_address_temp <= "110000"; 	-- Start (first top frame)
 									when "0011" =>						-- Frame count = 3
-										tile_address_temp <= "110100"; 		-- Start (second top frame)
+										tile_address_temp <= "110100"; 	-- Start (second top frame)
 									when "0100" =>						-- Frame count = 4
-										tile_address_temp <= "110110"; 		-- Start (third top frame)
+										tile_address_temp <= "110110"; 	-- Start (third top frame)
 									when "0101" =>						-- Frame count = 5	
-										tile_address_temp <= "111000"; 		-- Start (fourth top frame)
+										tile_address_temp <= "111000"; 	-- Start (fourth top frame)
 									when "0110" =>						-- Frame count = 6
-										tile_address_temp <= "111010"; 		-- Start (fifth top frame)
+										tile_address_temp <= "111010"; 	-- Start (fifth top frame)
 									when others =>
-										tile_address_temp <= "101111"; 		-- Grass
+										tile_address_temp <= "101111"; 	-- Grass
 								end case;
 							when others =>
-								tile_address_temp <= "101111"; 				-- Grass
+								tile_address_temp <= "101111"; 			-- Grass
 						end case;
 						
 					when "01010" =>										-- X = 10
@@ -507,43 +505,43 @@ begin
 							when "00111" =>								-- Y - 7
 								case frame_count is
 									when "0000" =>						-- Frame count = 0
-										tile_address_temp <= "110001"; 		-- Start (first bottom frame)
+										tile_address_temp <= "110001"; 	-- Start (first bottom frame)
 									when "0001" =>						-- Frame count = 1
-										tile_address_temp <= "110010"; 		-- Start (second bottom frame)
+										tile_address_temp <= "110010"; 	-- Start (second bottom frame)
 									when "0010" =>						-- Frame count = 2
-										tile_address_temp <= "110011"; 		-- Start (third bottom frame)
+										tile_address_temp <= "110011"; 	-- Start (third bottom frame)
 									when "0011" =>						-- Frame count = 3
-										tile_address_temp <= "110101"; 		-- Start (fourth bottom frame)
+										tile_address_temp <= "110101"; 	-- Start (fourth bottom frame)
 									when "0100" =>						-- Frame count = 4
-										tile_address_temp <= "110111"; 		-- Start (fifth bottom frame)
+										tile_address_temp <= "110111"; 	-- Start (fifth bottom frame)
 									when "0101" =>						-- Frame count = 5
-										tile_address_temp <= "111001"; 		-- Start (sixth bottom frame)
+										tile_address_temp <= "111001"; 	-- Start (sixth bottom frame)
 									when "0110" =>						-- Frame count = 6
-										tile_address_temp <= "111011"; 		-- Start (seventh bottom frame)
+										tile_address_temp <= "111011"; 	-- Start (seventh bottom frame)
 									when "0111" =>						-- Frame count = 7
-										tile_address_temp <= "111100"; 		-- Start (eight bottom frame)
+										tile_address_temp <= "111100"; 	-- Start (eight bottom frame)
 									when "1000" =>						-- Frame count = 8
-										tile_address_temp <= "110111"; 		-- Start (fifth bottom frame)
+										tile_address_temp <= "110111"; 	-- Start (fifth bottom frame)
 									when others =>
-										tile_address_temp <= "101111"; 		-- Grass
+										tile_address_temp <= "101111"; 	-- Grass
 								end case;
 							when others =>
-								tile_address_temp <= "101111"; 				-- Grass
+								tile_address_temp <= "101111"; 			-- Grass
 						end case;										
 						
 					when "01011" | "01100" | "01101" | "01110" =>		-- X = 11, 12, 13 or 14
-						tile_address_temp <= "101111"; 						-- Grass
+						tile_address_temp <= "101111"; 					-- Grass
 						
 					when others =>
-						tile_address_temp <= "001010"; 						-- Black
+						tile_address_temp <= "001010"; 					-- Black
 				end case;	
 
 			when others =>
-				tile_address_temp <= "000110"; --black
+				tile_address_temp <= "000110"; 							-- Black
 		end case;
 	end process;
 	
-	-- Process for calculating global tile coordinates.
+	-- Process for calculating global tile coordinates
 	xposition_process : process(hcount, xposition)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -557,7 +555,7 @@ begin
 		end if;
 	end process xposition_process;
 	
-	-- Process for calculating global tile coordinates.
+	-- Process for calculating global tile coordinates
 	yposition_process : process(hcount, vcount, yposition)
 	begin
 		if (vcount = v_display + v_fp + v_sp + v_bp - 1 and hcount = h_display + h_fp + h_sp + h_bp - 1) then
@@ -571,15 +569,15 @@ begin
 		end if;
 	end process yposition_process;
 
-	-- Process for calculating the next column.
+	-- Process for calculating the next column
 	column_process : process(hcount, column)
 	begin
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then 	-- when not at the end of the H
 			new_column <= (others => '0');
 		else
-			if (hcount(4 downto 0) = pixel_num) then 			-- when hcount mod 32 is 31 add start new tile
+			if (hcount(4 downto 0) = pixel_num) then 			-- when hcount mod 32 equals 31 add start at new tile (reset column to 0)
 				new_column <= (others => '0');
-			elsif (hcount(1 downto 0) = pixel_tile) then 		-- when hcount mod 4 is 3 add column
+			elsif (hcount(1 downto 0) = pixel_tile) then 		-- when hcount mod 4 equals 3 increase column by 1
 				new_column <= column + 1;
 			else
 				new_column <= column;
@@ -587,13 +585,13 @@ begin
 		end if;
 	end process column_process;
 
-    -- Process for calculating the next row.
+    -- Process for calculating the next row
 	row_process : process(vcount, hcount, row)
 	begin
         if (vcount < v_display + v_fp + v_sp + v_bp - 1) then 											-- when not at the end of the total frame
-            if (vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then 	-- when vcount mod 32 is 31 add H is end of line start new tile
-                new_row <= (others => '0');
-            elsif (vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then 		-- when vcount mod 4 is 3 and if H is end of line
+            if (vcount(4 downto 0) = pixel_num and hcount = h_display + h_fp + h_sp + h_bp - 1) then 	-- when vcount mod 32 equals 31 and H is at the end of \
+                new_row <= (others => '0');																-- \ the line start at a new tile (reset row to 0)	
+            elsif (vcount(1 downto 0) = "11" and hcount = h_display + h_fp + h_sp + h_bp - 1) then 		-- when vcount mod 4 equals 3 and if H is at the end of the line
                 new_row <= row + 1;
             else
                 new_row <= row;
@@ -603,7 +601,7 @@ begin
 		end if;
 	end process row_process;
 
-	-- Process for calculating the next horizantal pixel position.
+	-- Process for calculating the next horizantal pixel position
 	hcounter_process : process(hcount)
 		begin
 			if (hcount < h_display + h_fp + h_sp + h_bp - 1) then
@@ -613,7 +611,7 @@ begin
 			end if;
 	end process hcounter_process;
 
-	-- Process for calculating the next vertical pixel position.
+	-- Process for calculating the next vertical pixel position
 	vcounter_process : process(vcount, hcount)
 		begin
 			if (hcount = h_display + h_fp + h_margin - 1) then
@@ -637,7 +635,6 @@ begin
 		end if;
 	end process vga_done_process;
 
-    ---(((USE ABSOLUTE VALUE OF LEVEL)))---
 	process(level)
 	begin
 		if (level_abs < "00000001") then
@@ -662,14 +659,13 @@ begin
 	end process;
 
 	-- Process: visibility counter H
-      ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
 	process(hcount, xposition, xplayer,hvis, hvis_start)
 	begin
 		if (unsigned(xplayer) < 4 ) then
 			if (hcount = 0) then
 				new_hvis <= hvis_start(6 downto 0);
 			else
-				if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+				if (hcount < unsigned('0'&xplayer&"10000")) then	-- hcount > xplayer * 32 + 16
 			   		new_hvis <= hvis + 1;
            			else
                				new_hvis <= hvis - 1;
@@ -677,28 +673,27 @@ begin
 			end if;
 		else
 			if (xposition > unsigned(xplayer) - 4) then
-            			if (hcount < unsigned('0'&xplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+            			if (hcount < unsigned('0'&xplayer&"10000")) then	-- hcount > xplayer * 32 + 16
 			   		new_hvis <= hvis + 1;
            			else
                				new_hvis <= hvis - 1;
 				end if;
 			else
-				new_hvis <= (others => '0');---mabey not necissery
+				new_hvis <= (others => '0');
 			end if;
 		end if;
 	end process;
 
 	-- Process: visibility counter V
-    ---((((yposition > unsigned(yplayer) - 4 and yposition < unsigned(yplayer) + 4) then)))--- can be optimized
 	process(vcount, yposition, yplayer, vvis,hcount, vvis_start)
 	begin
 	
 		if (hcount = h_display + h_fp + h_sp + h_bp - 1) then
 			if (unsigned(yplayer) < 4 ) then
 				if (vcount = 0) then
-					new_vvis <= vvis_start(6 downto 0);---still needs to be fixed
+					new_vvis <= vvis_start(6 downto 0);
 				else
-					if (vcount < unsigned('0'&yplayer&"10000")) then--hcoumt > xplayer * 32 + 16
+					if (vcount < unsigned('0'&yplayer&"10000")) then	-- hcount > xplayer * 32 + 16
 			   			new_vvis <= vvis + 1;
            				else
                					new_vvis <= vvis - 1;
@@ -706,13 +701,13 @@ begin
 				end if;
 			else
 				if (yposition > unsigned(yplayer) - 4) then
-					if (vcount < unsigned('0'&yplayer&"10000")) then--vcoumt > yplayer * 32 + 16
+					if (vcount < unsigned('0'&yplayer&"10000")) then	--vcount > yplayer * 32 + 16
 			   			new_vvis <= vvis + 1;
             				else
                 				new_vvis <= vvis - 1;
             				end if;
 				else
-					new_vvis <= (others => '0');---mabey not necissery 12544
+					new_vvis <= (others => '0');
 				end if;
 			end if;
 		else
@@ -754,7 +749,7 @@ begin
 	process(frame_count, game_state)
 	begin
 		case game_state is
-			when "10" =>										-- End animation
+			when "10" =>										-- End screen animation
 				case frame_count is
 					when "1001" =>								-- Frame count = 9
 						new_frame_count <= frame_count - 1;
@@ -762,7 +757,7 @@ begin
 						new_frame_count <= frame_count + 1;
 				end case;
 				
-			when "11" =>										-- Begin animation
+			when "11" =>										-- Begin screen animation
 				case frame_count is
 					when "1000" =>								-- Frame count = 8
 						new_frame_count <= frame_count - 1;
@@ -779,7 +774,7 @@ begin
 	process(frame_count, game_state)
 	begin
 		case game_state is
-			when "10" =>						-- End animation
+			when "10" =>						-- End screen animation
 				case frame_count is
 					when "1001" =>				-- Frame count = 9
 						animation_done <= '1';
@@ -787,7 +782,7 @@ begin
 						animation_done <= '0';
 				end case;
 			
-			when "11" =>						-- Begin animation
+			when "11" =>						-- Begin screen animation
 				case frame_count is
 					when "1000" =>				-- Frame count = 8
 						animation_done <= '1';
