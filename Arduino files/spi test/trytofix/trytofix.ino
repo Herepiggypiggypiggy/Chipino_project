@@ -81,9 +81,10 @@ void loop() {
 //    Serial.print(",");
     if(word1)
     {
-          SPDR = '\0';
+          SPDR = '0';
           SPDR = 'c';  
           word1=0;
+          delayMicroseconds(0.7);
     }
 
 
