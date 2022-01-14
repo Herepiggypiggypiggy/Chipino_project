@@ -15,11 +15,11 @@ architecture behaviour of player_fsm_tb is
         map_data_d     : IN  std_logic_vector(2 downto 0);
         CLK            : IN  std_logic;
         reset          : IN  std_logic;
-	vga_done_out   : IN  std_logic;
-	animate_done   : IN  std_logic;
+	vga_done       : IN  std_logic;
+	animation_done   : IN  std_logic;
         dir_mined      : OUT std_logic_vector(2 downto 0);
-        energy_lvl_out   : OUT std_logic_vector(8 downto 0);
-	score_out    : OUT std_logic_vector(9 downto 0);
+        --energy_lvl_out   : OUT std_logic_vector(8 downto 0);
+	--score_out    : OUT std_logic_vector(9 downto 0);
 	level_out    : OUT std_logic_vector(4 downto 0);
 	level_d_out    : OUT std_logic_vector(7 downto 0);
 	score_d_out    : OUT std_logic_vector(15 downto 0);
@@ -49,10 +49,10 @@ signal 	energy_d_out   : std_logic_vector(11 downto 0);
    signal CLK            : std_logic;
    signal reset          : std_logic;
    signal dir_mined      : std_logic_vector(2 downto 0);
-   signal energy_lvl_out   : std_logic_vector(8 downto 0);
+   --signal energy_lvl_out   : std_logic_vector(8 downto 0);
    signal y_pos_out    : std_logic_vector(3 downto 0);
    signal x_pos_out    : std_logic_vector(3 downto 0);
-	signal score_out : std_logic_vector(9 downto 0);
+	--signal score_out : std_logic_vector(9 downto 0);
 	signal level_out : std_logic_vector(4 downto 0);
 	signal moved		: std_logic;
 begin
