@@ -26,8 +26,7 @@ begin
 	end if;
 end process;
 
-process (map_updated, dir_mined, vga_done, map_data_volatile, 
-	map_internal, state)
+process (map_updated, dir_mined, vga_done, map_data_volatile, map_internal, state)
 begin
 case state is
 	when reset_state => 

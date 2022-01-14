@@ -18,6 +18,7 @@ architecture behavioural of display_ctrl is
 	constant h_margin  : unsigned(9 downto 0) := "0000101000";	-- 40
 
 	constant pixel_num       : unsigned(4 downto 0) := "11111"; -- 31
+	
 	-- Signals
 	signal new_hsync : std_logic;
 	signal new_vsync : std_logic;
@@ -44,7 +45,7 @@ architecture behavioural of display_ctrl is
 
 	hstate_process: process(hcount)
 	begin
-		-- -1 offset because of 1 clock cycle delay
+		-- offset by -1 because of 1 clock cycle delay
 		if (unsigned(hcount) > h_display + h_fp - 2 and unsigned(hcount) < h_display + h_fp + h_sp - 1) then
 			new_hsync_state <= hsync_off;
 		else
@@ -143,7 +144,3 @@ architecture behavioural of display_ctrl is
 		end if;
 	end process;
 end architecture behavioural;
-
-
-
-

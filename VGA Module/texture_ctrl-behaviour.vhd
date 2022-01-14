@@ -63,7 +63,7 @@ architecture behaviour of texture_ctrl is
 	signal hvis_start     : unsigned(8 downto 0);
 	signal vvis_start     : unsigned(8 downto 0);
 
-	signal tile_address_temp :std_logic_vector(5 downto 0);
+	signal tile_address_temp : std_logic_vector(5 downto 0);
 
 	signal p1 : unsigned(13 downto 0);
 
@@ -858,8 +858,3 @@ begin
 	column_out  <= std_logic_vector(column);
 	row_out     <= std_logic_vector(row);
 end architecture behaviour;
-
-
-
-
-

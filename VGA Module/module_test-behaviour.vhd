@@ -2,56 +2,60 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.numeric_std.all;
 
-architecture behaviour of module_test is
+architecture behaviour of top_entity is
 	
    type playermap_state is (playermiddle, playerleft, playerup, playerdown, playerright);
    signal state, new_state: playermap_state;
 
 component player_fsm
-	port (	clk            : IN  std_logic;
-			reset          : IN  std_logic;
-			button_x_left  : IN  std_logic;
-			button_x_right : IN  std_logic;
-			button_y_up    : IN  std_logic;
-			button_y_down  : IN  std_logic;
-			button_mining  : IN  std_logic;
-			map_data_l     : IN  std_logic_vector(2 downto 0);
-			map_data_r     : IN  std_logic_vector(2 downto 0);
-			map_data_u     : IN  std_logic_vector(2 downto 0);
-			map_data_d     : IN  std_logic_vector(2 downto 0);
-			vga_done   	   : IN  std_logic;
-			animation_done : IN  std_logic;
+port (	
+	clk            : in  std_logic;
+	reset          : in  std_logic;
+	button_x_left  : in  std_logic;
+	button_x_right : in  std_logic;
+	button_y_up    : in  std_logic;
+	button_y_down  : in  std_logic;
+	button_mining  : in  std_logic;
+	map_data_l     : in  std_logic_vector(2 downto 0);
+	map_data_r     : in  std_logic_vector(2 downto 0);
+	map_data_u     : in  std_logic_vector(2 downto 0);
+	map_data_d     : in  std_logic_vector(2 downto 0);
+	vga_done   	   : in  std_logic;
+	animation_done : in  std_logic;
 			
-			dir_mined      : OUT std_logic_vector(2 downto 0);
-			level_out      : OUT std_logic_vector(4 downto 0);
-			energy_d_out   : OUT std_logic_vector(11 downto 0);
-			score_d_out    : OUT std_logic_vector(15 downto 0);
-			level_d_out    : OUT std_logic_vector(7 downto 0);
-			y_pos_out      : OUT std_logic_vector(3 downto 0);
-			x_pos_out      : OUT std_logic_vector(3 downto 0);
-			moved	       : OUT std_logic;
-			game_state     : OUT std_logic_vector(1 downto 0));
+	dir_mined      : out std_logic_vector(2 downto 0);
+	level_out      : out std_logic_vector(4 downto 0);
+	energy_d_out   : out std_logic_vector(11 downto 0);
+	score_d_out    : out std_logic_vector(15 downto 0);
+	level_d_out    : out std_logic_vector(7 downto 0);
+	y_pos_out      : out std_logic_vector(3 downto 0);
+	x_pos_out      : out std_logic_vector(3 downto 0);
+	moved	       : out std_logic;
+	game_state     : out std_logic_vector(1 downto 0)
+);
 end component;
 
 component vga
-	port (	clk 			: in std_logic;
-			reset 			: in std_logic;
-			game_state      : in std_logic_vector(1 downto 0);
-			xplayer			: in std_logic_vector(3 downto 0);
-			yplayer			: in std_logic_vector(3 downto 0);
-			level 			: in std_logic_vector(7 downto 0);
-			energy			: in std_logic_vector(11 downto 0);
-			score 			: in std_logic_vector(15 downto 0);
-			level_abs 		: in std_logic_vector(4 downto 0);
-			map_data		: in std_logic_vector(71 downto 0);
+port (	
+	clk 			: in std_logic;
+	reset 			: in std_logic;
+	game_state      : in std_logic_vector(1 downto 0);
+	xplayer			: in std_logic_vector(3 downto 0);
+	yplayer			: in std_logic_vector(3 downto 0);
+	level 			: in std_logic_vector(7 downto 0);
+	energy			: in std_logic_vector(11 downto 0);
+	score 			: in std_logic_vector(15 downto 0);
+	level_abs 		: in std_logic_vector(4 downto 0);
+	map_data		: in std_logic_vector(71 downto 0);
 			
-			hsync			: out std_logic;
-			vsync			: out std_logic;
-			vga_done		: out std_logic;
-			animation_done 	: out std_logic;
-			red				: out std_logic_vector(2 downto 0);
-			green			: out std_logic_vector(2 downto 0);
-			blue			: out std_logic_vector(2 downto 0));
+	hsync			: out std_logic;
+	vsync			: out std_logic;
+	vga_done		: out std_logic;
+	animation_done 	: out std_logic;
+	red				: out std_logic_vector(2 downto 0);
+	green			: out std_logic_vector(2 downto 0);
+	blue			: out std_logic_vector(2 downto 0)
+);
 end component;
 
 component spi_v3
@@ -70,27 +74,31 @@ port (
 end component;
 
 component player_mosi_data
- port(	clk         : IN std_logic;
-        reset       : IN std_logic;
-        x_pos_out   : IN std_logic_vector (3 downto 0);
-        y_pos_out   : IN std_logic_vector (3 downto 0);
-        level_out   : IN std_logic_vector (4 downto 0);
-        dir_mined   : IN std_logic_vector (2 downto 0);
-        moved       : IN std_logic;
-        MOSI_data   : OUT std_logic_vector (15 downto 0);
-        send        : OUT std_logic
-        );
+port(	
+	clk         : in std_logic;
+    reset       : in std_logic;
+    x_pos_out   : in std_logic_vector (3 downto 0);
+    y_pos_out   : in std_logic_vector (3 downto 0);
+    level_out   : in std_logic_vector (4 downto 0);
+    dir_mined   : in std_logic_vector (2 downto 0);
+    moved       : in std_logic;
+    
+    MOSI_data   : out std_logic_vector (15 downto 0);
+    send        : out std_logic
+);
 end component;
 
 component stable_map
-port (	clk					: 	in	std_logic;
-		reset				:	in 	std_logic;
-		map_updated			:	in	std_logic;
-		vga_done			:	in	std_logic;
-		dir_mined			:	in	std_logic_vector(2 downto 0);
-		map_data_volatile		:	in 	std_logic_vector(71 downto 0);
+port (	
+	clk					: 	in	std_logic;
+	reset				:	in 	std_logic;
+	map_updated			:	in	std_logic;
+	vga_done			:	in	std_logic;
+	dir_mined			:	in	std_logic_vector(2 downto 0);
+	map_data_volatile	:	in 	std_logic_vector(71 downto 0);
 		
-		map_data			:	out	std_logic_vector(71 downto 0));
+	map_data			:	out	std_logic_vector(71 downto 0)
+);
 end component;
 
 signal  button_x_left   	: std_logic;
@@ -125,62 +133,63 @@ signal 	MOSI_data			: std_logic_vector(15 downto 0);
 begin
 
 fsm_com: player_fsm
-port map (		clk,	
-			reset,
-			button_x_left,
-			button_x_right,
-			button_y_up,
-			button_y_down,
-			button_mining_int,
-			map_data_l,
-			map_data_r,
-			map_data_u,
-			map_data_d,
-			vga_done,
-			animation_done,
+port map (		
+	clk,	
+	reset,
+	button_x_left,
+	button_x_right,
+	button_y_up,
+	button_y_down,
+	button_mining_int,
+	map_data_l,
+	map_data_r,
+	map_data_u,
+	map_data_d,
+	vga_done,
+	animation_done,
 
-			dir_mined,
-			level_abs,
-			energy_d,
-			score_d,
-			level_d,
-			yplayer,
-			xplayer,
-			moved,
-			game_state);
+	dir_mined,
+	level_abs,
+	energy_d,
+	score_d,
+	level_d,
+	yplayer,
+	xplayer,
+	moved,
+	game_state
+);
 
 vga_com: vga 
-port map (  clk,
-			reset,
-			game_state,
-			xplayer,
-			yplayer,
-			level_d,
-			energy_d,
-			score_d,
-			level_abs,
-			map_data,
+port map (  
+	clk,
+	reset,
+	game_state,
+	xplayer,
+	yplayer,
+	level_d,
+	energy_d,
+	score_d,
+	level_abs,
+	map_data,
 			
-			hsync,
-			vsync,
-			vga_done,
-			animation_done,
-			red,
-			green,
-			blue);  
+	hsync,
+	vsync,
+	vga_done,
+	animation_done,
+	red,
+	green,
+	blue
+);  
 
 spi_com	: spi_v3
 port map (
 	clk,
 	reset,
-	
 	send,
-	
 	MISO,
 	MOSI_data,
 	
 	map_data_volatile,
-	
 	SCLK,
 	SS,
 	MOSI
@@ -195,6 +204,7 @@ port map (
 	level_abs,
 	dir_mined,
 	moved,
+	
 	MOSI_data,
 	send
 );
@@ -203,10 +213,8 @@ stable_map_com : stable_map
 port map (
 	clk,
 	reset,
-	
 	map_updated,
 	vga_done,
-	
 	dir_mined,
 	
 	map_data_volatile,
@@ -216,11 +224,11 @@ port map (
 process (clk, reset, button_left, button_right, button_up, button_down, button_mining, map_data)
 begin
 	
-	if(button_left  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
-	if(button_right = '1')  then  button_x_right    <= '1'; else button_x_right <= '0'; end if;
-	if(button_up     = '1')  then  button_y_up       <= '1'; else button_y_up    <= '0'; end if;
-	if(button_down   = '1')  then  button_y_down     <= '1'; else button_y_down  <= '0'; end if;
-	if(button_mining = '1')  then  button_mining_int     <= '1'; else button_mining_int  <= '0'; end if;
+	if (button_left  	= '1')  then  button_x_left     <= '1'; else button_x_left  	<= '0'; end if;
+	if (button_right 	= '1')  then  button_x_right    <= '1'; else button_x_right 	<= '0'; end if;
+	if (button_up     	= '1')  then  button_y_up       <= '1'; else button_y_up    	<= '0'; end if;
+	if (button_down   	= '1')  then  button_y_down     <= '1'; else button_y_down  	<= '0'; end if;
+	if (button_mining 	= '1')  then  button_mining_int	<= '1'; else button_mining_int  <= '0'; end if;
 
 	map_data_l <= map_data(53 downto 51);
 	map_data_r <= map_data(20 downto 18);

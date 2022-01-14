@@ -112,6 +112,7 @@ port map (
 	level,
 	level_abs,
 	game_state,
+	
 	dim,
 	column, 
 	row,
@@ -135,6 +136,7 @@ port map (
 	bg_select,
 	timer1, 
 	timer2,
+	
 	color_address
 ); 
 
@@ -143,6 +145,7 @@ port map (
 	clk, 
 	reset, 
 	color_address, 
+	
 	in_red, 
 	in_green, 
 	in_blue
@@ -158,6 +161,7 @@ port map (
 	hcount, 
 	vcount,
 	dim, 
+	
 	hsync, 
 	vsync,
 	red, 
@@ -165,6 +169,3 @@ port map (
 	blue
 ); 
 end architecture;
-
-
-

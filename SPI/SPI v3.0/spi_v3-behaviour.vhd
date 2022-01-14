@@ -4,16 +4,21 @@ use IEEE.NUMERIC_STD.ALL;
 
 architecture behaviour of spi_v3 is
 
-type spi_state is (SS_high_state, sclk_0_state, sclk_1_state, pause_state, reset_state, start_0, start_1, start_pause);
-signal state, next_state : spi_state;
-signal MISO_shift, MISO_shift_next: std_logic_vector(72 downto 0);
-signal map_data_next, map_data_internal: std_logic_vector(71 downto 0);
-signal MOSI_shift, MOSI_shift_next : std_logic_vector(15 downto 0);
-signal byte_count, byte_count_next, bit_count, bit_count_next : std_logic_vector(3 downto 0);
-signal pause_count, pause_count_next : std_logic_vector(2 downto 0);
-signal SCLK_count, SCLK_count_next : std_logic_vector(4 downto 0);
-signal request_map, SCLK_internal : std_logic;
-signal send_in0, send_in1, send_rise : std_logic;
+	type spi_state is (SS_high_state, sclk_0_state, sclk_1_state, pause_state, reset_state, start_0, start_1, start_pause);
+	
+	signal state, next_state 	: spi_state;
+	
+	signal MISO_shift, MISO_shift_next		: std_logic_vector(72 downto 0);
+	signal map_data_next, map_data_internal	: std_logic_vector(71 downto 0);
+	signal MOSI_shift, MOSI_shift_next 		: std_logic_vector(15 downto 0);
+	
+	signal byte_count, byte_count_next, bit_count, bit_count_next 	: std_logic_vector(3 downto 0);
+	
+	signal pause_count, pause_count_next 	: std_logic_vector(2 downto 0);
+	signal SCLK_count, SCLK_count_next 		: std_logic_vector(4 downto 0);
+	
+	signal request_map, SCLK_internal 		: std_logic;
+	signal send_in0, send_in1, send_rise 	: std_logic;
 
 begin
 

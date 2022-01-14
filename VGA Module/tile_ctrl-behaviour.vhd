@@ -2837,9 +2837,6 @@ else
 			
 		when others => color_address <= magenta; 
 	end case; 
-	
 end if;
 end process; 
 end behavioural;
-
-

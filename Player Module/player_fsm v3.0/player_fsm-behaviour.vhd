@@ -4,32 +4,35 @@ use IEEE.numeric_std.ALL;
 
 architecture behaviour of player_fsm is
 
-type player_fsm_state is (	mine_state,right_state,left_state,down_state,
-				up_state, reset_state, central_state,
-				mine_up_state, mine_down_state, mine_right_state, 
-				mine_left_state, lvl_up_state, game_over_state, start_state, animate_state);
-	signal x_pos, y_pos, x_pos_next, y_pos_next: unsigned(3 downto 0);
-	signal energy, energy_next: unsigned(8 downto 0);
-	signal score, score_next: unsigned(9 downto 0);
-	signal edge_detec3, edge_detec2, edge_detec1, edge_detec0: std_logic_vector(3 downto 0);
-	signal rise_left, rise_right, rise_up, rise_down, input: std_logic;
-	signal level, level_next : unsigned(4 downto 0);
-	signal state, new_state:	player_fsm_state;
+	type player_fsm_state is (	mine_state,right_state,left_state,down_state,
+								up_state, reset_state, central_state,
+								mine_up_state, mine_down_state, mine_right_state, 
+								mine_left_state, lvl_up_state, game_over_state, start_state, animate_state);
+				
+	signal x_pos, y_pos, x_pos_next, y_pos_next	: unsigned(3 downto 0);
+	signal energy, energy_next					: unsigned(8 downto 0);
+	signal score, score_next					: unsigned(9 downto 0);
+	
+	signal edge_detec3, edge_detec2, edge_detec1, edge_detec0	: std_logic_vector(3 downto 0);
+	signal rise_left, rise_right, rise_up, rise_down, input		: std_logic;
+	
+	signal level, level_next 	: unsigned(4 downto 0);
+	signal state, new_state		:	player_fsm_state;
 
-	signal score_add: unsigned(1 downto 0);
-	signal energy_remove: unsigned(1 downto 0);
+	signal score_add		: unsigned(1 downto 0);
+	signal energy_remove	: unsigned(1 downto 0);
 	
 
-	signal new_score_d: unsigned(15 downto 0);
-	signal score_d: unsigned(15 downto 0);
-	signal new_energy_d: unsigned(11 downto 0);
-	signal energy_d: unsigned(11 downto 0);
-	signal new_level_d: unsigned(7 downto 0);
-	signal level_d: unsigned(7 downto 0);
-	signal reached_high, reached_high_next: unsigned(1 downto 0);
-	constant mine_cost : unsigned(1 downto 0) := "11";
-	--constant energy_bonus : unsigned(5 downto 0) := "110010";
-	--constant energy_begin : unsigned(8 downto 0) := "011001000";
+	signal new_score_d		: unsigned(15 downto 0);
+	signal score_d			: unsigned(15 downto 0);
+	signal new_energy_d		: unsigned(11 downto 0);
+	signal energy_d			: unsigned(11 downto 0);
+	signal new_level_d		: unsigned(7 downto 0);
+	signal level_d			: unsigned(7 downto 0);
+	
+	signal reached_high, reached_high_next	: unsigned(1 downto 0);
+	
+	constant mine_cost 	: unsigned(1 downto 0) := "11";
 
 begin
 	
@@ -111,12 +114,12 @@ begin
 
 	
 	-- combinatiorial process with all the states
-	process (state, reset, button_x_left, button_x_right, button_y_up,
-	button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
-		map_data_u, rise_left, rise_right,rise_up,rise_down,score_add,
-		score_d, level_d, energy_d, energy_remove, x_pos, y_pos,
-		score, energy, level, reached_high, vga_done, input, animation_done)
-    	begin
+	process (	state, reset, button_x_left, button_x_right, button_y_up,
+				button_y_down, button_mining, map_data_l, map_data_r, map_data_d, 
+				map_data_u, rise_left, rise_right,rise_up,rise_down,score_add,
+				score_d, level_d, energy_d, energy_remove, x_pos, y_pos,
+				score, energy, level, reached_high, vga_done, input, animation_done)
+    begin
 	if (state = lvl_up_state) then
 			new_score_d <= score_d;	
 			
@@ -142,14 +145,17 @@ begin
 					new_level_d(7 downto 4) <= (others => '0');
 				end if;
 			end if;
+			
 	elsif (state = reset_state) then
 			new_score_d <= (others => '0');
 			new_level_d <= "00000001";
 			new_energy_d <= "000100000000";
+			
 	elsif (state = start_state) then
 			new_score_d <= (others => '0');
 			new_level_d <= "00000001";
 			new_energy_d <= energy_d;
+			
 	elsif (state = game_over_state) then
 			
 			new_score_d <= (others => '0');

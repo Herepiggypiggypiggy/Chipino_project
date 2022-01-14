@@ -28,7 +28,3 @@ port (
 	animation_done 	: out std_logic
 );
 end texture_ctrl;
-
-
-
-

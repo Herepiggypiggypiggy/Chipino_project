@@ -4,7 +4,6 @@ use IEEE.numeric_std.ALL;
 
 architecture behaviour of player_MOSI_data is
 begin
-
     process (x_pos_out, y_pos_out, level_out, dir_mined, moved)
     begin
         if (moved = '1' and dir_mined(2) = '0') then
@@ -40,5 +39,4 @@ begin
             MOSI_data <= (others => '0');
         end if;
     end process;
-
 end behaviour;

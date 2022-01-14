@@ -1,5 +1,5 @@
 --The VGA module with all the diverent components.
---included: texture_controller, Tile selector, color_driver and display_controller.
+--included: texture_controller, tile controller, color controller and display driver.
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -27,3 +27,6 @@ port (
 	blue			: out std_logic_vector(2 downto 0)
 );
 end vga;
+
+
+
