@@ -8,7 +8,7 @@
 
 
 uint8_t currentX, currentY;
-uint8_t levelMap[5][16][16] = {0};
+uint8_t levelMap[3][16][16] = {0};
 uint8_t rockCount;
 const float levelDifficulty = 0.001;
 float ladderChance;
@@ -75,7 +75,7 @@ void loop()
 {
   unsigned short word1;
   byte flag1;
-  for(l=0; l<31; l++)
+  for(l=0; l<3; l++)
   {
     createLevel();
     level++;
@@ -89,11 +89,7 @@ void loop()
   
     Serial.print(word1);
     Serial.print('\n');
-    for(int k=0; k<24; k++)
-    {
       SPDR= 011;
-      SPDR= 010;
-    }
   }
 }
 void createLevel()
