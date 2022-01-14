@@ -79,13 +79,20 @@ void loop() {
 //    float seconds = millis()/1000.0;  // time stamp takes more serial time, of course
 //    Serial.print(seconds,3);   
 //    Serial.print(",");
-    if(word1)
-    {
-          SPDR = '0';
-          SPDR = 'c';  
+//    if(word1)
+//    {
           word1=0;
-          delayMicroseconds(0.7);
-    }
+          SPDR = 'a';
+
+          SPCR = (1<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); // SPI on
+          word1 = Read2Bytes();          // read unsigned short value
+          SPCR = (0<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0);  // SPI off
+//          delayMicroseconds(1);
+          word1=0;
+          SPDR = 'c';
+          word1=0;
+          
+//    }
 
 
 }  // end loop()
