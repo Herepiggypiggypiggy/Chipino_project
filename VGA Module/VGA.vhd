@@ -22,10 +22,8 @@ port (
 	vsync			: out std_logic;
 	vga_done		: out std_logic;
 	animation_done 	: out std_logic;
-	red				: out std_logic_vector(3 downto 0);
-	green			: out std_logic_vector(3 downto 0);
-	blue			: out std_logic_vector(3 downto 0)
+	red				: out std_logic_vector(2 downto 0);
+	green			: out std_logic_vector(2 downto 0);
+	blue			: out std_logic_vector(2 downto 0)
 );
 end vga;
-
-
