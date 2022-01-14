@@ -338,11 +338,45 @@ case state is
 			-- change the map data
 			for i in full_map'range(1) loop
 				for j in full_map'range(2) loop
-					if (i = y_pos and j = x_pos) then
-						if (full_map(i,j) = "111") then
-							map_next(i,j) <= "101";
+					if (MOSI_shift(15 downto 14) = "00") then
+						if (i = y_pos and j = x_pos - 1) then
+							if (full_map(i,j) = "111") then
+								map_next(i,j) <= "101";
+							else
+								map_next(i,j) <= "000";
+							end if;
 						else
-							map_next(i,j) <= "000";
+							map_next(i,j) <= full_map(i,j);
+						end if;
+					elsif (MOSI_shift(15 downto 14) = "01") then
+						if (i = y_pos and j = x_pos + 1) then
+							if (full_map(i,j) = "111") then
+								map_next(i,j) <= "101";
+							else
+								map_next(i,j) <= "000";
+							end if;
+						else
+							map_next(i,j) <= full_map(i,j);
+						end if;
+					elsif (MOSI_shift(15 downto 14) = "10") then
+						if (i = y_pos - 1 and j = x_pos) then
+							if (full_map(i,j) = "111") then
+								map_next(i,j) <= "101";
+							else
+								map_next(i,j) <= "000";
+							end if;
+						else
+							map_next(i,j) <= full_map(i,j);
+						end if;
+					elsif (MOSI_shift(15 downto 14) = "01") then
+						if (i = y_pos + 1 and j = x_pos) then
+							if (full_map(i,j) = "111") then
+								map_next(i,j) <= "101";
+							else
+								map_next(i,j) <= "000";
+							end if;
+						else
+							map_next(i,j) <= full_map(i,j);
 						end if;
 					else
 						map_next(i,j) <= full_map(i,j);
