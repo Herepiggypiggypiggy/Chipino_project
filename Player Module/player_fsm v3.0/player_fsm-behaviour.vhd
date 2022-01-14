@@ -193,7 +193,7 @@ begin
 			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
 			score_next <= (others => '0');		-- reset score to 0
-			energy_next <= "011001000";		-- reset energy to 200
+			energy_next <= "001100100";		-- reset energy to 200
  			level_next <= "00001"; --game over back to level 0
 
 			new_state <= start_state;
