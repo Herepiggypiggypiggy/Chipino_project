@@ -82,7 +82,8 @@ void loop() {
     if(word1)
     {
           
-          SPDR = 1;  
+          SPDR = 'c';  
+          word1=0;
     }
 
 
