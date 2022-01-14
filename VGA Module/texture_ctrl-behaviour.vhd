@@ -102,8 +102,8 @@ begin
 		if (xposition < "01111" and game_state = "01") then
 			if (p1 > "001001110001000") then
 				dim <= "1111";          --5000
-			elsif (p1 > "001001011000000") then
-				dim <= "1011";          --4800
+			elsif (p1 > "0001000110010100") then
+				dim <= "1011";          --4500
 			elsif (p1 > "000111001110100") then
 				dim <= "0111";          --3700
 			elsif (p1 > "000110010000000") then
@@ -641,7 +641,7 @@ begin
 		end if;
 	end process vga_done_process;
 
-	process(level)
+	process(level_abs)
 	begin
 		if (level_abs < "00000001") then
 			bg_select <= "000";
@@ -858,7 +858,6 @@ begin
 	column_out  <= std_logic_vector(column);
 	row_out     <= std_logic_vector(row);
 end architecture behaviour;
-
 
 
 
