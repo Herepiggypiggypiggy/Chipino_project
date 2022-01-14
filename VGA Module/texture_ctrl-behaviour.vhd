@@ -169,16 +169,24 @@ begin
 					when "00101" | "00110" | "00111" | "01000" =>	-- X = 5, 6, 7 or 8
 						tile_address_temp <= "101110"; 				-- Sky
 						
+					when "01001" =>									-- X = 9
+						case yposition is
+							when "00111" =>							-- Y = 7
+								tile_address_temp <= "110000"; 		-- Top Player Frame
+							when others =>
+								tile_address_temp <= "101111"; 		-- Grass
+						end case;
+						
 					when "01010" =>									-- X = 10
 						case yposition is
 							when "00111" =>							-- Y = 7
-								tile_address_temp <= "111111";		-- Player
+								tile_address_temp <= "110001";		-- Bottom Player Frame
 							when others =>
 								tile_address_temp <= "101111"; 		-- Grass
 
 						end case;
 						
-					when "01001" | "01011" | "01100" | "01101" | "01110" =>	-- X = 9, 11, 12, 13 or 14
+					when "01011" | "01100" | "01101" | "01110" =>	-- X = 11, 12, 13 or 14
 						tile_address_temp <= "101111"; 						-- Grass
 						
 					when others =>
@@ -500,7 +508,7 @@ begin
 						
 					when "01010" =>										-- X = 10
 						case yposition is
-							when "00111" =>								-- Y - 7
+							when "00111" =>								-- Y = 7
 								case frame_count is
 									when "0000" =>						-- Frame count = 0
 										tile_address_temp <= "110001"; 	-- Start (first bottom frame)
