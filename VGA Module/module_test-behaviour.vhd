@@ -49,21 +49,9 @@ component vga
 			vsync			: out std_logic;
 			vga_done		: out std_logic;
 			animation_done 	: out std_logic;
-			red				: out std_logic_vector(3 downto 0);
-			green			: out std_logic_vector(3 downto 0);
-			blue			: out std_logic_vector(3 downto 0));
-end component;
-
-component not_arduino
-port (
-	clk		: in 	std_logic;
-	reset	: in 	std_logic;
-	MOSI	: in 	std_logic;
-	SCLK	: in 	std_logic;
-	SS		: in 	std_logic;
-	
-	MISO	: out	std_logic
-);
+			red				: out std_logic_vector(2 downto 0);
+			green			: out std_logic_vector(2 downto 0);
+			blue			: out std_logic_vector(2 downto 0));
 end component;
 
 component spi_v3
@@ -117,16 +105,21 @@ signal 	animation_done 		: std_logic;
 signal 	vga_done 			: std_logic;
 signal 	map_updated			: std_logic;
 
-signal 	MOSI				: std_logic;
-signal 	MISO				: std_logic;
-signal 	SCLK				: std_logic;
-signal 	SS					: std_logic;
-
 signal 	send				: std_logic;
 signal 	MOSI_data			: std_logic_vector(15 downto 0);
 
 
 begin
+
+send <= moved or dir_mined(2);
+MOSI_data(3 downto 0) <=  xplayer;
+MOSI_data(7 downto 4) <=  yplayer;
+MOSI_data(12 downto 8) <= level_abs;
+MOSI_data(13) <= moved;
+MOSI_data(15 downto 14) <= dir_mined(1 downto 0);
+
+
+
 
 fsm_com: player_fsm
 port map (		clk,	
@@ -172,18 +165,6 @@ port map (  clk,
 			red,
 			green,
 			blue);  
-
-not_arduino_com : not_arduino
-port map (
-	clk,
-	reset,
-	
-	MOSI,
-	SCLK,
-	SS,
-	
-	MISO
-);
 
 spi_com	: spi_v3
 port map (
@@ -231,100 +212,4 @@ begin
 	map_data_d <= map_data(38 downto 36);
 	
 end process;
-   
---process (clk)
---   begin
---      if (clk'event and clk = '1') then
---         if reset = '1' then
---            state <= playermiddle;
---         else
---            state <= new_state;
---         end if;
---      end if;
---   end process;
---
---      
---process(clk,reset, bleft, bright, up, down, mining, map_data, state, button_x_left, button_y_up, button_y_down, button_x_right)
---begin
---
---if(bleft  = '1')  then  button_x_left     <= '1'; else button_x_left  <= '0'; end if;
---if(bright = '1')  then  button_x_right    <= '1'; else button_x_right <= '0'; end if;
---if(up     = '1')  then  button_y_up       <= '1'; else button_y_up    <= '0'; end if;
---if(down   = '1')  then  button_y_down     <= '1'; else button_y_down  <= '0'; end if;
---if(mining = '1')  then  button_mining     <= '1'; else button_mining  <= '0'; end if;
---
---map_data_l <= map_data(53 downto 51);
---map_data_r <= map_data(20 downto 18);
---map_data_u <= map_data(35 downto 33);
---map_data_d <= map_data(38 downto 36);
---
---
---  case state is
---         when playermiddle =>
---			map_data 	<= "000000000000000000011000000000000011011000000000000011000000000000000000";
---       		 if (button_x_left = '1') then
---			new_state <= playerleft;
---      		 elsif (button_y_up = '1') then
---			new_state <= playerup;
---      		 elsif (button_y_down = '1') then
---			new_state <= playerdown;
---      		 elsif (button_x_right = '1') then
---			new_state <= playerright;
---		 else
---			new_state <= playermiddle;
---           	 end if;
---
---         when playerleft =>
---			map_data 	<= "000000000000000000000000000000000000000000000000011011011000000011000000";
---       		 if (button_x_right = '1') then
---			new_state <= playermiddle;
---		 else
---			new_state <= playerleft;
---           	 end if;
---
---         when playerup =>
---			map_data 	<= "000000000000000000000011000000000000011011000000000000011000000000000000";
---       		 if (button_y_down = '1') then
---			new_state <= playermiddle;
---		 else
---			new_state <= playerup;
---           	 end if;
---
---         when playerdown =>
---			map_data 	<= "000000000000000011000000000000011011000000000000011000000000000000000000";
---       		 if (button_y_up = '1') then
---			new_state <= playermiddle;
---		 else
---			new_state <= playerdown;
---           	 end if;
---
---         when playerright =>
---			map_data 	<= "000000011000000011011011000000000000000000000000000000000000000000000000";
---       		 if (button_x_left = '1') then
---			new_state <= playermiddle;
---		 else
---			new_state <= playerright;
---           	 end if;
---      end case;
-
-
-
-
-
---case input is
-	--when "000" => 
-        --map_data <= "011011010011011100000001011011000000000000011011000101000011011000011011";
-	--when "001" => 
-       -- map_data <= "011011011011011011010011011011011100001011011000000000000000000101000000";
-	--when others => 
-        --map_data <= "011011011011011011010011011011011100001011011000000000000000000111000000";
---end case;
-
-
-
---end process;
 end architecture;
-
-
-
-
