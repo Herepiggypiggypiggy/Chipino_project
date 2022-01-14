@@ -69,13 +69,26 @@ port (
 );
 end component;
 
+component player_mosi_data
+ port(	clk         : IN std_logic;
+        reset       : IN std_logic;
+        x_pos_out   : IN std_logic_vector (3 downto 0);
+        y_pos_out   : IN std_logic_vector (3 downto 0);
+        level_out   : IN std_logic_vector (4 downto 0);
+        dir_mined   : IN std_logic_vector (2 downto 0);
+        moved       : IN std_logic;
+        MOSI_data   : OUT std_logic_vector (15 downto 0);
+        send        : OUT std_logic
+        );
+end component;
+
 component stable_map
 port (	clk					: 	in	std_logic;
 		reset				:	in 	std_logic;
 		map_updated			:	in	std_logic;
 		vga_done			:	in	std_logic;
 		dir_mined			:	in	std_logic_vector(2 downto 0);
-		map_data_volatile	:	in 	std_logic_vector(71 downto 0);
+		map_data_volatile		:	in 	std_logic_vector(71 downto 0);
 		
 		map_data			:	out	std_logic_vector(71 downto 0));
 end component;
@@ -110,16 +123,6 @@ signal 	MOSI_data			: std_logic_vector(15 downto 0);
 
 
 begin
-
-send <= moved or dir_mined(2);
-MOSI_data(3 downto 0) <=  xplayer;
-MOSI_data(7 downto 4) <=  yplayer;
-MOSI_data(12 downto 8) <= level_abs;
-MOSI_data(13) <= moved;
-MOSI_data(15 downto 14) <= dir_mined(1 downto 0);
-
-
-
 
 fsm_com: player_fsm
 port map (		clk,	
@@ -183,6 +186,19 @@ port map (
 	MOSI
 );
 
+pmd : player_mosi_data
+port map (
+	clk,
+	reset,
+	xplayer,
+	yplayer,
+	level_abs,
+	dir_mined,
+	moved,
+	MOSI_data,
+	send
+);
+
 stable_map_com : stable_map
 port map (
 	clk,
@@ -213,3 +229,7 @@ begin
 	
 end process;
 end architecture;
+
+
+
+
