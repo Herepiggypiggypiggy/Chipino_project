@@ -1,10 +1,23 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use work.parameter_def.all;
+
 
 -- Architecture of VGA
 architecture behavioural of display_ctrl is 
+	constant h_display : unsigned(9 downto 0) := "1010000000";	-- 640
+	constant h_fp      : unsigned(9 downto 0) := "0000010000";	-- 16
+	constant h_sp      : unsigned(9 downto 0) := "0001100000";	-- 96
+	constant h_bp      : unsigned(9 downto 0) := "0000110000";	-- 48
+
+	constant v_display : unsigned(9 downto 0) := "0111100000";	-- 480
+	constant v_fp      : unsigned(9 downto 0) := "0000001010";	-- 10
+	constant v_sp      : unsigned(9 downto 0) := "0000000010";	-- 2
+	constant v_bp      : unsigned(9 downto 0) := "0000100001";	-- 33
+
+	constant h_margin  : unsigned(9 downto 0) := "0000101000";	-- 40
+
+	constant pixel_num       : unsigned(4 downto 0) := "11111"; -- 31
 	-- Signals
 	signal new_hsync : std_logic;
 	signal new_vsync : std_logic;
@@ -20,9 +33,9 @@ architecture behavioural of display_ctrl is
 	signal display_state   	   : state_type;
 	signal new_display_state   : state_type;
 
-	signal new_red   	   : std_logic_vector(3 downto 0);
-	signal new_green   	   : std_logic_vector(3 downto 0);
-	signal new_blue   	   : std_logic_vector(3 downto 0);
+	signal new_red   	   : std_logic_vector(2 downto 0);
+	signal new_green   	   : std_logic_vector(2 downto 0);
+	signal new_blue   	   : std_logic_vector(2 downto 0);
 
 	begin
 	
