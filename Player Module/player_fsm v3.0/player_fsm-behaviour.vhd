@@ -58,16 +58,16 @@ begin
 				edge_detec1 <= "0000";
 				edge_detec0 <= "0000";
 
-				energy_d_out <= "001000000000";--200
+				energy_d_out <= "000100000000";--200
 				score_d_out <= (others => '0');
 				level_d_out <= (others => '0');
 
-				energy_d <= "001000000000";
+				energy_d <= "000100000000";
 				score_d <= (others => '0');
 				level_d <= (others => '0');
 				
 				score <= (others => '0');
-				energy <= "011001000";
+				energy <= "001100100";	
 				level <= "00001";
 				
 				x_pos <= "0100";			-- the spawn location for the player is (8,3)
@@ -193,7 +193,7 @@ begin
 			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
 			score_next <= (others => '0');		-- reset score to 0
-			energy_next <= "001100100";		-- reset energy to 200
+			energy_next <= "001100100";		-- reset energy to 100
  			level_next <= "00001"; --game over back to level 0
 
 			new_state <= start_state;
@@ -691,16 +691,16 @@ begin
 			score_next <= (others => '0');		-- reset score to 0
 			level_next <= "00000"; --game over back to level 0
 			if(level > 4 and level <= 9 and reached_high = 0) then
-				energy_next <= "011111010";	
+				energy_next <= "001111101";	-- 125
 				reached_high_next <= "01";
 			elsif(level > 9 and level <= 14 and reached_high <= 1) then
-				energy_next <= "100101100";
+				energy_next <= "010010110"; -- 150
 				reached_high_next <= "10";	
 			elsif(level > 14 and reached_high <= 2) then
-				energy_next <= "101011110";
+				energy_next <= "010101111"; -- 175
 				reached_high_next <= "11";
 			else
-				energy_next <= "011001000";
+				energy_next <= "001100100";	-- 100
 				reached_high_next <= reached_high;
 			end if;
 			
