@@ -95,9 +95,15 @@ void loop() {
     if(word1)
     {
           SPDR = '0';
+          SPCR = (1<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); // SPI on
+          word1 = Read1Byte();          // read unsigned short value
+          SPCR = (0<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0);  // SPI off
           SPDR = 'c';  
+          SPCR = (1<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0); // SPI on
+          word1 = Read1Byte();          // read unsigned short value
+          SPCR = (0<<SPE)|(0<<DORD)|(0<<MSTR)|(0<<CPOL)|(0<<CPHA)|(0<<SPR1)|(1<<SPR0);  // SPI off
+          SPCR = 'a';
           word1=0;
-          delayMicroseconds(0.7);
     }
 
 
