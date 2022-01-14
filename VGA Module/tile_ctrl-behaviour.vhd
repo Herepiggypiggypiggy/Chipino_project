@@ -2106,7 +2106,7 @@ else
 			
 				when "011" =>	-- Row 3
 					case column is
-						when "000"			=> color_address <= magenta;	-- Column 0
+						when "000"			=> color_address <= mole_brown;	-- Column 0
 						when "001" | "010"	=> color_address <= light_blue;	-- Column 1 and 2
 						when "011" | "100"	=> color_address <= black;		-- Column 3 and 4
 						when "110"			=> color_address <= magenta;	-- Column 6
