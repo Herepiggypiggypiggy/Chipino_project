@@ -1,0 +1,15 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity player_MOSI_data is
+   port(clk         : IN std_logic;
+        reset       : IN std_logic;
+        x_pos_out   : IN std_logic_vector (3 downto 0);
+        y_pos_out   : IN std_logic_vector (3 downto 0);
+        level_out   : IN std_logic_vector (4 downto 0);
+        dir_mined   : IN std_logic_vector (2 downto 0);
+        moved       : IN std_logic;
+        MOSI_data   : OUT std_logic_vector (15 downto 0);
+        send        : OUT std_logic
+        );
+end player_MOSI_data;
