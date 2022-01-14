@@ -1,0 +1,66 @@
+
+State Machine - |top_de1|module_test:inst|stable_map:stable_map_com|state
+Name state.break_d_state state.break_u_state state.break_r_state state.break_l_state state.central_state state.update_state state.reset_state 
+state.reset_state 0 0 0 0 0 0 0 
+state.update_state 0 0 0 0 0 1 1 
+state.central_state 0 0 0 0 1 0 1 
+state.break_l_state 0 0 0 1 0 0 1 
+state.break_r_state 0 0 1 0 0 0 1 
+state.break_u_state 0 1 0 0 0 0 1 
+state.break_d_state 1 0 0 0 0 0 1 
+
+State Machine - |top_de1|module_test:inst|spi_v3:spi_com|state
+Name state.start_pause state.start_1 state.start_0 state.SS_high_state state.pause_state state.sclk_1_state state.sclk_0_state state.reset_state 
+state.reset_state 0 0 0 0 0 0 0 0 
+state.sclk_0_state 0 0 0 0 0 0 1 1 
+state.sclk_1_state 0 0 0 0 0 1 0 1 
+state.pause_state 0 0 0 0 1 0 0 1 
+state.SS_high_state 0 0 0 1 0 0 0 1 
+state.start_0 0 0 1 0 0 0 0 1 
+state.start_1 0 1 0 0 0 0 0 1 
+state.start_pause 1 0 0 0 0 0 0 1 
+
+State Machine - |top_de1|module_test:inst|vga:vga_com|display_ctrl:display_controller_module|display_state
+Name display_state.display_off display_state.hsync_on display_state.vsync_off display_state.vsync_on display_state.hsync_off display_state.display_on 
+display_state.display_on 0 0 0 0 0 0 
+display_state.hsync_off 0 0 0 0 1 1 
+display_state.vsync_on 0 0 0 1 0 1 
+display_state.vsync_off 0 0 1 0 0 1 
+display_state.hsync_on 0 1 0 0 0 1 
+display_state.display_off 1 0 0 0 0 1 
+
+State Machine - |top_de1|module_test:inst|vga:vga_com|display_ctrl:display_controller_module|hsync_state
+Name hsync_state.display_off hsync_state.display_on hsync_state.vsync_off hsync_state.vsync_on hsync_state.hsync_off hsync_state.hsync_on 
+hsync_state.hsync_on 0 0 0 0 0 0 
+hsync_state.hsync_off 0 0 0 0 1 1 
+hsync_state.vsync_on 0 0 0 1 0 1 
+hsync_state.vsync_off 0 0 1 0 0 1 
+hsync_state.display_on 0 1 0 0 0 1 
+hsync_state.display_off 1 0 0 0 0 1 
+
+State Machine - |top_de1|module_test:inst|vga:vga_com|display_ctrl:display_controller_module|vsync_state
+Name vsync_state.display_off vsync_state.display_on vsync_state.vsync_off vsync_state.hsync_on vsync_state.hsync_off vsync_state.vsync_on 
+vsync_state.vsync_on 0 0 0 0 0 0 
+vsync_state.hsync_off 0 0 0 0 1 1 
+vsync_state.hsync_on 0 0 0 1 0 1 
+vsync_state.vsync_off 0 0 1 0 0 1 
+vsync_state.display_on 0 1 0 0 0 1 
+vsync_state.display_off 1 0 0 0 0 1 
+
+State Machine - |top_de1|module_test:inst|player_fsm:fsm_com|state
+Name state.animate_state state.start_state state.game_over_state state.lvl_up_state state.mine_left_state state.mine_right_state state.mine_down_state state.mine_up_state state.central_state state.mine_state state.up_state state.down_state state.left_state state.right_state state.reset_state 
+state.reset_state 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+state.right_state 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+state.left_state 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+state.down_state 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+state.up_state 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+state.mine_state 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+state.central_state 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+state.mine_up_state 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+state.mine_down_state 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+state.mine_right_state 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+state.mine_left_state 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+state.lvl_up_state 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+state.game_over_state 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+state.start_state 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.animate_state 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 

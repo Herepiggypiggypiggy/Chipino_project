@@ -1,0 +1,43 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2017 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v17.11-s080_1, built Fri Aug 4 11:13:11 PDT 2017
+Options:	-files ../tcl/par2.tcl 
+Date:		Fri Dec 17 09:49:44 2021
+Host:		ce-epo3-cad.ewi.tudelft.nl (x86_64 w/Linux 3.10.0-1160.42.2.el7.x86_64) (1core*8cpus*Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz 28160KB)
+OS:		Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
+License:
+		invs	Innovus Implementation System	17.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+Change the soft stacksize limit to 0.2%RAM (31 mbytes). Set global soft_stack_size_limit to change the value.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getDrawView
+<CMD> loadWorkspace -name Physical
+Sourcing file "../tcl/par2.tcl" ...
+<CMD> setPreference CmdLogMode 2
+<CMD> set init_lef_file /data/designkit/tsmc-180nm/lib/TSMCHOME/digital/Back_End/lef/tcb018gbwp7t_270a/lef/tcb018gbwp7t_6lm.lef
+<CMD> set init_mmmc_file ../in/mmmc.view
+<CMD> set init_verilog ../in/top.v
+<CMD> set init_top_cell vga
+<CMD> set init_gnd_net dgnd
+<CMD> set init_pwr_net dvdd
+<CMD> suppressMessage TECHLIB IMPLF IMPVL IMPFP IMPCTE IMPRM IMPSP IMPCTE NRDB IMPEXT
+<CMD> encMessage info 0
+rc_bc rc_wc
+**WARN: (EMS-42):	Message (IMPLF-1) has been suppressed from output.
+**WARN: (EMS-42):	Message (IMPLF-99) has been suppressed from output.
+**WARN: (EMS-42):	Message (IMPLF-200) has been suppressed from output.
+Loading view definition file from ../in/mmmc.view
+*** End library_loading (cpu=0.05min, real=0.05min, mem=31.0M, fe_cpu=0.26min, fe_real=0.27min, fe_mem=521.6M) ***
+**WARN: (EMS-42):	Message (IMPVL-159) has been suppressed from output.
+**WARN: (EMS-42):	Message (IMPVL-148) has been suppressed from output.
+**WARN: (EMS-42):	Message (IMPVL-101) has been suppressed from output.
+**WARN: (EMS-42):	Message (IMPVL-106) has been suppressed from output.
+**ERROR: (IMPSYC-300):	Cell vga not found.
+**WARN: (EMS-42):	Message (IMPVL-904) has been suppressed from output.

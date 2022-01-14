@@ -1,0 +1,1 @@
+ssh -XY trjschram@ce-epo3-cad.ewi.tudelft.nl cd /home/trjschram/epo3/backend/par/run\; innovus -files ../tcl/par2.tcl

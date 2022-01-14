@@ -1,0 +1,437 @@
+Unannotated Specify Objects Report:
+===================================
+(UASP) = Unannotated specify path.
+(UATC) = Unannotated timing check.
+(IATE) = Incompltely annotated specify path transition edges.
+-------------------------------------------------------------
+/vga_tb/test/display_controller_module_display_state_reg_0: ( [DFQD0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6513)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_hsync_state_reg_0: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/display_controller_module_vsync_state_reg_0: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/display_controller_module_red_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_green_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_blue_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_blue_reg_2: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_red_reg_0: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_green_reg_0: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_green_reg_1: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_green_reg_2: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_red_reg_2: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_blue_reg_0: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_red_reg_1: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/display_controller_module_blue_reg_1: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_column_reg_0: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_1: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_2: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_3: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_4: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_5: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_8: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_9: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_1: ( [DFXQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7260)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_2: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_3: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_5: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_6: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_row_reg_0: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_row_reg_1: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_row_reg_2: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_4: ( [DFCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5083)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 357) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 357) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 357) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 357) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 357) : (IATE:01)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_0: ( [DFXQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7260)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_2: ( [DFXQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7260)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_3: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_4: ( [DFXQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7260)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_9: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_0: ( [DFXQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7260)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_1: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_2: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_5: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_xposition_reg_1: ( [DFKCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5551)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_xposition_reg_4: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_yposition_reg_4: ( [DFQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(6560)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_column_reg_1: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_column_reg_2: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_0: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_6: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_0: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_hvis_reg_4: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_0: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 360) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 360) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 360) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 360) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 360) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (661, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (751, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (751, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (751, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (751, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_1: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 394) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 394) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 394) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 394) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 394) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_2: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_3: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer1_reg_5: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_0: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_1: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_2: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_3: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_4: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 383) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 383) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_timer2_reg_5: ( [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 365) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 365) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 365) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 365) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 365) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (617, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (707, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (707, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_1: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_5: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_6: ( [DFXD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7120)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_7: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vcount_reg_8: ( [DFXD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7120)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_4: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_vvis_reg_6: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_yposition_reg_2: ( [DFXD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7120)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_yposition_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_frame_count_reg_1: ( [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 425) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 424) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 424) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 424) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 424) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (622, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (715, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (715, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (715, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (715, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_frame_count_reg_2: ( [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 473) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 472) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 472) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 472) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 472) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (576, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (662, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (662, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (662, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (662, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_xposition_reg_3: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_frame_count_reg_0: ( [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 500) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 499) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 499) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 499) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 499) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (540, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (613, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (613, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (613, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (613, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_yposition_reg_0: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_xposition_reg_2: ( [DFXD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(7120)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_xposition_reg_0: ( [DFD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5277)]):
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+/vga_tb/test/texture_module_yposition_reg_1: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+/vga_tb/test/texture_module_frame_count_reg_3: ( [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]):
+  if (CP==1&&D==1)(negedge CDN => Q) = (0, 532) : (IATE:01)
+  if (CP==1&&D==0)(negedge CDN => Q) = (0, 530) : (IATE:01)
+  if (CP==0&&D==1)(negedge CDN => Q) = (0, 530) : (IATE:01)
+  if (CP==0&&D==0)(negedge CDN => Q) = (0, 530) : (IATE:01)
+  ifnone (negedge CDN => Q) = (0, 530) : (IATE:01)
+  if (CP==1&&D==1)(negedge CDN => QN) = (609, 0) : (IATE:10)
+  if (CP==1&&D==0)(negedge CDN => QN) = (700, 0) : (IATE:10)
+  if (CP==0&&D==1)(negedge CDN => QN) = (700, 0) : (IATE:10)
+  if (CP==0&&D==0)(negedge CDN => QN) = (700, 0) : (IATE:10)
+  ifnone (negedge CDN => QN) = (700, 0) : (IATE:10)
+  HOLD: (posedge CP), (posedge CDN): 0 : (UATC)
+  WIDTH: (negedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (posedge CP &&& CP_DEFCHK): 0 : (UATC)
+  WIDTH: (negedge CDN): 0 : (UATC)
+/vga_tb/test/texture_module_hcount_reg_7: ( [DFKCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5435)]):
+  WIDTH: (negedge CP): 0 : (UATC)
+  WIDTH: (posedge CP): 0 : (UATC)
+Found 81 instances with unannotated or incompletely annotated specify block objects.

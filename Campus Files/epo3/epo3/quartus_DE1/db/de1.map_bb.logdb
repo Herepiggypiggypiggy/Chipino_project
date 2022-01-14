@@ -1,0 +1,3 @@
+v1
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,module_test:inst|vga:vga_com|texture_ctrl:texture_module|lpm_mult:Mult0|mult_k5t:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,module_test:inst|vga:vga_com|texture_ctrl:texture_module|lpm_mult:Mult1|mult_k5t:auto_generated|mac_out2,

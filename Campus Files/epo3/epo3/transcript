@@ -1,0 +1,219 @@
+# //  ModelSim SE-64 10.5b May 20 2016Linux 3.10.0-1160.42.2.el7.x86_64
+# //
+# //  Copyright 1991-2016 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim vga_tb_behav -lib work -L TSMCLib -sdfmax /test=VHDL/vga_SYN.sdf -sdfnoerror "+sdf_verbose" -sdfreport=sdfrep -do "/data/public/common/software/opprog/do_files/init_simulator.do" 
+# Start time: 16:23:51 on Jan 09,2022
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading verilog.vl_types(body)
+# Loading work.vga_tb_behav#1
+# Loading work.vga_tb(behavioural)#1
+# Loading work.vga_synthesised_cfg#1
+# Loading work.vga(synthesised)#1
+# Loading TSMCLib.DFQD0BWP7T(fast)
+# Loading TSMCLib.DFKCNQD1BWP7T(fast)
+# Loading TSMCLib.INVD4BWP7T(fast)
+# Loading TSMCLib.OAI31D0BWP7T(fast)
+# Loading TSMCLib.OAI21D0BWP7T(fast)
+# Loading TSMCLib.AO31D1BWP7T(fast)
+# Loading TSMCLib.AOI21D0BWP7T(fast)
+# Loading TSMCLib.OAI22D0BWP7T(fast)
+# Loading TSMCLib.IAO21D0BWP7T(fast)
+# Loading TSMCLib.NR4D0BWP7T(fast)
+# Loading TSMCLib.NR3D0BWP7T(fast)
+# Loading TSMCLib.AN4D0BWP7T(fast)
+# Loading TSMCLib.ND4D0BWP7T(fast)
+# Loading TSMCLib.NR2XD0BWP7T(fast)
+# Loading TSMCLib.OR2D1BWP7T(fast)
+# Loading TSMCLib.ND2D1BWP7T(fast)
+# Loading TSMCLib.INVD1BWP7T(fast)
+# Loading TSMCLib.MOAI22D0BWP7T(fast)
+# Loading TSMCLib.OAI221D0BWP7T(fast)
+# Loading TSMCLib.MAOI22D0BWP7T(fast)
+# Loading TSMCLib.OA21D0BWP7T(fast)
+# Loading TSMCLib.INR2D1BWP7T(fast)
+# Loading TSMCLib.IND2D1BWP7T(fast)
+# Loading TSMCLib.CKND1BWP7T(fast)
+# Loading TSMCLib.INR2XD0BWP7T(fast)
+# Loading TSMCLib.INVD0BWP7T(fast)
+# Loading TSMCLib.DFD1BWP7T(fast)
+# Loading TSMCLib.CKXOR2D1BWP7T(fast)
+# Loading TSMCLib.IOA21D1BWP7T(fast)
+# Loading TSMCLib.NR2D1BWP7T(fast)
+# Loading TSMCLib.AO221D1BWP7T(fast)
+# Loading TSMCLib.IND4D0BWP7T(fast)
+# Loading TSMCLib.OAI211D1BWP7T(fast)
+# Loading TSMCLib.AN4D1BWP7T(fast)
+# Loading TSMCLib.ND3D1BWP7T(fast)
+# Loading TSMCLib.AO221D0BWP7T(fast)
+# Loading TSMCLib.AOI221D0BWP7T(fast)
+# Loading TSMCLib.AOI211XD0BWP7T(fast)
+# Loading TSMCLib.AO211D0BWP7T(fast)
+# Loading TSMCLib.AOI211D1BWP7T(fast)
+# Loading TSMCLib.AO21D0BWP7T(fast)
+# Loading TSMCLib.IND3D1BWP7T(fast)
+# Loading TSMCLib.AOI22D0BWP7T(fast)
+# Loading TSMCLib.AOI31D0BWP7T(fast)
+# Loading TSMCLib.ND3D0BWP7T(fast)
+# Loading TSMCLib.NR2D0BWP7T(fast)
+# Loading TSMCLib.FA1D0BWP7T(fast)
+# Loading TSMCLib.OA211D0BWP7T(fast)
+# Loading TSMCLib.AOI222D0BWP7T(fast)
+# Loading TSMCLib.OAI32D1BWP7T(fast)
+# Loading TSMCLib.AO32D1BWP7T(fast)
+# Loading TSMCLib.OAI222D0BWP7T(fast)
+# Loading TSMCLib.AN3D0BWP7T(fast)
+# Loading TSMCLib.OA22D0BWP7T(fast)
+# Loading TSMCLib.OR2D4BWP7T(fast)
+# Loading TSMCLib.AN2D1BWP7T(fast)
+# Loading TSMCLib.OAI211D0BWP7T(fast)
+# Loading TSMCLib.OA221D0BWP7T(fast)
+# Loading TSMCLib.CKAN2D1BWP7T(fast)
+# Loading TSMCLib.AN3D1BWP7T(fast)
+# Loading TSMCLib.AOI32D0BWP7T(fast)
+# Loading TSMCLib.INR3D0BWP7T(fast)
+# Loading TSMCLib.ND2D0BWP7T(fast)
+# Loading TSMCLib.IND2D0BWP7T(fast)
+# Loading TSMCLib.INR2D0BWP7T(fast)
+# Loading TSMCLib.CKND2D1BWP7T(fast)
+# Loading TSMCLib.DFQD1BWP7T(fast)
+# Loading TSMCLib.DFXQD1BWP7T(fast)
+# Loading TSMCLib.DFCNQD1BWP7T(fast)
+# Loading TSMCLib.HA1D0BWP7T(fast)
+# Loading TSMCLib.AO22D0BWP7T(fast)
+# Loading TSMCLib.OAI33D1BWP7T(fast)
+# Loading TSMCLib.IND3D0BWP7T(fast)
+# Loading TSMCLib.OAI32D0BWP7T(fast)
+# Loading TSMCLib.INR4D0BWP7T(fast)
+# Loading TSMCLib.MAOI222D1BWP7T(fast)
+# Loading TSMCLib.AN2D0BWP7T(fast)
+# Loading TSMCLib.AOI32D1BWP7T(fast)
+# Loading TSMCLib.OR3XD1BWP7T(fast)
+# Loading TSMCLib.CKXOR2D0BWP7T(fast)
+# Loading TSMCLib.DFKCND1BWP7T(fast)
+# Loading TSMCLib.DFCND0BWP7T(fast)
+# Loading TSMCLib.DFXD1BWP7T(fast)
+# Loading TSMCLib.IIND4D0BWP7T(fast)
+# Loading TSMCLib.MUX2ND0BWP7T(fast)
+# Loading TSMCLib.DFCND1BWP7T(fast)
+# Loading TSMCLib.AOI33D1BWP7T(fast)
+# Loading TSMCLib.OA222D0BWP7T(fast)
+# Loading TSMCLib.AOI211D0BWP7T(fast)
+# Loading TSMCLib.AO222D0BWP7T(fast)
+# Loading TSMCLib.IOA21D0BWP7T(fast)
+# Loading TSMCLib.OA33D0BWP7T(fast)
+# Loading TSMCLib.OA31D1BWP7T(fast)
+# Loading TSMCLib.IINR4D0BWP7T(fast)
+# Loading TSMCLib.CKND2D0BWP7T(fast)
+# Loading TSMCLib.AO33D0BWP7T(fast)
+# Loading TSMCLib.OR3D1BWP7T(fast)
+# Loading TSMCLib.OR2D0BWP7T(fast)
+# Loading TSMCLib.XNR2D1BWP7T(fast)
+# Loading instances from VHDL/vga_SYN.sdf
+#
+# ******************************* SDF Annotator ********************************
+#
+# Reading maximum timing from compiled SDF file "VHDL/vga_SYN.sdf".
+#
+# Summary of constructs read: 
+#
+#           IOPATH =      18859
+#             PORT =       6182
+#        SETUPHOLD =        236
+#           RECREM =         16
+#
+# ******************************************************************************
+#
+# ******************************* SDF Annotator ********************************
+#
+# Applying SDF file "VHDL/vga_SYN.sdf" to instance "vga_tb.test".
+#
+# Mapped 0 SDF constructs to 0 VITAL generic names.
+#
+# ******************************************************************************
+#
+# ******************************* SDF Annotator ********************************
+#
+# Applying SDF file "VHDL/vga_SYN.sdf" to instance "vga_tb.test".
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(9907): Matched $recovery, but could not to find matching $removal timing check. [DFCNQD1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(5083)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(5146): Setting negative specify check constraint (-275 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_4
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14531): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_0
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14559): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_1
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14587): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_2
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14615): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_3
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14643): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer1_reg_5
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14671): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_0
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14699): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_1
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14727): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_2
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14755): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_3
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14783): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_4
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(14811): Matched $recovery, but could not to find matching $removal timing check. [DFCND0BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4831)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4906): Setting negative specify check constraint (-273 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_timer2_reg_5
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(15179): Matched $recovery, but could not to find matching $removal timing check. [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4990): Setting negative specify check constraint (-275 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_frame_count_reg_1
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(15207): Matched $recovery, but could not to find matching $removal timing check. [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4990): Setting negative specify check constraint (-275 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_frame_count_reg_2
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(15251): Matched $recovery, but could not to find matching $removal timing check. [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4990): Setting negative specify check constraint (-275 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_frame_count_reg_0
+# ** Warning: (vsim-SDF-8470) VHDL/vga_SYN.sdf(15355): Matched $recovery, but could not to find matching $removal timing check. [DFCND1BWP7T(fast):/data/public/common/software/opprog/sim_libs/tcb018gbwp7t.v(4915)]
+# ** Warning: (vsim-3448) tcb018gbwp7t.v(4990): Setting negative specify check constraint (-275 ps) to zero.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb/test/texture_module_frame_count_reg_3
+#
+# Summary of Verilog design objects annotated: 
+#
+#     Module path delays =      31437
+#     Timing checks      =        488
+#
+# ******************************************************************************
+#
+# ******************************* SDF Annotator ********************************
+#
+# Total VITAL generics annotated in the design: 0
+#
+# ******************************************************************************
+# ** Note: (vsim-3587) SDF Backannotation Successfully Completed.
+#    Time: 0 ps  Iteration: 0  Instance: /vga_tb File: VHDL/vga_tb-behaviour.vhd
+# do /data/public/common/software/opprog/do_files/init_simulator.do
+add wave -position insertpoint sim:/vga_tb/test/*
+run
+# Causality operation skipped due to absence of debug database file
+# End time: 16:29:04 on Jan 09,2022, Elapsed time: 0:05:13
+# Errors: 0, Warnings: 33
