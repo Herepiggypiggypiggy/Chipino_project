@@ -12,6 +12,7 @@ port (
 	SCLK				: 	out 	std_logic;
 	SS					: 	out 	std_logic;
 	MOSI				: 	out 	std_logic;
+	map_updated			:	out		std_logic;
 	map_data_volatile 	: 	out 	std_logic_vector(71 downto 0)
 );
 end spi_v3;

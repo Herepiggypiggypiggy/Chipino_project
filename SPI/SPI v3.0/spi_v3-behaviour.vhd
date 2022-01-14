@@ -80,6 +80,7 @@ case state is
 		SCLK_internal <= '0';
 		SS <= '1';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- counters
 		byte_count_next <= (others => '0');
@@ -140,6 +141,7 @@ case state is
 
 		byte_count_next <= byte_count;
 		pause_count_next <= pause_count;
+		map_updated <= '0';
 
 	when start_1 =>
 		-- determine next state
@@ -159,6 +161,7 @@ case state is
 		SCLK_internal <= '1';
 		ss <= '0';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- shift registers
 		MISO_shift_next(0) <= MISO_shift(0);
@@ -186,6 +189,7 @@ case state is
 		SCLK_internal <= '0';
 		ss <= '0';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- shift registers
 		MISO_shift_next <= MISO_shift;
@@ -230,6 +234,7 @@ case state is
 		SCLK_internal <= '0';
 		SS <= '1';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- counters
 		byte_count_next <= (others => '0');
@@ -249,26 +254,31 @@ case state is
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= MISO_shift(72 downto 1);
+			map_updated <= '1';
 		elsif (byte_count = "0011" and request_map = '0') then
 			next_state <= SS_high_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal;
+			map_updated <= '0';
 		elsif (bit_count = "1000" and SCLK_count = "11111") then
 			next_state <= pause_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal ;
+			map_updated <= '0';
 		elsif (SCLK_count =  "11111") then
 			next_state <= sclk_1_state;
 
 			MISO_shift_next(0) <= MISO; -- read on rise
 			map_data_next <= map_data_internal ;
+			map_updated <= '0';
 		else
 			next_state <= sclk_0_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal ;
+			map_updated <= '0';
 		end if;
 
 		-- state dependent outputs
@@ -314,6 +324,7 @@ case state is
 		SCLK_internal <= '1';
 		ss <= '0';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- shift registers
 		MISO_shift_next(0) <= MISO_shift(0);
@@ -341,6 +352,7 @@ case state is
 		SCLK_internal <= '0';
 		ss <= '0';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- shift registers
 		MISO_shift_next <= MISO_shift;
@@ -379,6 +391,7 @@ case state is
 		SCLK_internal <= '0';
 		ss <= '1';
 		map_data_next <= map_data_internal ;
+		map_updated <= '0';
 
 		-- shift registers
 		MISO_shift_next <= MISO_shift;
