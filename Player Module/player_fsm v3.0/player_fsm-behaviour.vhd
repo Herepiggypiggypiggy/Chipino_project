@@ -187,8 +187,8 @@ begin
 	-- * FSM *
 	-- *******
 
-        	case state is 
-            		when reset_state => 	-- we go to the reset state when we start the chip and when there is a game over
+   	case state is 
+     	when reset_state => 	-- we go to the reset state when we start the chip and when there is a game over
 			dir_mined <= "000";				-- the first bit detirmines if a mining action took place, the last two bits determine the direction
 			x_pos_next <= "0100";			-- the spawn location for the player is (8,3)
 			y_pos_next <= "0011";
@@ -667,16 +667,16 @@ begin
 			game_state <= "01";
 			score_add <=  (others => '0');
 			energy_remove <= "00";
-			new_energy_d <= "001000000000";
+			new_energy_d <= "000100000000";
 			
 			if(reached_high = "01") then
-				energy_next <= "011111010";
+				energy_next <= "001111101";	-- 125
 			elsif(reached_high = "10") then
-				energy_next <= "100101100";
+				energy_next <= "010010110"; -- 150
 			elsif(reached_high = "11") then
-				energy_next <= "101011110";
+				energy_next <= "010101111"; -- 175
 			else
-				energy_next <= "011001000";
+				energy_next <= "001100100";	-- 100
 			end if;
 			score_next <= score;
 			level_next <= level + 1;
