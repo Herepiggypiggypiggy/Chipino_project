@@ -18,7 +18,7 @@ port (
 	level_abs 		: in std_logic_vector(4 downto 0);
 	game_state  	: in std_logic_vector(1 downto 0);
 
-	dim				: out std_logic_vector(3 downto 0);
+	dim				: out std_logic_vector(2 downto 0);
 	column_out		: out std_logic_vector(2 downto 0);
 	row_out			: out std_logic_vector(2 downto 0);
 	timer1_out		: out std_logic_vector(5 downto 0);
@@ -55,9 +55,9 @@ port (
 	reset 			: in std_logic;
 	color_address 	: in std_logic_vector(4 downto 0);
 
-	red 			: out std_logic_vector(3 downto 0);
-	green			: out std_logic_vector(3 downto 0);
-	blue 			: out std_logic_vector(3 downto 0)
+	red 			: out std_logic_vector(2 downto 0);
+	green			: out std_logic_vector(2 downto 0);
+	blue 			: out std_logic_vector(2 downto 0)
 );
 end component;
 
@@ -66,18 +66,18 @@ component display_ctrl
 port(	
 	clk			: in std_logic;
 	reset 		: in std_logic;
-	in_red		: in std_logic_vector(3 downto 0);
-	in_green	: in std_logic_vector(3 downto 0);
-	in_blue		: in std_logic_vector(3 downto 0);
+	in_red		: in std_logic_vector(2 downto 0);
+	in_green	: in std_logic_vector(2 downto 0);
+	in_blue		: in std_logic_vector(2 downto 0);
 	hcount 		: in std_logic_vector(9 downto 0);
 	vcount 		: in std_logic_vector(9 downto 0);
-	dim			: in std_logic_vector(3 downto 0);
+	dim			: in std_logic_vector(2 downto 0);
 
 	hsync		: out std_logic;
 	vsync		: out std_logic;
-	red			: out std_logic_vector(3 downto 0);
-	green		: out std_logic_vector(3 downto 0);
-	blue		: out std_logic_vector(3 downto 0)
+	red			: out std_logic_vector(2 downto 0);
+	green		: out std_logic_vector(2 downto 0);
+	blue		: out std_logic_vector(2 downto 0)
 );
 end component;
 
@@ -88,12 +88,12 @@ end component;
 	signal hcount			: std_logic_vector(9 downto 0);
 	signal vcount			: std_logic_vector(9 downto 0);
 	signal color_address	: std_logic_vector(4 downto 0);
-	signal in_red			: std_logic_vector(3 downto 0);
-	signal in_green			: std_logic_vector(3 downto 0);
-	signal in_blue			: std_logic_vector(3 downto 0);
+	signal in_red			: std_logic_vector(2 downto 0);
+	signal in_green			: std_logic_vector(2 downto 0);
+	signal in_blue			: std_logic_vector(2 downto 0);
 	signal tile_address		: std_logic_vector(5 downto 0);
 	signal bg_select		: std_logic_vector(2 downto 0);
-	signal dim				: std_logic_vector(3 downto 0);
+	signal dim				: std_logic_vector(2 downto 0);
 	signal timer1			: std_logic_vector(5 downto 0);
 	signal timer2			: std_logic_vector(5 downto 0);
 
@@ -165,5 +165,6 @@ port map (
 	blue
 ); 
 end architecture;
+
 
 

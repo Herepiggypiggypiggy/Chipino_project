@@ -15,7 +15,7 @@ port (
 	level_abs 		: in std_logic_vector(4 downto 0);
 	game_state  	: in std_logic_vector(1 downto 0);
 
-	dim				: out std_logic_vector(3 downto 0);
+	dim				: out std_logic_vector(2 downto 0);
 	column_out		: out std_logic_vector(2 downto 0);
 	row_out			: out std_logic_vector(2 downto 0);
 	timer1_out		: out std_logic_vector(5 downto 0);
@@ -28,6 +28,7 @@ port (
 	animation_done 	: out std_logic
 );
 end texture_ctrl;
+
 
 
 
