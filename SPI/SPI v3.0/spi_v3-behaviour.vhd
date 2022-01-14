@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 architecture behaviour of spi_v3 is
 
-type spi_state is (reset_state, sclk_0_state, sclk_1_state, pause_state);
+type spi_state is (SS_high_state, sclk_0_state, sclk_1_state, pause_state, reset_state, start_0, start_1, start_pause);
 signal state, next_state : spi_state;
 signal MISO_shift, MISO_shift_next: std_logic_vector(72 downto 0);
 signal map_data_next, map_data_internal: std_logic_vector(71 downto 0);
@@ -74,10 +74,156 @@ begin
 case state is
 	when reset_state =>
 		-- determine next state
+		next_state <= start_pause;
+
+		-- state dependent outputs
+		SCLK_internal <= '0';
+		SS <= '1';
+		map_data_next <= map_data_internal ;
+
+		-- counters
+		byte_count_next <= (others => '0');
+		bit_count_next <= (others => '0');
+		pause_count_next <= (others => '0');
+		SCLK_count_next <= (others => '0');
+
+		-- shift registers
+		MISO_shift_next <= (others => '0');
+		MOSI_shift_next <= "0101010100000000";
+		
+		when start_0 =>
+		-- determine next state
+
+		if (byte_count = "0011") then
+			next_state <= SS_high_state;
+
+			MISO_shift_next(0) <= MISO_shift(0);
+			map_data_next <= map_data_internal;
+		elsif (bit_count = "1000" and SCLK_count = "11111") then
+			next_state <= start_pause;
+
+			MISO_shift_next(0) <= MISO_shift(0);
+			map_data_next <= map_data_internal ;
+		elsif (SCLK_count =  "11111") then
+			next_state <= start_1;
+
+			MISO_shift_next(0) <= MISO; -- read on rise
+			map_data_next <= map_data_internal ;
+		else
+			next_state <= start_0;
+
+			MISO_shift_next(0) <= MISO_shift(0);
+			map_data_next <= map_data_internal ;
+		end if;
+
+		-- state dependent outputs
+		SCLK_internal <= '0';
+		ss <= '0';
+
+		-- shift registers
+		MISO_shift_next(72 downto 1) <= MISO_shift (72 downto 1);
+		MOSI_shift_next <= MOSI_shift;
+
+		-- counters
+		if (SCLK_count = "11111") then
+			SCLK_count_next <= (others => '0');
+
+			if (bit_count = "1000") then
+				bit_count_next <= (others => '0');
+			else
+				bit_count_next <= std_logic_vector(unsigned(bit_count) + 1);
+			end if;
+		else
+			SCLK_count_next <= std_logic_vector(unsigned(SCLK_count) + 1);
+			bit_count_next <= bit_count;
+		end if;
+
+		byte_count_next <= byte_count;
+		pause_count_next <= pause_count;
+
+	when start_1 =>
+		-- determine next state
+		if (SCLK_count = "11111") then
+			next_state <= start_0;
+			MISO_shift_next(72 downto 1) <= MISO_shift(71 downto 0); -- shift on falling edge
+			MOSI_shift_next(15 downto 1) <= MOSI_shift(14 downto 0); -- shift on falling edge
+			MOSI_shift_next(0) <= '0';
+		else
+			next_state <= start_1;
+			MISO_shift_next(72 downto 1) <= MISO_shift(72 downto 1);
+			MOSI_shift_next(15 downto 1) <= MOSI_shift(15 downto 1);
+			MOSI_shift_next(0) <= MOSI_shift(0);
+		end if;
+
+		-- state dependent outputs
+		SCLK_internal <= '1';
+		ss <= '0';
+		map_data_next <= map_data_internal ;
+
+		-- shift registers
+		MISO_shift_next(0) <= MISO_shift(0);
+		
+
+		-- counters
+		if (SCLK_count = "11111") then
+			SCLK_count_next <= (others => '0');
+		else
+			SCLK_count_next <= std_logic_vector(unsigned(SCLK_count) + 1);
+		end if;
+		byte_count_next <= byte_count;
+		bit_count_next <= bit_count;
+		pause_count_next <= pause_count;
+
+	when start_pause =>
+		-- determine next state
+		if (pause_count = "100" and SCLK_count = "11111") then
+			next_state <= start_0;
+		else
+			next_state <= start_pause;
+		end if;
+
+		-- state dependent outputs
+		SCLK_internal <= '0';
+		ss <= '0';
+		map_data_next <= map_data_internal ;
+
+		-- shift registers
+		MISO_shift_next <= MISO_shift;
+		MOSI_shift_next <= MOSI_shift;
+
+		-- counters
+		if (SCLK_count = "11111") then
+			SCLK_count_next <= (others => '0');
+
+			if (pause_count = "100") then
+				pause_count_next <= (others => '0');
+
+				if (byte_count = "1101") then
+					byte_count_next <= (others => '0');
+				elsif (byte_count = "0011" and request_map = '0') then
+					byte_count_next <= (others => '0');
+				else
+					byte_count_next <= std_logic_vector(unsigned(byte_count) + 1);
+				end if;
+			else
+				pause_count_next <= std_logic_vector(unsigned(pause_count) + 1);
+				byte_count_next <= byte_count;
+			end if;
+		else
+			SCLK_count_next <= std_logic_vector(unsigned(SCLK_count) + 1);
+			pause_count_next <= pause_count;
+			byte_count_next <= byte_count;
+		end if;
+
+		bit_count_next <= bit_count;
+
+
+	when SS_high_state =>
+		-- determine next state
 		if (send_rise = '1') then
 			next_state <= pause_state;
 		else
-			next_state <= reset_state;
+			next_state <= SS_high_state;
 		end if;
 
 		-- state dependent outputs
@@ -98,13 +244,13 @@ case state is
 
 	when sclk_0_state =>
 		-- determine next state
-		if (byte_count = "1011") then
-			next_state <= reset_state;
+		if (byte_count = "1101") then
+			next_state <= SS_high_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= MISO_shift(72 downto 1);
-		elsif (byte_count = "0010" and request_map = '0') then
-			next_state <= reset_state;
+		elsif (byte_count = "0011" and request_map = '0') then
+			next_state <= SS_high_state;
 
 			MISO_shift_next(0) <= MISO_shift(0);
 			map_data_next <= map_data_internal;
@@ -207,9 +353,9 @@ case state is
 			if (pause_count = "100") then
 				pause_count_next <= (others => '0');
 
-				if (byte_count = "1011") then
+				if (byte_count = "1101") then
 					byte_count_next <= (others => '0');
-				elsif (byte_count = "0010" and request_map = '0') then
+				elsif (byte_count = "0011" and request_map = '0') then
 					byte_count_next <= (others => '0');
 				else
 					byte_count_next <= std_logic_vector(unsigned(byte_count) + 1);
@@ -227,7 +373,7 @@ case state is
 		bit_count_next <= bit_count;
 
 	when others =>
-		next_state <= reset_state;
+		next_state <= SS_high_state;
 
 		-- state dependent outputs
 		SCLK_internal <= '0';
@@ -251,4 +397,3 @@ end process;
 SCLK <= SCLK_internal;
 
 end behaviour;
-
