@@ -101,20 +101,20 @@ begin
 	begin
 		if (xposition < "01111" and game_state = "01") then
 			if (p1 > "001001110001000") then
-				dim <= "1111";          --5000
+				dim <= "111";          --5000
 			elsif (p1 > "0001000110010100") then
-				dim <= "1011";          --4500
+				dim <= "100";          --4500
 			elsif (p1 > "000111001110100") then
-				dim <= "0111";          --3700
+				dim <= "011";          --3700
 			elsif (p1 > "000110010000000") then
-				dim <= "0011";          --3200
+				dim <= "010";          --3200
 			elsif (p1 > "000101010001100") then
-				dim <= "0001";          --2304	
+				dim <= "001";          --2304	
 			else
-				dim <= "0000";
+				dim <= "000";
 			end if;
 		else
-			dim <= "0000";
+			dim <= "000";
 		end if;
 	end process dimmer;
 
