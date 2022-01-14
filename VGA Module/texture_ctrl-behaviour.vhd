@@ -1,8 +1,6 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use work.parameter_def.all;
-
 
 -- Architecture of Controller
 architecture behaviour of texture_ctrl is
@@ -102,14 +100,14 @@ begin
 	dimmer : process(xposition, yposition, p1, xplayer, yplayer, game_state, timer1)
 	begin
 		if (xposition < "01111" and game_state = "01") then
-			if (p1 > "001100100000000") then
-				dim <= "1111";          --6400
-			elsif (p1 > "001010101111100") then
-				dim <= "1011";          --5500
-			elsif (p1 > "001001110001000") then
-				dim <= "0111";          --5000
-			elsif (p1 > "000111110100000") then
-				dim <= "0011";          --4000
+			if (p1 > "001001110001000") then
+				dim <= "1111";          --5000
+			elsif (p1 > "001001011000000") then
+				dim <= "1011";          --4800
+			elsif (p1 > "000111001110100") then
+				dim <= "0111";          --3700
+			elsif (p1 > "000110010000000") then
+				dim <= "0011";          --3200
 			elsif (p1 > "000101010001100") then
 				dim <= "0001";          --2304	
 			else
@@ -852,6 +850,7 @@ begin
 	column_out  <= std_logic_vector(column);
 	row_out     <= std_logic_vector(row);
 end architecture behaviour;
+
 
 
 
