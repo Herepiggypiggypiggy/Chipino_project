@@ -766,7 +766,7 @@ begin
 				end case;
 			
 			when others =>
-				new_frame_count <= 0;
+				new_frame_count <= (others => '0');
 		end case;		
 	end process;
 	
