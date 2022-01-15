@@ -22,5 +22,5 @@ port (
     green			: out   std_logic_vector(2 downto 0);
     blue			: out   std_logic_vector(2 downto 0)
 );
-end module_test;
+end top_entity;
 
