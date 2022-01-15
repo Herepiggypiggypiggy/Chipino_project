@@ -1,0 +1,9 @@
+entity 3to4bit_color is
+port (red_in    : in stg_logic_vector(2 downto 0);
+      green_in  : in stg_logic_vector(2 downto 0);
+      blue_in   : in stg_logic_vector(2 downto 0);
+      
+      red       : out stg_logic_vector(3 downto 0);
+      green     : out stg_logic_vector(3 downto 0);
+      blue      : out stg_logic_vector(3 downto 0))
+end 3to4bit_color;
